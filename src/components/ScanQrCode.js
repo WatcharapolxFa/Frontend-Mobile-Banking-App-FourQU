@@ -1,9 +1,9 @@
 // Generation of QR Code in React Native
 // https://aboutreact.com/generation-of-qr-code-in-react-native/
- 
+
 // import React in our code
-import React, {useState, useRef} from 'react';
- 
+import React, { useState, useRef } from 'react';
+
 // import all the components we are going to use
 import {
   SafeAreaView,
@@ -14,14 +14,14 @@ import {
   TouchableOpacity,
   Share,
 } from 'react-native';
- 
+
 import QRCode from 'react-native-qrcode-svg';
- 
+
 const ScanQrCode = () => {
   const [inputText, setInputText] = useState('');
   const [qrvalue, setQrvalue] = useState('');
   let myQRCode = useRef();
- 
+
   const shareQRCode = () => {
     myQRCode.toDataURL((dataURL) => {
       console.log(dataURL);
@@ -33,9 +33,9 @@ const ScanQrCode = () => {
       Share.share(shareImageBase64).catch((error) => console.log(error));
     });
   };
- 
+
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <Text style={styles.titleStyle}>
           Generation of QR Code in React Native
@@ -76,7 +76,7 @@ const ScanQrCode = () => {
             Generate QR Code
           </Text>
         </TouchableOpacity>
- 
+
         <TouchableOpacity
           style={styles.buttonStyle}
           onPress={shareQRCode}>
@@ -89,7 +89,7 @@ const ScanQrCode = () => {
   );
 };
 export default ScanQrCode;
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
