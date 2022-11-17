@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import {View, Text, Image, Pressable} from 'react-native';
 // import { ChevronLeftIcon, ArrowPathIcon } from 'react-native-heroicons/outline';
 // import axios from 'axios';
 // import logo from '../assets/images/logo.png';
@@ -7,11 +7,11 @@ import { View, Text, Image, Pressable } from 'react-native';
 import ScanQr from './ScanQrCode';
 import CameraScans from './CameraScan';
 
-const Navbar = ({ navigation }) => {
+const Navbar = ({navigation}) => {
     const [active, setActive] = React.useState(true);
 
     return (
-        < View >
+        <View>
             {/* Header */}
       <View className=" h-[38%] mb-4">
         <View className="flex bg-green-sod rounded-b-2xl shadow-xl shadow-black">

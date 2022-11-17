@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./App.{js,jsx,ts,tsx}', './screens/*.{js,jsx,ts,tsx}'],
+  content: ['./App.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -16,7 +16,15 @@ module.exports = {
         'red-onn': '#FD6565',
         'base' : '#F1EEE6',
         'yellowonn' : '#F6D8A9',
-        'red-ja' : '#E80000'
+        'red-ja' : '#E80000',
+        'green-main': '#387766',
+        'secondary-green': '#76978E',
+        'light-green': '#C7D5B1',
+        'green-font': '#5E8379',
+        'cherry': '#D3AD9F',
+        'base': '#F1EEE6',
+        'egg': '#F6D8A9',
+        'red-noti': '#FD6565'
       },
       
       boxShadow: {
@@ -24,6 +32,11 @@ module.exports = {
       },
       margin: {
         'ar' : '4.25rem'
+      },
+      spacing: {
+        '96%': '96%',
+        '1%': '1%',
+        '36%': '36%'
       },
     },
   },
