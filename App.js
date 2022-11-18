@@ -21,7 +21,6 @@ import SettingScreen from './src/components/screens setting/SettingScreen';
 import PersonalInformation from './src/components/screens setting/PersonalInformation';
 import Email from './src/components/screens setting/Email';
 import Security from './src/components/screens setting/Security';
-import Security2 from './src/components/screens setting/Security2';
 import Currentaddress from './src/components/screens setting/Currentaddress';
 import LimitPerDay from './src/components/screens setting/LimitPerDay';
 import Terms from './src/components/screens setting/Terms';
@@ -34,7 +33,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Navigator 
+        initialRouteName={'Setting'}
+        screenOptions={{headerShown: false}}>
 
           <Stack.Screen name="HomeShop" component={HomeShop} />
           <Stack.Screen name="Home" component={Home} />
@@ -51,7 +52,7 @@ const App = () => {
           <Stack.Screen name="Setting" component={SettingScreen} />
           <Stack.Screen name="PersonalInformation" component={PersonalInformation}/>
           <Stack.Screen name="Email" component={Email} />
-          {/* <Stack.Screen name="Security" component={Security} /> */}
+          <Stack.Screen name="Security" component={Security} />
           <Stack.Screen name="Currentaddress" component={Currentaddress} />
           <Stack.Screen name="LimitPerDay" component={LimitPerDay} />
           <Stack.Screen name="Terms" component={Terms} />
