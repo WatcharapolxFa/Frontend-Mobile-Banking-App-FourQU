@@ -24,7 +24,15 @@ module.exports = {
         'cherry': '#D3AD9F',
         'base': '#F1EEE6',
         'egg': '#F6D8A9',
-        'red-noti': '#FD6565'
+        'red-noti': '#FD6565',
+        'green-main':'#76968E',
+        'green-regis':'#387766',
+        'white':'#FFFFFF',
+        'red-button':'#FD6565',
+        'green-button':'#8DD0BD',
+        'dark-base':'#E1D8D8',
+        'black':'#000000',
+        'green-total':'#009006'
       },
       
       boxShadow: {

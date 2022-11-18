@@ -27,6 +27,18 @@ import Terms from './src/components/screens setting/Terms';
 import ContactUs from './src/components/screens setting/ContactUs';
 import ChangeEmail from './src/components/screens setting/ChangeEmail';
 
+//arm
+import RegisterSub1 from './src/components/register/RegisterSub1';
+import RegisterSub2 from './src/components/register/RegisterSub2';
+import RegisterSub3 from './src/components/register/RegisterSub3';
+import RegisterSub4 from './src/components/register/RegisterSub4';
+import RegisterSub5 from './src/components/register/RegisterSub5';
+import RegisterSub6 from './src/components/register/RegisterSub6';
+import VerifyOTP from './src/components/register/VerifyOTP';
+import Summary from './src/components/Summary';
+import NewPin from './src/components/register/NewPin';
+import ConfirmPin from './src/components/register/ConfirmPin.js';
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -34,7 +46,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator 
-        initialRouteName={'Setting'}
+        initialRouteName={'RegisterSub1'}
         screenOptions={{headerShown: false}}>
 
           <Stack.Screen name="HomeShop" component={HomeShop} />
@@ -59,6 +71,17 @@ const App = () => {
           <Stack.Screen name="ContactUs" component={ContactUs} />
           <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
 
+
+          <Stack.Screen name="RegisterSub1" component={RegisterSub1} />
+          <Stack.Screen name="RegisterSub2" component={RegisterSub2} />
+          <Stack.Screen name="RegisterSub3" component={RegisterSub3} />
+          <Stack.Screen name="RegisterSub4" component={RegisterSub4} />
+          <Stack.Screen name="RegisterSub5" component={RegisterSub5} />
+          <Stack.Screen name="RegisterSub6" component={RegisterSub6} />
+          <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+          <Stack.Screen name="Summary" component={Summary} />
+          <Stack.Screen name="NewPin" component={NewPin} />
+          <Stack.Screen name="ConfirmPin" component={ConfirmPin} />
 
 
         </Stack.Navigator>
