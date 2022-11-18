@@ -13,7 +13,6 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 
 import logo from '../assets/icon/logo.png';
-
 const Login = ({navigation}) => {
 
   const HandleSignin = (values) => {
