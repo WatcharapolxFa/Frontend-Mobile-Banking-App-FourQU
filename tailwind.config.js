@@ -32,7 +32,8 @@ module.exports = {
         'green-button':'#8DD0BD',
         'dark-base':'#E1D8D8',
         'black':'#000000',
-        'green-total':'#009006'
+        'green-total':'#009006',
+        'green-signup':'#789C93'
       },
       
       boxShadow: {

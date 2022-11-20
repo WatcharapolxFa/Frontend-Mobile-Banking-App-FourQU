@@ -72,7 +72,7 @@ const SettingScreen = ({navigation}) => {
             name="arrow-back-ios"
             size={25}
             color="#f3f0ea"
-            onPress={() => console.log('back')}
+            onPress={() => navigation.navigate('Home')}
             backgroundColor="transparent"
             style={{
               position: 'absolute',

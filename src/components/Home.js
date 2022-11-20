@@ -125,7 +125,7 @@ const Home = ({ navigation }) => {
           <View className='flex-row flex-[3.5] w-full h-full'>
             <View className='flex-row flex-1'>
               {/* go to Setting Screen */}
-              <Pressable onPress={() => navigation.navigate('Term')}>
+              <Pressable onPress={() => navigation.navigate('Setting')}>
                 <Image source={require(profile_pic)} className='m-3 w-20 h-20 rounded-full'></Image>
               </Pressable>
 
@@ -220,7 +220,7 @@ const Home = ({ navigation }) => {
             // go to Transaction Screen
             <View className='flex-row justify-end my-2 right-4'>
               <View className='w-20 h-6 rounded-lg bg-light-green'>
-                <Pressable onPress={() => navigation.navigate('Term')}>
+                <Pressable onPress={() => navigation.navigate('Transaction')}>
                   <Text style={{ fontFamily: 'NotoSans-Bold' }} className='text-sm text-center underline underline-offset-auto '>See More</Text>
                 </Pressable>
               </View>
@@ -240,13 +240,13 @@ const Home = ({ navigation }) => {
 
         {/* go to Shop Screen */}
         <View className='basis-1/3 items-center'>
-          <Pressable onPress={() => navigation.navigate('Term')}>
+          <Pressable onPress={() => navigation.navigate('HomeShop')}>
             <Image style={{ tintColor: '#F1EEE6' }} source={require('../assets/icon/cart.png')} className='w-10 h-10'></Image>
           </Pressable>
         </View>
 
         {/* go to Transfer Screen */}
-        <Pressable onPress={() => navigation.navigate('Term')}>
+        <Pressable onPress={() => navigation.navigate('Transfer')}>
           <View className='items-center bottom-14 basis-1/3 drop-shadow-2xl'>
             <View className='items-center justify-center w-20 h-20 rounded-full bg-green-font'>
               <View className='items-center justify-center w-4/5 h-4/5 rounded-full bg-light-green'>
@@ -258,7 +258,7 @@ const Home = ({ navigation }) => {
 
         {/* go to qr-payment Screen */}
         <View className='basis-1/3 items-center'>
-          <Pressable onPress={() => navigation.navigate('Term')}>
+          <Pressable onPress={() => navigation.navigate('Navbar')}>
             <Image style={{ tintColor: '#F1EEE6' }} source={require('../assets/icon/qr-code.png')} className='w-10 h-10'></Image>
           </Pressable>
         </View>

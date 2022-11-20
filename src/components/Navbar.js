@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
-// import { ChevronLeftIcon, ArrowPathIcon } from 'react-native-heroicons/outline';
+import {View, Text, Image, Pressable} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {ChevronLeftIcon, ArrowPathIcon} from 'react-native-heroicons/outline';
 // import axios from 'axios';
 // import logo from '../assets/images/logo.png';
-
 import ScanQr from './ScanQrCode';
 import CameraScans from './CameraScan';
 
@@ -18,8 +18,8 @@ const Navbar = ({ navigation }) => {
           {/* Title */}
           <View className="flex-row ">
             <View className="w-1/6 items-center justify-end ">
-              <Pressable onPress={() => navigation.navigate('ScanQr')}>
-                {/* <ChevronLseftIcon color="white" size={36} /> */}
+              <Pressable onPress={() => navigation.navigate('Home')}>
+              <ChevronLeftIcon color="white" size={36} />  
               </Pressable>
             </View>
             <View className=" items-center justify-center w-4/6">

@@ -7,6 +7,12 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
 
+
+
+
+
+
+import Intro from './src/components/Intro';
 import Home from './src/components/Home';
 import Term from './src/components/Term';
 import Navbar from './src/components/Navbar';
@@ -41,6 +47,7 @@ import ConfirmPin from './src/components/register/ConfirmPin.js';
 import ScanQrCode from './src/components/ScanQrCode';
 import CameraScan from './src/components/CameraScan';
 
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -48,20 +55,31 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator 
-        initialRouteName={'Navbar'}
+        initialRouteName={'Intro'}
         screenOptions={{headerShown: false}}>
-
-          <Stack.Screen name="HomeShop" component={HomeShop} />
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Term" component={Term} />
-          <Stack.Screen name="Navbar" component={Navbar} />
-
-
-          <Stack.Screen name="Transaction" component={Transaction} />
+          <Stack.Screen name="Intro" component={Intro} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="RegisterSub1" component={RegisterSub1} />
+          <Stack.Screen name="RegisterSub2" component={RegisterSub2} />
+          <Stack.Screen name="RegisterSub3" component={RegisterSub3} />
+          <Stack.Screen name="RegisterSub4" component={RegisterSub4} />
+          <Stack.Screen name="RegisterSub5" component={RegisterSub5} />
+          <Stack.Screen name="RegisterSub6" component={RegisterSub6} />
+          <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+          <Stack.Screen name="NewPin" component={NewPin} />
+          <Stack.Screen name="ConfirmPin" component={ConfirmPin} />
+          {/* <Stack.Screen name="Term" component={Term} /> */}
+
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="HomeShop" component={HomeShop} />
+          <Stack.Screen name="Navbar" component={Navbar} />
+          <Stack.Screen name="ScanQrCode" component={ScanQrCode} />
+          <Stack.Screen name="CameraScan" component={CameraScan} />
           <Stack.Screen name="Transfer" component={Transfer} />
           <Stack.Screen name="Review" component={Review} />
 
+          <Stack.Screen name="Transaction" component={Transaction} />
+          <Stack.Screen name="Summary" component={Summary} />
 
           <Stack.Screen name="Setting" component={SettingScreen} />
           <Stack.Screen name="PersonalInformation" component={PersonalInformation}/>
@@ -72,21 +90,6 @@ const App = () => {
           <Stack.Screen name="Terms" component={Terms} />
           <Stack.Screen name="ContactUs" component={ContactUs} />
           <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
-
-
-          <Stack.Screen name="RegisterSub1" component={RegisterSub1} />
-          <Stack.Screen name="RegisterSub2" component={RegisterSub2} />
-          <Stack.Screen name="RegisterSub3" component={RegisterSub3} />
-          <Stack.Screen name="RegisterSub4" component={RegisterSub4} />
-          <Stack.Screen name="RegisterSub5" component={RegisterSub5} />
-          <Stack.Screen name="RegisterSub6" component={RegisterSub6} />
-          <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
-          <Stack.Screen name="Summary" component={Summary} />
-          <Stack.Screen name="NewPin" component={NewPin} />
-          <Stack.Screen name="ConfirmPin" component={ConfirmPin} />
-
-          <Stack.Screen name="ScanQrCode" component={ScanQrCode} />
-          <Stack.Screen name="CameraScan" component={CameraScan} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

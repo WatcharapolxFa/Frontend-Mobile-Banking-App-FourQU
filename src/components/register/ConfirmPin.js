@@ -45,7 +45,7 @@ import {
         console.log(checkPin)
         if (pin == checkPin){
           console.log("vaid PIN!")
-          navigation.navigate("Summary")
+          navigation.navigate("Home")
   
         }
         else{

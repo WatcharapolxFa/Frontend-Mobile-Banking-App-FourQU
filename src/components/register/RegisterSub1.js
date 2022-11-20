@@ -144,10 +144,25 @@ const RegisterSub1= ({navigation}) => {
       </View>
       <View style={{flex: 1.5}}>
       <View className=" flex-row flex-1">
-          <View className=" justify-items-start basis-1/2">
-              <View className="flex-1 flex-row">
-
-              </View>
+      <View className=" justify-items-start basis-1/2">
+            <View className="flex-1 flex-row">
+              <Pressable onPress={() => navigation.navigate('Intro')}>
+                <View className=" my-auto ml-5 w-14 h-14 rounded-full bg-red-noti">
+                  <Image
+                    tintColor="white"
+                    style={{transform: [{rotate: '180deg'}]}}
+                    className=" h-2/3 w-3/5 m-auto "
+                    source={{
+                      uri: 'https://cdn-icons-png.flaticon.com/512/2889/2889731.png',
+                    }}></Image>
+                </View>
+              </Pressable>
+              <Text
+                style={{fontFamily: 'NotoSans-Bold'}}
+                className="my-auto ml-4 text-base">
+                Back
+              </Text>
+            </View>
           </View>
           <View className=" justify-items-start basis-1/2">
               <View className="flex-1 flex-row-reverse">

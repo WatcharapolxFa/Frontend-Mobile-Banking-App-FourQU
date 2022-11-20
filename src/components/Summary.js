@@ -133,7 +133,7 @@ const Summary = ({navigation}) => {
       
       <View style={{flex: 7.5}} className=" bg-green-regis rounded-b-xl">
         <View className="flex-row mt-5">
-          <Pressable onPress={() => navigation.navigate('RegisterSub3')}>
+          <Pressable onPress={() => navigation.navigate('Transaction')}>
             <Image source={backArrow} className="w-8 h-8 ml-5" />
           </Pressable>
           <Text
