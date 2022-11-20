@@ -46,7 +46,9 @@ import NewPin from './src/components/register/NewPin';
 import ConfirmPin from './src/components/register/ConfirmPin.js';
 import ScanQrCode from './src/components/ScanQrCode';
 import CameraScan from './src/components/CameraScan';
-
+import NewSecurity from './src/components/screens setting/NewSecurity';
+import CheckPinSecurity from './src/components/screens setting/CheckPinSecurity';
+import ConfirmNewSecurity from './src/components/screens setting/ConfirmNewSecurity';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,7 +57,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator 
-        initialRouteName={'Intro'}
+        initialRouteName={'Setting'}
         screenOptions={{headerShown: false}}>
           <Stack.Screen name="Intro" component={Intro} />
           <Stack.Screen name="Login" component={Login} />
@@ -85,6 +87,9 @@ const App = () => {
           <Stack.Screen name="PersonalInformation" component={PersonalInformation}/>
           <Stack.Screen name="Email" component={Email} />
           <Stack.Screen name="Security" component={Security} />
+          <Stack.Screen name="CheckPinSecurity" component={CheckPinSecurity} />
+          <Stack.Screen name="NewSecurity" component={NewSecurity} />
+          <Stack.Screen name="ConfirmNewSecurity" component={ConfirmNewSecurity} />
           <Stack.Screen name="Currentaddress" component={Currentaddress} />
           <Stack.Screen name="LimitPerDay" component={LimitPerDay} />
           <Stack.Screen name="Terms" component={Terms} />

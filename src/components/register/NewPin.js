@@ -23,7 +23,7 @@ import HiddlePin from '../pinComponent/HiddlePin.js';
 
 import logo from '../../../src/assets/icon/logo.png';
 import back from '../../../src/assets/icon/backGreen.png';
-
+import backArrow from "../../assets/icon/backArrow.png"
 
 
 
@@ -52,6 +52,7 @@ const NewPin = ({navigation}) => {
     
     if (pin.length === 6) {
       savePin(pin);
+      setPin("");
       navigation.navigate("ConfirmPin")
       //check
 
@@ -73,12 +74,29 @@ const NewPin = ({navigation}) => {
       console.log("error read Pin")
     }
   };
+  const prev = () => {
+    navigation.navigate('VerifyOTP');
+    setPin("");
+    console.log("reset pin!!")
+  };
 
   return (
     <View style={{flex: 1}} className="bg-green-regis">
       <View
         style={{flex: 4}}
         className=" object-center w-full rounded-b-xl  bg-green-regis container">
+          <Pressable 
+          className="mt-5"
+          style={{
+                position: 'absolute',
+              }} 
+              onPress={() => prev()}>
+            <Image
+              source={backArrow}
+              className="w-8 h-8 ml-5"
+              
+            />
+          </Pressable>
         <View className=" w-full h-full  justify-between items-center ">
           <Image source={logo} className="w-32 h-32" />
           <Text

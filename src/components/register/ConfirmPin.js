@@ -23,6 +23,7 @@ import {
 
   import logo from '../../../src/assets/icon/logo.png';
   import back from '../../../src/assets/icon/backGreen.png';
+  import backArrow from '../../assets/icon/backArrow.png';
 
   const ConfirmPin = ({navigation}) => {
     
@@ -44,6 +45,8 @@ import {
         // readPin()
         console.log(checkPin)
         if (pin == checkPin){
+          savePin(pin);
+          setPin('');
           console.log("vaid PIN!")
           navigation.navigate("Home")
   
@@ -56,6 +59,15 @@ import {
       }
     }, [pin]);
 
+    const savePin = async (value) => {
+      try {
+        await AsyncStorage.setItem('@storage_Key_real', value)
+        console.log("save pin complete")
+      } catch (error) {
+        console.log("error storePin")
+      }
+    };
+
     const readPin = async () => {
       try {
         const sPin = await AsyncStorage.getItem('@storage_Key');
@@ -64,6 +76,11 @@ import {
         console.log("error read Pin")
       }
     };
+    const prev = () => {
+      navigation.navigate('NewPin');
+      setPin("");
+      console.log("reset pin!!")
+    };
   
     return (
       //update confirm pin
@@ -71,6 +88,18 @@ import {
         <View
           style={{flex: 4}}
           className=" object-center w-full rounded-b-xl  bg-green-regis container">
+            <Pressable 
+          className="mt-5"
+          style={{
+                position: 'absolute',
+              }} 
+              onPress={() => prev()}>
+            <Image
+              source={backArrow}
+              className="w-8 h-8 ml-5"
+              
+            />
+          </Pressable>
           <View className=" w-full h-full  justify-between items-center ">
             <Image source={logo} className="w-32 h-32" />
             <Text

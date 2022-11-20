@@ -7,17 +7,19 @@ import {
   Alert,
   TouchableOpacity,
   TouchableHighlight,
+  Pressable,
 } from 'react-native';
 import axios from 'axios';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import backArrow from '../assets/icon/backArrow.png';
 
 import logo from '../assets/icon/logo.png';
 const Login = ({navigation}) => {
 
   const HandleSignin = (values) => {
     console.log(values)
-    navigation.navigate('NewPin')
+    navigation.navigate('VerifyOTP')
 
     // axios.post('https://test/post', {
     //   phone: values.phone,
@@ -48,7 +50,20 @@ const Login = ({navigation}) => {
       }) => (
         <View className="min-h-full bg-base">
           <View className="bg-green-sod rounded-b-2xl h-[85%] shadow shadow-black">
+          <Pressable 
+          className="mt-5"
+          style={{
+                position: 'absolute',
+              }} 
+              onPress={() => navigation.navigate('Intro')}>
+            <Image
+              source={backArrow}
+              className="w-8 h-8 ml-5"
+              
+            />
+          </Pressable>
             <View className="h-1/2">
+              
               <View className="items-center ">
                 <Image source={logo} className="w-28 h-28" />
               </View>

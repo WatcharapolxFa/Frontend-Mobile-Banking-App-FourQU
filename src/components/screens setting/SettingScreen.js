@@ -133,7 +133,7 @@ const SettingScreen = ({navigation}) => {
         {/* Security */}
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('Security', {pin: initialData.pin})
+            navigation.navigate('CheckPinSecurity', {pin: initialData.pin})
           }>
           <View style={styles.item}>
             <MeterialIcons name="lock-outline" size={50} color="#000000" />
