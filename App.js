@@ -38,6 +38,8 @@ import VerifyOTP from './src/components/register/VerifyOTP';
 import Summary from './src/components/Summary';
 import NewPin from './src/components/register/NewPin';
 import ConfirmPin from './src/components/register/ConfirmPin.js';
+import ScanQrCode from './src/components/ScanQrCode';
+import CameraScan from './src/components/CameraScan';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,7 +48,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator 
-        initialRouteName={'RegisterSub1'}
+        initialRouteName={'Navbar'}
         screenOptions={{headerShown: false}}>
 
           <Stack.Screen name="HomeShop" component={HomeShop} />
@@ -83,7 +85,8 @@ const App = () => {
           <Stack.Screen name="NewPin" component={NewPin} />
           <Stack.Screen name="ConfirmPin" component={ConfirmPin} />
 
-
+          <Stack.Screen name="ScanQrCode" component={ScanQrCode} />
+          <Stack.Screen name="CameraScan" component={CameraScan} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

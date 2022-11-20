@@ -63,13 +63,13 @@ const ScanQrCode = () => {
         <Text style={styles.textStyle}>
           Please insert any value to generate QR code
         </Text>
-        <TextInput
+        {/* <TextInput
           style={styles.textInputStyle}
           onChangeText={(inputText) => setInputText(inputText)}
           placeholder="Enter Any Value"
           value={inputText}
-        />
-        <TouchableOpacity
+        /> */}
+        {/* <TouchableOpacity
           style={styles.buttonStyle}
           onPress={() => setQrvalue(inputText)}>
           <Text style={styles.buttonTextStyle}>
@@ -83,7 +83,7 @@ const ScanQrCode = () => {
           <Text style={styles.buttonTextStyle}>
             Share QR Code
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );
