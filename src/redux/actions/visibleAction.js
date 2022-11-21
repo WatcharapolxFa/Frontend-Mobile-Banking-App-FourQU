@@ -2,7 +2,7 @@ export const TOGGLE_ID_VISIBLE = 'TOGGLE_ID_VISIBLE'
 export const TOGGLE_BAL_VISIBLE = 'TOGGLE_BAL_VISIBLE'
 export const READ_NOTI = 'READ_NOTI'
 export const UPDATE_NOTI = 'UPDATE_NOTI'
-export const REFRESH_SCREEN= 'REFRESH_SCREEN'
+export const RESET_VIS_STATE = 'RESET_VIS_STATE'
 
 
 
@@ -30,8 +30,8 @@ export const updateNoti = () => {
     };
 };
 
-export const refreshScreen = () => {
+export const resetVisState = () => {
     return {
-        type: REFRESH_SCREEN,
+        type: RESET_VIS_STATE,
     }
 }

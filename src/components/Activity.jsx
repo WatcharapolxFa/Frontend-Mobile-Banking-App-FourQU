@@ -3,9 +3,34 @@ import {View, Text, Pressable, ScrollView} from 'react-native';
 import {ChevronDownIcon, ChevronUpIcon} from 'react-native-heroicons/outline';
 import axios from 'axios';
 import {Picker} from '@react-native-picker/picker';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-const Activity = ({navigation}) => {
+const Activity = () => {
+  const navigation = useNavigation();
+
+  const data = [
+    {
+      otherAccountNumber: '0093714533',
+      nameOther: 'est',
+      bankNameOther: '4QU',
+      amount: 205,
+      type: 'transfer',
+      date: '2022-11-18T09:55:35.830Z',
+      created_at: '2022-11-21T15:38:24.323Z',
+      press: false,
+    },
+    {
+      otherAccountNumber: '0093714533',
+      nameOther: 'est',
+      bankNameOther: '4QU',
+      amount: 20508,
+      type: 'receive',
+      date: '2022-11-17T09:55:35.830Z',
+      created_at: '2022-11-21T15:54:13.718Z',
+      press: true,
+    },
+  ];
+
   const month = [
     'January',
     'February',
@@ -62,12 +87,51 @@ const Activity = ({navigation}) => {
     return list;
   };
 
+  const formatDate = d => {
+    d = new Date(d);
+    let text = d.toDateString();
+    let date = '';
+    date +=
+      text.substring(8, 10) +
+      ' ' +
+      text.substring(4, 7) +
+      ' ' +
+      text.substring(text.length - 2, text.length);
+    return date;
+  };
+
+  function formatTime(d) {
+    d = new Date(d);
+    let text = d.toLocaleTimeString();
+    let time = '';
+    time += text.substring(0, 5) + ' ' + text.substring(text.length - 2);
+    return time;
+  }
+
+  function hashAccountNo(accountNo) {
+    result = '';
+    for (let i = 0; i < accountNo.length; i++) {
+      if (i >= accountNo.length - 5 && i < accountNo.length - 1)
+        result += accountNo.charAt(i);
+      else result += 'x';
+      if (i === 2 || i === 3 || i === accountNo.length - 2) result += '-';
+    }
+    return result;
+  }
+
+  function setAm(amount, type) {
+    result = amount.toFixed(2).toString();
+    return type === 'transfer' || type === 'withdraw'
+      ? '-' + result + ' Baht'
+      : '+' + result + ' Baht';
+  }
+
   // Monthlist in Period (Max 6)
   const [monthList, setmonthList] = React.useState([]);
 
   // SelectMonth use to fetchTransaction
   const [selectedMonth, setSelectedMonth] = React.useState(
-    now.getFullYear() + '-' + (now.getMonth() + 1).toString().padStart(2, '0')
+    now.getFullYear() + '-' + (now.getMonth() + 1).toString().padStart(2, '0'),
   );
 
   // Transaction from fetchTransaction
@@ -91,7 +155,7 @@ const Activity = ({navigation}) => {
           user: tran.username,
           date: Number(tran.id),
           press: false,
-        }))
+        })),
       );
     });
   };
@@ -124,7 +188,7 @@ const Activity = ({navigation}) => {
 
         {/* Account Summary */}
         <View className="w-1/2 pl-4 mt-4 justify-end">
-          <Pressable >
+          <Pressable onPress={() => navigation.navigate('Summary')}>
             <View className="flex rounded-xl bg-green-kem items-center justify-center py-[12px] shadow shadow-black">
               <Text className=" font-notoMedium text-white">
                 Account Summary
@@ -139,7 +203,7 @@ const Activity = ({navigation}) => {
       {/* Date + Transaction */}
       <View className="flex-1 ">
         <ScrollView>
-          {transaction.map((tran, index) => (
+          {data.map((tran, index) => (
             <View key={index}>
               {/* Date */}
               {(() => {
@@ -148,7 +212,7 @@ const Activity = ({navigation}) => {
                   return (
                     <View className="px-5 pb-2 pt-1">
                       <Text className="font-notobold text-black text-base">
-                        {tran.date}
+                        {formatDate(tran.date)}
                       </Text>
                     </View>
                   );
@@ -167,18 +231,26 @@ const Activity = ({navigation}) => {
                 <View
                   className={
                     (tran.press ? 'border-b border-gray-500' : '') +
-                    ' mx-2 flex-row  mb-1 '
+                    ' mx-2 flex-row mb-1 py-1'
                   }>
                   <View className="w-1/2 ">
                     <Text className="font-noto text-black text-base">
-                      {tran.user}
+                      {tran.type}
                     </Text>
                     <Text className="font-noto text-black text-sm">
-                      {tran.date}
+                      {formatTime(tran.date)}
                     </Text>
                   </View>
                   <View className="w-1/2 items-end ">
-                    <Text className="font-noto text-red-600">- 70.00 Bath</Text>
+                    <Text
+                      className={
+                        'font-noto ' +
+                        (tran.type === 'transfer'
+                          ? 'text-red-600'
+                          : 'text-green-600')
+                      }>
+                      {setAm(tran.amount, tran.type)}
+                    </Text>
                     <View>
                       {tran.press ? (
                         <ChevronUpIcon color="black" size={24} />
@@ -196,8 +268,10 @@ const Activity = ({navigation}) => {
                   </View>
                   <View className="w-1/2 items-end">
                     <Text className="font-noto text-xs"></Text>
-                    <Text className="font-noto text-xs">xxx-x-x1301-x</Text>
-                    <Text className="font-noto text-xs">Watcharapol</Text>
+                    <Text className="font-noto text-xs">
+                      {hashAccountNo(tran.otherAccountNumber)}
+                    </Text>
+                    <Text className="font-noto text-xs">{tran.nameOther}</Text>
                   </View>
                 </View>
               </Pressable>

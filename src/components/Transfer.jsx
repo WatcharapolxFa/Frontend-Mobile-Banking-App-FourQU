@@ -20,6 +20,14 @@ import * as yup from 'yup';
 import logo from '../assets/icon/logo.png';
 
 const Transfer = ({navigation}) => {
+
+  const onPressNext = (account,amount) => {
+    console.log({account,amount});
+    if (account&&amount) {
+      navigation.navigate('Review',{account,amount})
+    }
+  }
+
   return (
     <Formik
       initialValues={{
@@ -217,6 +225,7 @@ const Transfer = ({navigation}) => {
             <View className="mx-6  flex-row justify-between">
               <View className="flex-row items-center">
                 <Pressable
+                  onPressOut={() => navigation.navigate('Home')}
                   style={{backgroundColor: '#FD6565'}}
                   className="rounded-full  mr-2">
                   <XMarkIcon color="white" size={50} />
@@ -230,7 +239,7 @@ const Transfer = ({navigation}) => {
                   <Text className="font-noto text-black">Confirm</Text>
                 </View>
                 <Pressable
-                  onPressOut={handleSubmit}
+                  onPressOut={() => onPressNext(values.account,values.amount)}
                   // disabled={!isValid)}
                   className={(touched.account && touched.amount && isValid) ? "rounded-full bg-green-oon ml-2" : "rounded-full bg-gray-400 ml-2"}>
                   <CheckIcon color="white" size={50} />
