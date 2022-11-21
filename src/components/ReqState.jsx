@@ -1,6 +1,13 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Pressable,
+} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import Modal from 'react-native-modal';
 import axios from 'axios';
 
 const ReqState = () => {
@@ -112,21 +119,28 @@ const ReqState = () => {
     }
   };
 
+  const [modalVisible, setModalVisible] = React.useState(false);
+
   const submitRequest = () => {
     let selectedMonth = '';
     monthPass.map(month => {
       if (month.value === true) {
-        selectedMonth != '' ? (selectedMonth += ',' + month.params) : (selectedMonth += month.params);
+        selectedMonth != ''
+          ? (selectedMonth += ',' + month.params)
+          : (selectedMonth += month.params);
       }
     });
 
     monthNow.map(month => {
       if (month.value === true) {
-        selectedMonth != '' ? (selectedMonth += ',' + month.params) : (selectedMonth += month.params);
+        selectedMonth != ''
+          ? (selectedMonth += ',' + month.params)
+          : (selectedMonth += month.params);
       }
     });
     //selectedMonth
     console.log(selectedMonth);
+    setModalVisible(true);
   };
 
   return (
@@ -136,6 +150,22 @@ const ReqState = () => {
       <View className="mb-2">
         <Text className="font-notobold text-black">Select Month(s)</Text>
       </View>
+      <Modal
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(!modalVisible)}>
+        <View className="flex justify-center items-center bg-white border h-40">
+          <Text>Sent Already</Text>
+          <Pressable
+            onPress={() => {
+              setModalVisible(!modalVisible);
+              setMonthNow(showMonthNow(create, now));
+              setMonthPass(showMonthPass(create, now));
+            }}>
+            <Text>OK</Text>
+          </Pressable>
+        </View>
+      </Modal>
       <ScrollView className="">
         {/* Year Pass */}
         {(() => {
@@ -151,8 +181,13 @@ const ReqState = () => {
                   <View key={index} className="w-1/4 flex-row  items-center">
                     <CheckBox
                       value={month.value}
-                      onValueChange={(newvalue) => {
-                        handleChange(month.label, newvalue, monthPass, 'monthPass');
+                      onValueChange={newvalue => {
+                        handleChange(
+                          month.label,
+                          newvalue,
+                          monthPass,
+                          'monthPass',
+                        );
                       }}
                     />
                     <Text className="font-noto text-black">{month.label}</Text>
@@ -175,7 +210,7 @@ const ReqState = () => {
             <View key={index} className="w-1/4 flex-row  items-center">
               <CheckBox
                 value={month.value}
-                onValueChange={(newvalue) => {
+                onValueChange={newvalue => {
                   handleChange(month.label, newvalue, monthNow, 'monthNow');
                 }}
               />
