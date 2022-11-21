@@ -17,7 +17,6 @@ const Activity = () => {
       type: 'transfer',
       date: '2022-11-18T09:55:35.830Z',
       created_at: '2022-11-21T15:38:24.323Z',
-      press: false,
     },
     {
       otherAccountNumber: '0093714533',
@@ -27,7 +26,6 @@ const Activity = () => {
       type: 'receive',
       date: '2022-11-17T09:55:35.830Z',
       created_at: '2022-11-21T15:54:13.718Z',
-      press: true,
     },
   ];
 
@@ -100,15 +98,15 @@ const Activity = () => {
     return date;
   };
 
-  function formatTime(d) {
+  const formatTime = d => {
     d = new Date(d);
     let text = d.toLocaleTimeString();
     let time = '';
-    time += text.substring(0, 5) + ' ' + text.substring(text.length - 2);
+    time += text.substring(0, 4) + ' ' + text.substring(text.length - 2);
     return time;
-  }
+  };
 
-  function hashAccountNo(accountNo) {
+  const hashAccountNo = accountNo => {
     result = '';
     for (let i = 0; i < accountNo.length; i++) {
       if (i >= accountNo.length - 5 && i < accountNo.length - 1)
@@ -117,14 +115,14 @@ const Activity = () => {
       if (i === 2 || i === 3 || i === accountNo.length - 2) result += '-';
     }
     return result;
-  }
+  };
 
-  function setAm(amount, type) {
+  const setAm = (amount, type) => {
     result = amount.toFixed(2).toString();
     return type === 'transfer' || type === 'withdraw'
       ? '-' + result + ' Baht'
       : '+' + result + ' Baht';
-  }
+  };
 
   // Monthlist in Period (Max 6)
   const [monthList, setmonthList] = React.useState([]);
@@ -147,17 +145,36 @@ const Activity = () => {
 
   // fetchTransaction from backend
   const fetchTransaction = () => {
-    console.log(`https://test/get/${selectedMonth}`);
-    axios.get('https://jsonplaceholder.typicode.com/users').then(res => {
-      setTransaction(
-        res.data.map(tran => ({
-          id: tran.id,
-          user: tran.username,
-          date: Number(tran.id),
-          press: false,
-        })),
-      );
-    });
+    // console.log(`https://test/get/${selectedMonth}`);
+    // axios.post('https://jsonplaceholder.typicode.com/payment-transaction/month', {
+    //    userAccountNumber: accountNo,
+    //    date: selectedMonth,
+    // }).then(res => {
+    //   setTransaction(
+    //     res.data.map(tran => ({
+    //       otherAccountNumber: tran.otherAccountNumber,
+    // nameOther: tran.nameOther,
+    // bankNameOther: tran.bankNameOther,
+    // amount: tran.amount,
+    // type: tran.type,
+    // date: tran.date,
+    // created_at: tran.created_at,
+    // press: false,
+    //     })),
+    //   );
+    // });
+    setTransaction(
+      data.map(tran => ({
+        otherAccountNumber: tran.otherAccountNumber,
+        nameOther: tran.nameOther,
+        bankNameOther: tran.bankNameOther,
+        amount: tran.amount,
+        type: tran.type,
+        date: tran.date,
+        created_at: tran.created_at,
+        press: false,
+      })),
+    );
   };
   return (
     <View className="flex-1 bg-base">
@@ -203,7 +220,7 @@ const Activity = () => {
       {/* Date + Transaction */}
       <View className="flex-1 ">
         <ScrollView>
-          {data.map((tran, index) => (
+          {transaction.map((tran, index) => (
             <View key={index}>
               {/* Date */}
               {(() => {
@@ -235,7 +252,7 @@ const Activity = () => {
                   }>
                   <View className="w-1/2 ">
                     <Text className="font-noto text-black text-base">
-                      {tran.type}
+                      {tran.type.charAt(0).toUpperCase() + tran.type.slice(1)}
                     </Text>
                     <Text className="font-noto text-black text-sm">
                       {formatTime(tran.date)}
