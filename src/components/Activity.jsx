@@ -6,29 +6,7 @@ import {Picker} from '@react-native-picker/picker';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Activity = () => {
-  const navigation = useNavigation();
-
-  const data = [
-    {
-      otherAccountNumber: '0093714533',
-      nameOther: 'est',
-      bankNameOther: '4QU',
-      amount: 205,
-      type: 'transfer',
-      date: '2022-11-18T09:55:35.830Z',
-      created_at: '2022-11-21T15:38:24.323Z',
-    },
-    {
-      otherAccountNumber: '0093714533',
-      nameOther: 'est',
-      bankNameOther: '4QU',
-      amount: 20508,
-      type: 'receive',
-      date: '2022-11-17T09:55:35.830Z',
-      created_at: '2022-11-21T15:54:13.718Z',
-    },
-  ];
-
+  const navigation = useNavigation()
   const month = [
     'January',
     'February',
@@ -85,51 +63,12 @@ const Activity = () => {
     return list;
   };
 
-  const formatDate = d => {
-    d = new Date(d);
-    let text = d.toDateString();
-    let date = '';
-    date +=
-      text.substring(8, 10) +
-      ' ' +
-      text.substring(4, 7) +
-      ' ' +
-      text.substring(text.length - 2, text.length);
-    return date;
-  };
-
-  const formatTime = d => {
-    d = new Date(d);
-    let text = d.toLocaleTimeString();
-    let time = '';
-    time += text.substring(0, 4) + ' ' + text.substring(text.length - 2);
-    return time;
-  };
-
-  const hashAccountNo = accountNo => {
-    result = '';
-    for (let i = 0; i < accountNo.length; i++) {
-      if (i >= accountNo.length - 5 && i < accountNo.length - 1)
-        result += accountNo.charAt(i);
-      else result += 'x';
-      if (i === 2 || i === 3 || i === accountNo.length - 2) result += '-';
-    }
-    return result;
-  };
-
-  const setAm = (amount, type) => {
-    result = amount.toFixed(2).toString();
-    return type === 'transfer' || type === 'withdraw'
-      ? '-' + result + ' Baht'
-      : '+' + result + ' Baht';
-  };
-
   // Monthlist in Period (Max 6)
   const [monthList, setmonthList] = React.useState([]);
 
   // SelectMonth use to fetchTransaction
   const [selectedMonth, setSelectedMonth] = React.useState(
-    now.getFullYear() + '-' + (now.getMonth() + 1).toString().padStart(2, '0'),
+    now.getFullYear() + '-' + (now.getMonth() + 1).toString().padStart(2, '0')
   );
 
   // Transaction from fetchTransaction
@@ -145,36 +84,17 @@ const Activity = () => {
 
   // fetchTransaction from backend
   const fetchTransaction = () => {
-    // console.log(`https://test/get/${selectedMonth}`);
-    // axios.post('https://jsonplaceholder.typicode.com/payment-transaction/month', {
-    //    userAccountNumber: accountNo,
-    //    date: selectedMonth,
-    // }).then(res => {
-    //   setTransaction(
-    //     res.data.map(tran => ({
-    //       otherAccountNumber: tran.otherAccountNumber,
-    // nameOther: tran.nameOther,
-    // bankNameOther: tran.bankNameOther,
-    // amount: tran.amount,
-    // type: tran.type,
-    // date: tran.date,
-    // created_at: tran.created_at,
-    // press: false,
-    //     })),
-    //   );
-    // });
-    setTransaction(
-      data.map(tran => ({
-        otherAccountNumber: tran.otherAccountNumber,
-        nameOther: tran.nameOther,
-        bankNameOther: tran.bankNameOther,
-        amount: tran.amount,
-        type: tran.type,
-        date: tran.date,
-        created_at: tran.created_at,
-        press: false,
-      })),
-    );
+    console.log(`https://test/get/${selectedMonth}`);
+    axios.get('https://jsonplaceholder.typicode.com/users').then(res => {
+      setTransaction(
+        res.data.map(tran => ({
+          id: tran.id,
+          user: tran.username,
+          date: Number(tran.id),
+          press: false,
+        }))
+      );
+    });
   };
   return (
     <View className="flex-1 bg-base">
@@ -220,7 +140,7 @@ const Activity = () => {
       {/* Date + Transaction */}
       <View className="flex-1 ">
         <ScrollView>
-          {transaction.map((tran, index) => (
+          {data.map((tran, index) => (
             <View key={index}>
               {/* Date */}
               {(() => {
@@ -229,7 +149,7 @@ const Activity = () => {
                   return (
                     <View className="px-5 pb-2 pt-1">
                       <Text className="font-notobold text-black text-base">
-                        {formatDate(tran.date)}
+                        {tran.date}
                       </Text>
                     </View>
                   );
@@ -248,26 +168,18 @@ const Activity = () => {
                 <View
                   className={
                     (tran.press ? 'border-b border-gray-500' : '') +
-                    ' mx-2 flex-row mb-1 py-1'
+                    ' mx-2 flex-row  mb-1 '
                   }>
                   <View className="w-1/2 ">
                     <Text className="font-noto text-black text-base">
-                      {tran.type.charAt(0).toUpperCase() + tran.type.slice(1)}
+                      {tran.user}
                     </Text>
                     <Text className="font-noto text-black text-sm">
-                      {formatTime(tran.date)}
+                      {tran.date}
                     </Text>
                   </View>
                   <View className="w-1/2 items-end ">
-                    <Text
-                      className={
-                        'font-noto ' +
-                        (tran.type === 'transfer'
-                          ? 'text-red-600'
-                          : 'text-green-600')
-                      }>
-                      {setAm(tran.amount, tran.type)}
-                    </Text>
+                    <Text className="font-noto text-red-600">- 70.00 Bath</Text>
                     <View>
                       {tran.press ? (
                         <ChevronUpIcon color="black" size={24} />
@@ -285,10 +197,8 @@ const Activity = () => {
                   </View>
                   <View className="w-1/2 items-end">
                     <Text className="font-noto text-xs"></Text>
-                    <Text className="font-noto text-xs">
-                      {hashAccountNo(tran.otherAccountNumber)}
-                    </Text>
-                    <Text className="font-noto text-xs">{tran.nameOther}</Text>
+                    <Text className="font-noto text-xs">xxx-x-x1301-x</Text>
+                    <Text className="font-noto text-xs">Watcharapol</Text>
                   </View>
                 </View>
               </Pressable>
