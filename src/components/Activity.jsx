@@ -3,9 +3,10 @@ import {View, Text, Pressable, ScrollView} from 'react-native';
 import {ChevronDownIcon, ChevronUpIcon} from 'react-native-heroicons/outline';
 import axios from 'axios';
 import {Picker} from '@react-native-picker/picker';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-const Activity = ({navigation}) => {
+const Activity = () => {
+  const navigation = useNavigation()
   const month = [
     'January',
     'February',
@@ -124,7 +125,7 @@ const Activity = ({navigation}) => {
 
         {/* Account Summary */}
         <View className="w-1/2 pl-4 mt-4 justify-end">
-          <Pressable >
+          <Pressable onPress={() => navigation.navigate('Summary')}>
             <View className="flex rounded-xl bg-green-kem items-center justify-center py-[12px] shadow shadow-black">
               <Text className=" font-notoMedium text-white">
                 Account Summary
