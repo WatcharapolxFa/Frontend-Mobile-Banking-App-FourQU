@@ -21,7 +21,9 @@ import {
   RefreshControl
 } from 'react-native';
 
-// import axios from 'axios';
+import axios from 'axios';
+
+
 
 let time_stamps = '16/10/2022 21:08:20'
 
@@ -86,6 +88,7 @@ const Home = ({ navigation }) => {
   // const [visible, setVisibility] = useState(false);
   // const [balVisible, setBalVisibility] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [transaction, setTransaction] = React.useState([])
 
   const dispatch = useDispatch();
 
@@ -102,10 +105,6 @@ const Home = ({ navigation }) => {
     dispatch(toggleBal());
   }
 
-  const toggleNotiRead = () => {
-    dispatch(toggleNotiRead());
-  }
-
   const refreshPage = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
@@ -115,6 +114,24 @@ const Home = ({ navigation }) => {
   let time_stamp = Date().split(" ")[4]
   // time_stamp = time_stamp[0]+":"+time_stamp[1]
   // console.log(time_stamp)
+
+  React.useEffect(() => {
+    fetchTransaction();
+    console.log('fetch')
+  }, [refreshing]);
+
+  const fetchTransaction = () => {
+    axios.get('https://jsonplaceholder.typicode.com/users').then(res => {
+      setTransaction(
+        res.data.map(tran => ({
+          id: tran.id,
+          user: tran.username,
+          date: Number(tran.id),
+          press: false,
+        }))
+      );
+    });
+  };
 
   return (
 
@@ -147,9 +164,10 @@ const Home = ({ navigation }) => {
               {/* go to Notification Screen */}
               <View className='flex-1 items-end'>
                 <Pressable onPress={() => {
-                  dispatch(readNoti());
+                  dispatch(readNoti())
                   dispatch(resetVisState())
-                  // navigation.navigate('Noti');
+                  console.log(isRead)
+                  navigation.navigate('Noti');
                 }}>
                   <Image style={{ tintColor: '#F1EEE6' }} source={require('../assets/icon/bell.png')} className='top-5 right-4 w-8 h-8'></Image>
                 </Pressable>
@@ -271,7 +289,7 @@ const Home = ({ navigation }) => {
 
         {/* go to qr-payment Screen */}
         <View className='basis-1/3 items-center'>
-          <Pressable onPress={() => navigation.navigate('Term')}>
+          <Pressable onPress={() => navigation.navigate('Navbar')}>
             <Image style={{ tintColor: '#F1EEE6' }} source={require('../assets/icon/qr-code.png')} className='w-10 h-10'></Image>
           </Pressable>
         </View>

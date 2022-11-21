@@ -147,7 +147,7 @@ const HomeShop = ({ navigation }) => {
               {/* go to Notification Screen */}
               <View className='flex-1 items-end'>
                 <Pressable onPress={() => {
-                  dispatch(readNoti());
+                  dispatch(readNoti())
                   dispatch(resetVisState())
                   // navigation.navigate('Noti');
                 }}>

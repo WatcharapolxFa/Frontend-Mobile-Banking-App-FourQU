@@ -4,12 +4,7 @@ const initialState = {
     idVisible: false,
     balVisible: false,
     isRead: false,
-    refreshing: false
 };
-
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
 
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -35,6 +30,7 @@ export default (state = initialState, action) => {
             }
         case RESET_VIS_STATE:
             return {
+                ...state,
                 idVisible: false,
                 balVisible: false
             }
