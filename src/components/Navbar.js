@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, Image, Pressable} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ChevronLeftIcon, ArrowPathIcon} from 'react-native-heroicons/outline';
+import { View, Text, Image, Pressable } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ChevronLeftIcon, ArrowPathIcon } from 'react-native-heroicons/outline';
 // import axios from 'axios';
 // import logo from '../assets/images/logo.png';
 import ScanQr from './ScanQrCode';
@@ -19,12 +19,12 @@ const Navbar = ({ navigation }) => {
           <View className="flex-row ">
             <View className="w-1/6 items-center justify-end ">
               <Pressable onPress={() => navigation.navigate('Home')}>
-              <ChevronLeftIcon color="white" size={36} />  
+                <ChevronLeftIcon color="white" size={36} />
               </Pressable>
             </View>
             <View className=" items-center justify-center w-4/6">
               <Text className="  text-white text-3xl mt-3">
-                Scan/MyQr
+                Scan/MyQR
               </Text>
             </View>
             <View className=" w-1/6">
@@ -88,7 +88,7 @@ const Navbar = ({ navigation }) => {
       </View>
       {/* Header */}
       <View className="h-1/2 ">
-        {active ? <CameraScans className=''/> : <ScanQr />}
+        {active ? <CameraScans className='' /> : <ScanQr />}
 
       </View>
 

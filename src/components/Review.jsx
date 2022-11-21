@@ -6,7 +6,7 @@ import {
   ScrollView
 } from 'react-native';
 import {ChevronLeftIcon, ArrowPathIcon} from 'react-native-heroicons/outline';
-import React from 'react';
+import React, {useEffect} from 'react';
 import logo from '../assets/icon/logo.png';
 import Arrow from '../assets/icon/Arrow.png';
 import confirm from '../assets/icon/confirm-icon.png';
@@ -14,7 +14,10 @@ import cancel from '../assets/icon/cancel-icon.png';
 import {XMarkIcon, CheckIcon} from 'react-native-heroicons/outline';
 import {TextInput} from '@react-native-material/core';
 
-const Review = ({navigation}) => {
+const Review = ({navigation,route}) => {
+  useEffect(()=>{
+    console.log(route.params);
+  },[])
   return (
     <ScrollView className=" min-h-full h-max bg-base">
       <View className=" h-[72%]">
@@ -22,7 +25,7 @@ const Review = ({navigation}) => {
           {/* Header */}
           <View className="flex-row ">
             <View className="w-1/6 items-center justify-end ">
-              <Pressable onPress={() => navigation.navigate('Home')}>
+              <Pressable onPress={() => navigation.navigate('Transfer')}>
                 <ChevronLeftIcon color="white" size={36} />
               </Pressable>
             </View>
@@ -74,7 +77,7 @@ const Review = ({navigation}) => {
                 FourQU
               </Text>
               <Text className="font-noto text-yellowonn text-xs">
-                xxx-x-x1924-x
+                {route.params.account}
               </Text>
             </View>
           </View>
@@ -103,7 +106,7 @@ const Review = ({navigation}) => {
               <View className="flex-1">
                 <View>
                   <Text className="mt-3 mr-6 font-notobold text-white text-xl text-right">
-                    135.00 Bath
+                    {route.params.amount} Bath
                   </Text>
                   <Text className="mt-3 mr-6 font-notobold text-white text-xl text-right">
                     0.00 Baht
@@ -142,7 +145,7 @@ const Review = ({navigation}) => {
             <Text className="font-noto text-black">Confirm</Text>
           </View>
           <View className="rounded-full bg-green-oon ml-2">
-            <Pressable onPress={() => navigation.navigate('Successful')}>
+            <Pressable onPress={() => navigation.navigate('Sucessful')}>
               <CheckIcon color="white" size={50} />
             </Pressable>
           </View>

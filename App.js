@@ -1,11 +1,11 @@
 import React from 'react';
 // import { View, Text } from 'react-native';
 // import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import {Provider} from 'react-redux';
-import {store} from './src/redux/store';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 
 
 
@@ -50,15 +50,18 @@ import NewSecurity from './src/components/screens setting/NewSecurity';
 import CheckPinSecurity from './src/components/screens setting/CheckPinSecurity';
 import ConfirmNewSecurity from './src/components/screens setting/ConfirmNewSecurity';
 
+import Noti from './src/components/Noti';
+import Sucessful from './src/components/Sucessful';
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator 
-        initialRouteName={'Setting'}
-        screenOptions={{headerShown: false}}>
+        <Stack.Navigator
+          initialRouteName={'Home'}
+          screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Intro" component={Intro} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="RegisterSub1" component={RegisterSub1} />
@@ -84,7 +87,7 @@ const App = () => {
           <Stack.Screen name="Summary" component={Summary} />
 
           <Stack.Screen name="Setting" component={SettingScreen} />
-          <Stack.Screen name="PersonalInformation" component={PersonalInformation}/>
+          <Stack.Screen name="PersonalInformation" component={PersonalInformation} />
           <Stack.Screen name="Email" component={Email} />
           <Stack.Screen name="Security" component={Security} />
           <Stack.Screen name="CheckPinSecurity" component={CheckPinSecurity} />
@@ -95,6 +98,9 @@ const App = () => {
           <Stack.Screen name="Terms" component={Terms} />
           <Stack.Screen name="ContactUs" component={ContactUs} />
           <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
+
+          <Stack.Screen name="Noti" component={Noti} />
+          <Stack.Screen name="Sucessful" component={Sucessful} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

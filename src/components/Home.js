@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 // import type {Node} from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleBal, toggleID, readNoti, updateNoti } from '../redux/actions/visibleAction';
+import { toggleBal, toggleID, readNoti, updateNoti, resetVisState } from '../redux/actions/visibleAction';
 
 import {
   SafeAreaView,
@@ -21,7 +21,9 @@ import {
   RefreshControl
 } from 'react-native';
 
-// import axios from 'axios';
+import axios from 'axios';
+
+
 
 let time_stamps = '16/10/2022 21:08:20'
 
@@ -86,6 +88,7 @@ const Home = ({ navigation }) => {
   // const [visible, setVisibility] = useState(false);
   // const [balVisible, setBalVisibility] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [transaction, setTransaction] = React.useState([])
 
   const dispatch = useDispatch();
 
@@ -102,10 +105,6 @@ const Home = ({ navigation }) => {
     dispatch(toggleBal());
   }
 
-  const toggleNotiRead = () => {
-    dispatch(toggleNotiRead());
-  }
-
   const refreshPage = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
@@ -116,6 +115,24 @@ const Home = ({ navigation }) => {
   // time_stamp = time_stamp[0]+":"+time_stamp[1]
   // console.log(time_stamp)
 
+  React.useEffect(() => {
+    fetchTransaction();
+    console.log('fetch')
+  }, [refreshing]);
+
+  const fetchTransaction = () => {
+    axios.get('https://jsonplaceholder.typicode.com/users').then(res => {
+      setTransaction(
+        res.data.map(tran => ({
+          id: tran.id,
+          user: tran.username,
+          date: Number(tran.id),
+          press: false,
+        }))
+      );
+    });
+  };
+
   return (
 
     <View style={{ flex: 1 }} className='bg-base'>
@@ -125,7 +142,10 @@ const Home = ({ navigation }) => {
           <View className='flex-row flex-[3.5] w-full h-full'>
             <View className='flex-row flex-1'>
               {/* go to Setting Screen */}
-              <Pressable onPress={() => navigation.navigate('Setting')}>
+              <Pressable onPress={() => {
+                dispatch(resetVisState())
+                navigation.navigate('Setting')
+              }}>
                 <Image source={require(profile_pic)} className='m-3 w-20 h-20 rounded-full'></Image>
               </Pressable>
 
@@ -144,8 +164,10 @@ const Home = ({ navigation }) => {
               {/* go to Notification Screen */}
               <View className='flex-1 items-end'>
                 <Pressable onPress={() => {
-                  dispatch(readNoti());
-                  navigation.navigate('Term');
+                  dispatch(readNoti())
+                  dispatch(resetVisState())
+                  console.log(isRead)
+                  navigation.navigate('Noti');
                 }}>
                   <Image style={{ tintColor: '#F1EEE6' }} source={require('../assets/icon/bell.png')} className='top-5 right-4 w-8 h-8'></Image>
                 </Pressable>
@@ -220,19 +242,22 @@ const Home = ({ navigation }) => {
             // go to Transaction Screen
             <View className='flex-row justify-end my-2 right-4'>
               <View className='w-20 h-6 rounded-lg bg-light-green'>
-                <Pressable onPress={() => navigation.navigate('Transaction')}>
+                <Pressable onPress={() => {
+                  dispatch(resetVisState())
+                  navigation.navigate('Transaction')
+                }}>
                   <Text style={{ fontFamily: 'NotoSans-Bold' }} className='text-sm text-center underline underline-offset-auto '>See More</Text>
                 </Pressable>
               </View>
             </View>
           }
           keyExtractor={item => item.id}
-        // refreshControl={
-        //   <RefreshControl
-        //     refreshing={refreshing}
-        //     onRefresh={refreshPage}
-        //   />
-        // }
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={refreshPage}
+            />
+          }
         />
       </View>
 
@@ -240,13 +265,19 @@ const Home = ({ navigation }) => {
 
         {/* go to Shop Screen */}
         <View className='basis-1/3 items-center'>
-          <Pressable onPress={() => navigation.navigate('HomeShop')}>
+          <Pressable onPress={() => {
+            dispatch(resetVisState())
+            navigation.navigate('HomeShop')
+          }}>
             <Image style={{ tintColor: '#F1EEE6' }} source={require('../assets/icon/cart.png')} className='w-10 h-10'></Image>
           </Pressable>
         </View>
 
         {/* go to Transfer Screen */}
-        <Pressable onPress={() => navigation.navigate('Transfer')}>
+        <Pressable onPress={() => {
+          dispatch(resetVisState())
+          navigation.navigate('Transfer')
+        }}>
           <View className='items-center bottom-14 basis-1/3 drop-shadow-2xl'>
             <View className='items-center justify-center w-20 h-20 rounded-full bg-green-font'>
               <View className='items-center justify-center w-4/5 h-4/5 rounded-full bg-light-green'>
