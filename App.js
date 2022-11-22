@@ -60,7 +60,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={'Intro'}
+          initialRouteName={'Home'}
           screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Intro" component={Intro} />
           <Stack.Screen name="Login" component={Login} />

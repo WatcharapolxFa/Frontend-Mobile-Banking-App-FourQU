@@ -3,7 +3,7 @@ import {View, Text, Image, Pressable} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ChevronLeftIcon, ArrowPathIcon} from 'react-native-heroicons/outline';
 import axios from 'axios';
-import logo from '../assets/icon/logo.png'
+import logo from '../assets/icon/logo.png';
 
 import Activity from './Activity';
 import ReqState from './ReqState';
@@ -12,6 +12,27 @@ const Tab = createNativeStackNavigator();
 
 const Transaction = ({navigation}) => {
   const [active, setActive] = React.useState(true);
+  // const token =
+  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2Yjg3NzQyLTBhNGQtNGM5OS1hOTRmLTJjYjBhYmU1ZjkxNiIsImZpcnN0TmFtZSI6IlBQUCIsIm1pZGRsZU5hbWUiOiJkYXMiLCJsYXN0TmFtZSI6IlRUVCIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDEwOjE3OjQ4LjIwNloiLCJpYXQiOjE2NjkxMTIyNjgsImV4cCI6MTY2OTcxNzA2OH0.lOOGf0N0QYLMuh6v4blvBIcrxlcPJGaiOZ8tFI6zbJY';
+  // React.useEffect(() => {
+  //   axios
+  //     .post(
+  //       'https://server-quplus.herokuapp.com/api/auth/signin',
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     )
+  //     .then(res => {
+  //       console.log(res.data.token);
+  //       axios.post('https://server-quplus.herokuapp.com/payment-transaction/month',
+  //       {
+          
+  //       })
+  //     });
+  // }, []);
 
   return (
     <View className=" min-h-full h-max bg-base">
@@ -132,8 +153,8 @@ const Transaction = ({navigation}) => {
         }
       })} */}
 
-      {active ? <Activity/> : <ReqState/>}
-      
+      {active ? <Activity /> : <ReqState />}
+
       {/* <Tab.Navigator
         screenOptions={{
           headerShown: false,

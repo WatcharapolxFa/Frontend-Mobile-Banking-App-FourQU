@@ -152,7 +152,7 @@ const ReqState = () => {
     });
     //selectedMonth
     console.log(selectedMonth);
-    
+
     // axios
     //   .post(
     //     'https://server-quplus.herokuapp.com/userStatement',
@@ -187,7 +187,7 @@ const ReqState = () => {
           <View className="items-center justify-between py-4  h-[70%]">
             <ExclamationCircleIcon color="black" size={50} />
             <Text className="text-black text-base">Sorry</Text>
-            <Text className="text-base">You can choose max 6 months</Text>
+            <Text className="text-base">You can choose up to 6 months.</Text>
           </View>
           <View className="border-b border-black w-full" />
           <View className="flex-row items-center justify-end  h-[30%]">
