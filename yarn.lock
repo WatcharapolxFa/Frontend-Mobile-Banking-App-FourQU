@@ -6964,6 +6964,11 @@ jsesc@~0.5.0:
   resolved "https://registry.npmjs.org/jsesc/-/jsesc-0.5.0.tgz"
   integrity sha512-uZz5UnB7u4T9LvwmFqXii7pZSouaRPorGs5who1Ip7VO0wxanFvBL7GkM6dTHlgX+jhBApRetaWpnDabOeTcnA==
 
+json-formatter-js@^2.3.4:
+  version "2.3.4"
+  resolved "https://registry.npmjs.org/json-formatter-js/-/json-formatter-js-2.3.4.tgz"
+  integrity sha512-gmAzYRtPRmYzeAT4T7+t3NhTF89JOAIioCVDddl9YDb3ls3kWcskirafw/MZGJaRhEU6fRimGJHl7CC7gaAI2Q==
+
 json-parse-better-errors@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npmjs.org/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz"
@@ -9047,9 +9052,9 @@ react-native-raw-bottom-sheet@^2.2.0:
   integrity sha512-qL4JKIqvbcVxbkKzeh51hjV7suoJN3ouxzvLmOg0FBUV1yiJAfEbacjQdtRCI6+OU5pyGFBIifLsTXcFDwHggg==
 
 react-native-reanimated@^2.12.0:
-  version "2.12.0"
-  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.12.0.tgz"
-  integrity sha512-nrlPyw+Hx9u4iJhZk9PoTvDo/QmVAd+bo7OK9Tv3hveNEF9++5oig/g3Uv9V93shy9avTYGsUprUvAEt/xdzeQ==
+  version "2.13.0"
+  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.13.0.tgz"
+  integrity sha512-yUHyYVIegWWIza4+nVyS3CSmI/Mc8kLFVHw2c6gnSHaYhYA4LeEjH/jBkoMzHk9Xd0Ra3cwtjYKAMG8OTp6JVg==
   dependencies:
     "@babel/plugin-transform-object-assign" "^7.16.7"
     "@babel/preset-typescript" "^7.16.7"
@@ -9123,7 +9128,7 @@ react-native-view-shot@^3.5.0:
   resolved "https://registry.npmjs.org/react-native-view-shot/-/react-native-view-shot-3.5.0.tgz"
   integrity sha512-+/a0zcEcCzAwuzQTU7CmwR1/bDcuy3Yj7093xI3Dhcjccb3FwxNiRyIBonsMSj3fQMmBcqV5d8DGCAeOJ5Ij3A==
 
-react-native-vision-camera@^2.15.2, react-native-vision-camera@>=2.9.4:
+react-native-vision-camera@^2.15.2, react-native-vision-camera@>=2.0.0, react-native-vision-camera@>=2.9.4:
   version "2.15.2"
   resolved "https://registry.npmjs.org/react-native-vision-camera/-/react-native-vision-camera-2.15.2.tgz"
   integrity sha512-pkVj0r2nbZaj3+bB9CGPNistCUyoCgS2SmawzugrZs5oMlFWlgZYuJj+6s3Q98xTGgV/8/ST0njohB6soDi0VA==
@@ -11100,6 +11105,11 @@ vision-camera-code-scanner@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/vision-camera-code-scanner/-/vision-camera-code-scanner-0.2.0.tgz"
   integrity sha512-H5hVkXfbIcGdg9YlhuS8Y/xDX5e32Vo6eK5FyDQsE9AGVjlqEHMmSLHZg7BX8UUm4ADmiAZc8wzc4n8TUqGr0g==
+
+vision-camera-qrcode-scanner@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.npmjs.org/vision-camera-qrcode-scanner/-/vision-camera-qrcode-scanner-0.1.4.tgz"
+  integrity sha512-SNnCCl4fSCs6fN4WaQC9h8jLNjHLRZi7vj204xkCW5j2ScLE4Yx0/YZEcotW+m8YnXlZwrxRNOv9blA3YPcS9w==
 
 vlq@^1.0.0:
   version "1.0.1"

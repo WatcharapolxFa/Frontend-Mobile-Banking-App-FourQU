@@ -18,8 +18,6 @@ import {
 
 import QRCode from 'react-native-qrcode-svg';
 
-
-
 const ScanQrCode = () => {
   const [inputText, setInputText] = useState('');
   const [qrvalue, setQrvalue] = useState('');
@@ -62,27 +60,42 @@ const ScanQrCode = () => {
   //creat get api
   const fetchQr = () => {
     const baseUrl = 'https://server-quplus.herokuapp.com';
-    const acctoken = 'ABCDEF';
-    const reftoken = '';
+    // const acctoken = 'ABCDEF';
+    const reftoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo';
     axios.post(`${baseUrl}/api/auth/signin`, {}, {
       headers: {
         Authorization: `Bearer ${reftoken}`
-  }
+    }
+    }).then(response => {
+      axios.post(`${baseUrl}/user-payment/`, {}, {
+        headers: {
+          Authorization: `Bearer ${response.data.token}`
+      }
+      })
+      .then(res => {
+        console.log('then', res.data);
+        setQrvalue(res.data.QRPayload);
+      })
+      .catch(err => {
+        console.log('catch', err.res.data);
+      });
     })
-
-    axios.post(`${baseUrl}/user-payment/`, {}, {
-      headers: {
-        Authorization: `Bearer ${acctoken}`
-  }
-    })
-    .then(res => {
-      console.log('then', err.response.data);
-    })
-    .catch(err => {
-      console.log('catch', err.response.data);
-    });
-
   };
+
+
+
+// decrypt response = {
+//     bankName: string;
+//     accountName: string;
+//     accountNumber: string;
+//     ref: string;
+//     amount: number;
+//     fee: number;
+//     type: string;
+//     timeExpired: string;
+// }
+
+
 
 
   useEffect(()=>{
@@ -92,7 +105,7 @@ const ScanQrCode = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
+      <View style={styles.container} >
         <Text style={styles.titleStyle}>
           Generation of QR Code in React Native
         </Text>
@@ -149,11 +162,11 @@ export default ScanQrCode;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    padding: 10,
+    // padding: 10,
   },
   titleStyle: {
     fontSize: 20,
@@ -166,7 +179,7 @@ const styles = StyleSheet.create({
   },
   textInputStyle: {
     flexDirection: 'row',
-    height: 40,
+    height: 60,
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
