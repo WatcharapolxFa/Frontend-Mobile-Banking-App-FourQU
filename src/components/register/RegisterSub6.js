@@ -8,11 +8,12 @@ import {
   Image,
   Alert,
 } from 'react-native';
-
+import axios from 'axios';
 import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import validator from 'validator';
+
 
 import logo from '../../assets/icon/logo.png';
 import backArrow from '../../assets/icon/backArrow.png';
@@ -42,58 +43,57 @@ const RegisterSub6 = ({navigation,route}) => {
     }
     if (submit == true) {
 
-      console.log(route.params.ssn.ssn);
-      console.log(route.params.laserId.laserId);
-      console.log(route.params.citizenship.citizenship);
-      console.log(route.params.country.country);
-      console.log(route.params.firstName.firstName);
-      console.log(route.params.middleName.middleName);
-      console.log(route.params.lastName.lastName);
-      console.log(route.params.BoD.Bod);
-      console.log(route.params.title.title);
-      console.log(route.params.status.status);
-      console.log(route.params.houseNo.houseNo);
-      console.log(route.params.village.village);
-      console.log(route.params.lane.lane);
-      console.log(route.params.road.road);
-      console.log(route.params.subDistrict.subDistrict);
-      console.log(route.params.district.district);
-      console.log(route.params.province.province);
-      console.log(route.params.postalNo.postalNo);
-      console.log(route.params.careerID.selectedCareer);
-      console.log(route.params.salary.selectedSalary);
-      console.log(email);
-      console.log(phone);
+      // console.log(route.params.ssn.ssn);
+      // console.log(route.params.laserId.laserId);
+      // console.log(route.params.citizenship.citizenship);
+      // console.log(route.params.country.country);
+      // console.log(route.params.firstName.firstName);
+      // console.log(route.params.middleName.middleName);
+      // console.log(route.params.lastName.lastName);
+      // console.log(route.params.BoD.Bod);
+      // console.log(route.params.title.title);
+      // console.log(route.params.status.status);
+      // console.log(route.params.houseNo.houseNo);
+      // console.log(route.params.village.village);
+      // console.log(route.params.lane.lane);
+      // console.log(route.params.road.road);
+      // console.log(route.params.subDistrict.subDistrict);
+      // console.log(route.params.district.district);
+      // console.log(route.params.province.province);
+      // console.log(route.params.postalNo.postalNo);
+      // console.log(route.params.careerID.selectedCareer);
+      // console.log(route.params.salary.selectedSalary);
+      // console.log(email);
+      // console.log(phone);
 
 //data for post to API
-    // axios.post(`${baseUrl}/api/auth/signup`, {
-    //   LaserID: route.params.laserId.laserId,
-    //   SSN: route.params.ssn.ssn,
-    //   firstName: route.params.firstName.firstName,
-    //   middleName: route.params.middleName.middleName,
-    //   lastName: route.params.lastName.lastName,
-    //   BoD : route.params.BoD.Bod,
-    //   phone: phone, 
-    //   citizenship: route.params.citizenship.citizenship,
-    //   email :email,
-    //   title: route.params.title.title, 
-    //   country : route.params.country.country,
-    //   salary: route.params.salary.selectedSalary,
-    //   careerID: route.params.careerID.selectedCareer,
-    //   postalCode: route.params.postalNo.postalNo,
-    //   province: route.params.province.province,
-    //   district: route.params.district.district,
-    //   subDistrict: route.params.subDistrict.subDistrict,
-    //   houseNO: route.params.houseNo.houseNo,
-    //   village: route.params.village.village,
-    //   lane:route.params.lane.lane,
-    //   road: route.params.road.road
-    //   });.then( res => {
-    //     console.log(res);
-    //     navigation.navigate('VerifyOTP',{
-
-    // })
-    //   })
+    const baseUrl = 'https://server-quplus.herokuapp.com';
+    
+    axios.post(`${baseUrl}/api/auth/signup`, {
+      LaserID: route.params.laserId.laserId,
+      SSN: route.params.ssn.ssn,
+      firstName: route.params.firstName.firstName,
+      middleName: route.params.middleName.middleName,
+      lastName: route.params.lastName.lastName,
+      BoD : route.params.BoD.Bod,
+      phone: phone, 
+      citizenship: route.params.citizenship.citizenship,
+      email :email,
+      title: route.params.title.title, 
+      country : route.params.country.country,
+      salary: route.params.salary.selectedSalary,
+      careerID: route.params.careerID.selectedCareer,
+      postalCode: route.params.postalNo.postalNo,
+      province: route.params.province.province,
+      district: route.params.district.district,
+      subDistrict: route.params.subDistrict.subDistrict,
+      houseNO: route.params.houseNo.houseNo,
+      village: route.params.village.village,
+      lane:route.params.lane.lane,
+      road: route.params.road.road
+      }).then( res => {
+        console.log(res);
+      })
 
       // navigation.navigate('VerifyOTP');
     }

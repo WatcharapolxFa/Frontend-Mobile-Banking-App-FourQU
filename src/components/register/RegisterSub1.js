@@ -58,22 +58,22 @@ const RegisterSub1= ({navigation}) => {
   const validate = () => {
     var letters = /^[0-9]+$/;
     var submit = true;
-    if  (ssn.length < 9){
+    if  (ssn.length < 13){
       submit = false;
-      alert("SSN must be have 9 characters");
+      alert("SSN must be have 13 characters");
     }
-    else if (!ssn.match(/^[0-9a-zA-Z]+$/)){
+    else if (!ssn.match(/^[0-9]+$/)){
       submit = false;
-      alert("please enter SSN only A-Z, a-z, 0-9 chracters");
+      alert("please enter SSN only 0-9 chracters");
       // navigation.navigate('RegisterSub2')
     }
     else if (laserId.length < 12){
       submit = false;
       alert("Laser ID must be have 12 characters");
     }
-    else if (!laserId.match(/^[0-9]+$/)){
+    else if (!laserId.match(/^[0-9a-zA-Z]+$/)){
       submit = false;
-      alert("please enter Laser ID only 0-9 chracters");
+      alert("please enter Laser ID only A-Z, a-z, 0-9 chracters");
     };
 
     if (submit == true){
@@ -107,7 +107,7 @@ const RegisterSub1= ({navigation}) => {
                   className="ml-2 my-auto"
                   onChangeText={newText => setSsn(newText)}
                   defaultValue={ssn}
-                  maxLength = {9}
+                  maxLength = {13}
                 ></TextInput>
               </View>
             </View>

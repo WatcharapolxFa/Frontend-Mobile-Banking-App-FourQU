@@ -18,7 +18,7 @@ import {
   RefreshControl
 } from 'react-native';
 
-export default function CameraScan() {
+export default function CameraScan({navigation,route}) {
   const [hasPermission, setHasPermission] = React.useState(false);
   const devices = useCameraDevices();
   const device = devices.back;
@@ -75,7 +75,10 @@ export default function CameraScan() {
         {barcodes.map((barcode, idx) => (
           <Text key={idx} style={styles.barcodeTextURL}>
             {barcode.displayValue}
+            decryption(barcode);
+            
           </Text>
+          navigation.navigate('Home');
         ))}
       </>
     )

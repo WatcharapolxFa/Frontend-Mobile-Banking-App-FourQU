@@ -1,9 +1,10 @@
 // Generation of QR Code in React Native
 // https://aboutreact.com/generation-of-qr-code-in-react-native/
-
+import axios from 'axios';
 // import React in our code
-import React, { useState, useRef } from 'react';
-import * as CryptoJS from 'crypto-js'
+import React, { useState, useRef,useEffect } from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import all the components we are going to use
 import {
   SafeAreaView,
@@ -23,18 +24,7 @@ const ScanQrCode = () => {
   const [inputText, setInputText] = useState('');
   const [qrvalue, setQrvalue] = useState('');
   let myQRCode = useRef(); 
-  async function decryption(hexString) {
-    const KEY_SIZE = 128 / 8
-    const IV_KEY = CryptoJS.enc.Utf8.parse('sefoekfij+95*fthhfthulikeergrtjyy@eggfhtht-wefhsbjwaiwj')
-    const KEY = CryptoJS.enc.Utf8.parse('sefoekfij+95*wdufhuh@erfehe90ri03nf-wefhsbjwaiwj')
-    const decrypted = CryptoJS.AES.decrypt(hexString, KEY, {
-      keySize: KEY_SIZE,
-      iv: IV_KEY,
-      mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.Pkcs7,
-    });
-    return decrypted;
-}
+
   const shareQRCode = () => {
     myQRCode.toDataURL((dataURL) => {
       console.log(dataURL);
@@ -47,11 +37,48 @@ const ScanQrCode = () => {
     });
   };
   
+
+    // console.log(`https://test/get/${selectedMonth}`);
+    // axios.post('https://jsonplaceholder.typicode.com/payment-transaction/month', {
+    //    userAccountNumber: accountNo,
+    //    date: selectedMonth,
+    // }).then(res => {
+    //   setTransaction(
+    //     res.data.map(tran => ({
+    //       otherAccountNumber: tran.otherAccountNumber,
+    // nameOther: tran.nameOther,
+    // bankNameOther: tran.bankNameOther,
+    // amount: tran.amount,
+    // type: tran.type,
+    // date: tran.date,
+    // created_at: tran.created_at,
+    // press: false,
+    //     })),
+    //   );
+    // });
+
+
+
   //creat get api
+  const fetchQr = () => {
+    const baseUrl = 'https://server-quplus.herokuapp.com';
+    axios({
+      method: "get",
+      url: "`${baseUrl}/user-payment/",
+      headers: {
+        Authorization: `Bearer ${process.env.TOKEN}`,
+      },
+
+    }).then(function (response) {
+      console.log(response.data);
+    });
+  };
+
 
   useEffect(()=>{
     //fetch API
-},[pin])
+    fetchQr()
+},[])
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
