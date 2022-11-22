@@ -17,7 +17,7 @@ import validator from 'validator';
 import logo from '../../assets/icon/logo.png';
 import backArrow from '../../assets/icon/backArrow.png';
 
-const RegisterSub6 = ({navigation}) => {
+const RegisterSub6 = ({navigation,route}) => {
   const [phone, setPhone] = useState();
   const [email, setEmail] = useState();
   const checkValidate1 = () => {
@@ -40,10 +40,62 @@ const RegisterSub6 = ({navigation}) => {
       submit = false;
       alert('Please enter a valid email address.');
     }
-
     if (submit == true) {
-      console.log('aaa');
-      navigation.navigate('VerifyOTP');
+
+      console.log(route.params.ssn.ssn);
+      console.log(route.params.laserId.laserId);
+      console.log(route.params.citizenship.citizenship);
+      console.log(route.params.country.country);
+      console.log(route.params.firstName.firstName);
+      console.log(route.params.middleName.middleName);
+      console.log(route.params.lastName.lastName);
+      console.log(route.params.BoD.Bod);
+      console.log(route.params.title.title);
+      console.log(route.params.status.status);
+      console.log(route.params.houseNo.houseNo);
+      console.log(route.params.village.village);
+      console.log(route.params.lane.lane);
+      console.log(route.params.road.road);
+      console.log(route.params.subDistrict.subDistrict);
+      console.log(route.params.district.district);
+      console.log(route.params.province.province);
+      console.log(route.params.postalNo.postalNo);
+      console.log(route.params.careerID.selectedCareer);
+      console.log(route.params.salary.selectedSalary);
+      console.log(email);
+      console.log(phone);
+
+//data for post to API
+    // axios.post(`${baseUrl}/api/auth/signup`, {
+    //   LaserID: route.params.laserId.laserId,
+    //   SSN: route.params.ssn.ssn,
+    //   firstName: route.params.firstName.firstName,
+    //   middleName: route.params.middleName.middleName,
+    //   lastName: route.params.lastName.lastName,
+    //   BoD : route.params.BoD.Bod,
+    //   phone: phone, 
+    //   citizenship: route.params.citizenship.citizenship,
+    //   email :email,
+    //   title: route.params.title.title, 
+    //   country : route.params.country.country,
+    //   salary: route.params.salary.selectedSalary,
+    //   careerID: route.params.careerID.selectedCareer,
+    //   postalCode: route.params.postalNo.postalNo,
+    //   province: route.params.province.province,
+    //   district: route.params.district.district,
+    //   subDistrict: route.params.subDistrict.subDistrict,
+    //   houseNO: route.params.houseNo.houseNo,
+    //   village: route.params.village.village,
+    //   lane:route.params.lane.lane,
+    //   road: route.params.road.road
+    //   });.then( res => {
+    //     console.log(res);
+    //     navigation.navigate('VerifyOTP',{
+
+    // })
+    //   })
+
+      // navigation.navigate('VerifyOTP');
     }
   };
   return (
@@ -61,7 +113,30 @@ const RegisterSub6 = ({navigation}) => {
           style={{
                 position: 'absolute',
               }} 
-              onPress={() => navigation.navigate('RegisterSub5')}>
+              onPress={() => navigation.navigate('RegisterSub5',{
+                
+                'ssn':route.params.ssn,
+                'laserId':route.params.laserId,
+                'citizenship':route.params.citizenship,
+                'country':route.params.country,
+                'firstName':route.params.firstName,
+                'middleName':route.params.middleName,
+                'lastName':route.params.lastName,
+                'BoD':route.params.BoD,
+                'title':route.params.title,
+                'status':route.params.status,
+                'houseNo':route.params.houseNo,
+                'village':route.params.village,
+                'lane':route.params.lane,
+                'road':route.params.road,
+                'subDistrict':route.params.subDistrict,
+                'district':route.params.district,
+                'province':route.params.province,
+                'postalNo':route.params.postalNo,
+                'careerID': route.params.careerID,
+                'salary': route.params.salary
+              }
+              )}>
             <Image
               source={backArrow}
               className="w-8 h-8 ml-5"

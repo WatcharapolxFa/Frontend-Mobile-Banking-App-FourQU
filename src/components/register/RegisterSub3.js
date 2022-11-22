@@ -13,7 +13,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Checkbox} from 'react-native-paper';
 
-const RegisterSub3 = ({navigation}) => {
+const RegisterSub3 = ({navigation,route}) => {
   const [houseNo, setHouseNo] = useState();
   const [village, setVillage] = useState();
   const [lane, setLane] = useState();
@@ -98,7 +98,27 @@ const RegisterSub3 = ({navigation}) => {
     
     if (submit == true){
       console.log("valid");
-      navigation.navigate('RegisterSub4')
+      navigation.navigate('RegisterSub5',{
+        'ssn':route.params.ssn,
+        'laserId':route.params.laserId,
+        'citizenship':route.params.citizenship,
+        'country':route.params.country,
+        'firstName':route.params.firstName,
+        'middleName':route.params.middleName,
+        'lastName':route.params.lastName,
+        'BoD':route.params.BoD,
+        'title':route.params.title,
+        'status':route.params.status,
+        'houseNo':{houseNo},
+        'village':{village},
+        'lane':{lane},
+        'road':{road},
+        'subDistrict':{subDistrict},
+        'district':{district},
+        'province':{province},
+        'postalNo':{postalNo}
+
+      })
     }
   };
 
@@ -235,7 +255,18 @@ const RegisterSub3 = ({navigation}) => {
         <View className=" flex-row flex-1">
           <View className=" justify-items-start basis-1/2">
             <View className="flex-1 flex-row">
-              <Pressable onPress={() => navigation.navigate('RegisterSub2')}>
+              <Pressable onPress={() => navigation.navigate('RegisterSub2',{
+                'ssn':route.params.ssn,
+                'laserId':route.params.laserId,
+                'citizenship':route.params.citizenship,
+                'country':route.params.country,
+                'firstName':route.params.firstName,
+                'middleName':route.params.middleName,
+                'lastName':route.params.lastName,
+                'BoD':route.params.BoD,
+                'title':route.params.title,
+                'status':route.params.status,
+              })}>
                 <View className=" my-auto ml-5 w-14 h-14 rounded-full bg-red-noti">
                   <Image
                     tintColor="white"

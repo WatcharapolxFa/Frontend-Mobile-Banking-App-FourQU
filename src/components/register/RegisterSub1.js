@@ -45,8 +45,15 @@ const RegisterSub1= ({navigation}) => {
 
   const [ssn, setSsn] = useState("");
   const [laserId, setLaserId] = useState("");
-  const [citizenship, setCitizenship] = useState();
-  const [country, setCountry] = useState();
+  const [citizenship, setCitizenship] = useState("Thailand");
+  const [country, setCountry] = useState("Thailand");
+  
+  const backIntro = () => {
+    setSsn("");
+    setLaserId("");
+    navigation.navigate('Intro');
+  };
+  
 
   const validate = () => {
     var letters = /^[0-9]+$/;
@@ -70,7 +77,13 @@ const RegisterSub1= ({navigation}) => {
     };
 
     if (submit == true){
-      navigation.navigate('RegisterSub2');
+      navigation.navigate('RegisterSub2',
+      {
+        'ssn':{ssn},
+        'laserId':{laserId},
+        'citizenship':{citizenship},
+        'country':{country}
+      });
     }
     
   };
@@ -115,10 +128,10 @@ const RegisterSub1= ({navigation}) => {
               <View className='w-full bg-white mt-2 rounded-lg'>
               <Picker
                   selectedValue={citizenship}
-                  onValueChange={itemValue => setCitizenship(itemValue)}>
-                  {citizenship1.map(function (citizenship1) {
+                  onValueChange={(itemValue, itemIndex) => setCitizenship(itemValue)}>
+                  {citizenship1.map(function (citizenship1,index) {
                     return (
-                      <Picker.Item label={citizenship1.country} value={citizenship1.country} />
+                      <Picker.Item key={index} label={citizenship1.country} value={citizenship1.country} />
                     );
                   })}
                 </Picker>
@@ -130,9 +143,9 @@ const RegisterSub1= ({navigation}) => {
               <Picker
                   selectedValue={country}
                   onValueChange={country => setCountry(country)}>
-                  {country1.map(function (country1) {
+                  {country1.map(function (country1,index) {
                     return (
-                      <Picker.Item label={country1.country} value={country1.country} />
+                      <Picker.Item key={index} label={country1.country} value={country1.country} />
                     );
                   })}
                 </Picker>
@@ -146,7 +159,7 @@ const RegisterSub1= ({navigation}) => {
       <View className=" flex-row flex-1">
       <View className=" justify-items-start basis-1/2">
             <View className="flex-1 flex-row">
-              <Pressable onPress={() => navigation.navigate('Intro')}>
+              <Pressable onPress={() => backIntro()}>
                 <View className=" my-auto ml-5 w-14 h-14 rounded-full bg-red-noti">
                   <Image
                     tintColor="white"

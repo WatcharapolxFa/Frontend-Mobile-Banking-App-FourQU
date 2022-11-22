@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-
+import * as CryptoJS from 'crypto-js'
 import {StyleSheet, Text} from 'react-native';
 import {useCameraDevices} from 'react-native-vision-camera';
 import {Camera} from 'react-native-vision-camera';
@@ -34,7 +34,18 @@ export default function CameraScan() {
   //   const detectedBarcodes = scanBarcodes(frame, [BarcodeFormat.QR_CODE], { checkInverted: true });
   //   runOnJS(setBarcodes)(detectedBarcodes);
   // }, []);
-
+  async function decryption(hexString) {
+    const KEY_SIZE = 128 / 8
+    const IV_KEY = CryptoJS.enc.Utf8.parse('sefoekfij+95*fthhfthulikeergrtjyy@eggfhtht-wefhsbjwaiwj')
+    const KEY = CryptoJS.enc.Utf8.parse('sefoekfij+95*wdufhuh@erfehe90ri03nf-wefhsbjwaiwj')
+    const decrypted = CryptoJS.AES.decrypt(hexString, KEY, {
+      keySize: KEY_SIZE,
+      iv: IV_KEY,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    });
+    return decrypted;
+}
   React.useEffect(() => {
     (async () => {
       const status = await Camera.requestCameraPermission();
@@ -58,6 +69,7 @@ export default function CameraScan() {
           isActive={true}
           frameProcessor={frameProcessor}
           frameProcessorFps={5}
+          orientation='portrait'
         />
         
         {barcodes.map((barcode, idx) => (

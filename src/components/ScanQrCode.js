@@ -3,7 +3,7 @@
 
 // import React in our code
 import React, { useState, useRef } from 'react';
-
+import * as CryptoJS from 'crypto-js'
 // import all the components we are going to use
 import {
   SafeAreaView,
@@ -17,11 +17,24 @@ import {
 
 import QRCode from 'react-native-qrcode-svg';
 
+
+
 const ScanQrCode = () => {
   const [inputText, setInputText] = useState('');
   const [qrvalue, setQrvalue] = useState('');
-  let myQRCode = useRef();
-
+  let myQRCode = useRef(); 
+  async function decryption(hexString) {
+    const KEY_SIZE = 128 / 8
+    const IV_KEY = CryptoJS.enc.Utf8.parse('sefoekfij+95*fthhfthulikeergrtjyy@eggfhtht-wefhsbjwaiwj')
+    const KEY = CryptoJS.enc.Utf8.parse('sefoekfij+95*wdufhuh@erfehe90ri03nf-wefhsbjwaiwj')
+    const decrypted = CryptoJS.AES.decrypt(hexString, KEY, {
+      keySize: KEY_SIZE,
+      iv: IV_KEY,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    });
+    return decrypted;
+}
   const shareQRCode = () => {
     myQRCode.toDataURL((dataURL) => {
       console.log(dataURL);
@@ -33,6 +46,12 @@ const ScanQrCode = () => {
       Share.share(shareImageBase64).catch((error) => console.log(error));
     });
   };
+  
+  //creat get api
+
+  useEffect(()=>{
+    //fetch API
+},[pin])
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -60,22 +79,22 @@ const ScanQrCode = () => {
           //Center Logo background (Optional)
           logoBackgroundColor="yellow"
         />
-        <Text style={styles.textStyle}>
+        {/* <Text style={styles.textStyle}>
           Please insert any value to generate QR code
         </Text>
-        {/* <TextInput
+        <TextInput
           style={styles.textInputStyle}
           onChangeText={(inputText) => setInputText(inputText)}
           placeholder="Enter Any Value"
           value={inputText}
-        /> */}
-        {/* <TouchableOpacity
+        />
+        <TouchableOpacity
           style={styles.buttonStyle}
           onPress={() => setQrvalue(inputText)}>
           <Text style={styles.buttonTextStyle}>
             Generate QR Code
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           style={styles.buttonStyle}
@@ -83,7 +102,7 @@ const ScanQrCode = () => {
           <Text style={styles.buttonTextStyle}>
             Share QR Code
           </Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

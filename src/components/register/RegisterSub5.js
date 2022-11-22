@@ -34,26 +34,26 @@ const career = [
 const salary = [
   {
     id: '1',
-    title: '0 - 10,000',
+    title: '0-10,000',
   },
   {
     id: '2',
-    title: '10,001 - 50,000',
+    title: '10,001-50,000',
   },
   {
     id: '3',
-    title: '50,001 - 100,000',
+    title: '50,001-100,000',
   },
   {
     id: '4',
-    title: '100,000 ++',
+    title: '100,000++',
   },
 ];
 const height = Dimensions.get('window').height;
 
-const RegisterSub5 = ({navigation}) => {
-  const [selectedCareer, setSelectedCareer] = useState();
-  const [selectedSalary, setSelectedSalary] = useState();
+const RegisterSub5 = ({navigation,route}) => {
+  const [selectedCareer, setSelectedCareer] = useState('Student');
+  const [selectedSalary, setSelectedSalary] = useState('0-10,000');
 
   return (
     <View style={{flex: 1}}>
@@ -80,9 +80,9 @@ const RegisterSub5 = ({navigation}) => {
                   selectedValue={selectedCareer}
                   onValueChange={(itemValue, itemIndex) => setSelectedCareer(itemValue)
                   }>
-                  {career.map(function (career) {
+                  {career.map(function (career,index) {
                     return (
-                      <Picker.Item key={career.id} label={career.title} value={career.id} />
+                      <Picker.Item key={index} label={career.title} value={career.id} />
                     );
                   })}
                 </Picker>
@@ -98,9 +98,9 @@ const RegisterSub5 = ({navigation}) => {
                 <Picker
                   selectedValue={selectedSalary}
                   onValueChange={salaryId => setSelectedSalary(salaryId)}>
-                  {salary.map(function (salary) {
+                  {salary.map(function (salary,index) {
                     return (
-                      <Picker.Item label={salary.title} value={salary.id} />
+                      <Picker.Item key={index} label={salary.title} value={salary.id} />
                     );
                   })}
                 </Picker>
@@ -113,7 +113,26 @@ const RegisterSub5 = ({navigation}) => {
         <View className=" flex-row flex-1">
           <View className=" justify-items-start basis-1/2">
             <View className="flex-1 flex-row">
-              <Pressable onPress={() => navigation.navigate('RegisterSub4')}>
+              <Pressable onPress={() => navigation.navigate('RegisterSub3',{
+                'ssn':route.params.ssn,
+                'laserId':route.params.laserId,
+                'citizenship':route.params.citizenship,
+                'country':route.params.country,
+                'firstName':route.params.firstName,
+                'middleName':route.params.middleName,
+                'lastName':route.params.lastName,
+                'BoD':route.params.BoD,
+                'title':route.params.title,
+                'status':route.params.status,
+                'houseNo':route.params.houseNo,
+                'village':route.params.village,
+                'lane':route.params.lane,
+                'road':route.params.road,
+                'subDistrict':route.params.subDistrict,
+                'district':route.params.district,
+                'province':route.params.province,
+                'postalNo':route.params.postalNo,
+              })}>
                 <View className=" my-auto ml-5 w-14 h-14 rounded-full bg-red-noti">
                   <Image
                     tintColor="white"
@@ -134,7 +153,31 @@ const RegisterSub5 = ({navigation}) => {
 
           <View className=" justify-items-start basis-1/2">
             <View className="flex-1 flex-row-reverse">
-              <Pressable onPress={() => navigation.navigate('RegisterSub6')}>
+              <Pressable onPress={() => 
+              navigation.navigate('RegisterSub6',{
+                'ssn':route.params.ssn,
+                'laserId':route.params.laserId,
+                'citizenship':route.params.citizenship,
+                'country':route.params.country,
+                'firstName':route.params.firstName,
+                'middleName':route.params.middleName,
+                'lastName':route.params.lastName,
+                'BoD':route.params.BoD,
+                'title':route.params.title,
+                'status':route.params.status,
+                'houseNo':route.params.houseNo,
+                'village':route.params.village,
+                'lane':route.params.lane,
+                'road':route.params.road,
+                'subDistrict':route.params.subDistrict,
+                'district':route.params.district,
+                'province':route.params.province,
+                'postalNo':route.params.postalNo,
+
+                'careerID':{selectedCareer},
+                'salary':{selectedSalary},
+              })
+              }>
                 <View className=" my-auto mr-5 w-14 h-14 rounded-full bg-green-button justify-items-end">
                   <Image
                     tintColor="white"

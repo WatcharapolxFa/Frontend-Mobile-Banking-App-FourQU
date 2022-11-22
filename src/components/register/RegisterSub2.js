@@ -17,7 +17,7 @@ import DatePicker from 'react-native-neat-date-picker';
 
 import logo from '../../assets/icon/logo.png';
 
-const RegisterSub2 = ({navigation}) => {
+const RegisterSub2 = ({navigation, route}) => {
   const [firstName, setFirstName] = useState();
   const [middleName, setMiddleName] = useState();
   const [lastName, setLastName] = useState();
@@ -25,6 +25,8 @@ const RegisterSub2 = ({navigation}) => {
   const [status, setStatus] = useState('Single');
   const [BoD, setBoD] = useState();
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  
   const openDatePicker = () => {
     setShowDatePicker(true);
   };
@@ -91,7 +93,18 @@ const RegisterSub2 = ({navigation}) => {
     }
     console.log(date.getFullYear()+"/"+date.getMonth()+"/"+date.getDate());
     if (submit == true){
-      navigation.navigate('RegisterSub3')
+      navigation.navigate('RegisterSub3',{
+        'ssn':route.params.ssn,
+        'laserId':route.params.laserId,
+        'citizenship':route.params.citizenship,
+        'country':route.params.country,
+        'firstName':{firstName},
+        'middleName':{middleName},
+        'lastName':{lastName},
+        'BoD':{BoD},
+        'title':{title},
+        'status':{status}
+      })
     }
   };
   return (
@@ -224,7 +237,13 @@ const RegisterSub2 = ({navigation}) => {
         <View className=" flex-row flex-1">
           <View className=" justify-items-start basis-1/2">
             <View className="flex-1 flex-row">
-              <Pressable onPress={() => navigation.navigate('RegisterSub1')}>
+              <Pressable onPress={() => navigation.navigate('RegisterSub1',
+      {
+        'ssn':route.params.ssn,
+        'laserId':route.params.laserId,
+        'citizenship':route.params.citizenship,
+        'country':route.params.country
+      })}>
                 <View className=" my-auto ml-5 w-14 h-14 rounded-full bg-red-noti">
                   <Image
                     tintColor="white"
