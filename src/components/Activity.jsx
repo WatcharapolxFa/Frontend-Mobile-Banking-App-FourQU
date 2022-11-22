@@ -140,29 +140,50 @@ const Activity = () => {
 
   React.useEffect(() => {
     setmonthList(MonthShow(create, now));
+    console.log(selectedMonth)
     fetchTransaction();
   }, [selectedMonth]);
 
   // fetchTransaction from backend
   const fetchTransaction = () => {
-    // console.log(`https://test/get/${selectedMonth}`);
-    // axios.post('https://jsonplaceholder.typicode.com/payment-transaction/month', {
-    //    userAccountNumber: accountNo,
-    //    date: selectedMonth,
-    // }).then(res => {
-    //   setTransaction(
-    //     res.data.map(tran => ({
-    //       otherAccountNumber: tran.otherAccountNumber,
-    // nameOther: tran.nameOther,
-    // bankNameOther: tran.bankNameOther,
-    // amount: tran.amount,
-    // type: tran.type,
-    // date: tran.date,
-    // created_at: tran.created_at,
-    // press: false,
-    //     })),
-    //   );
-    // });
+    // axios
+    //   .post(
+    //     'https://server-quplus.herokuapp.com/api/auth/signin',
+    //     {},
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     },
+    //   )
+    //   .then(response => {
+    //     axios
+    //       .post(
+    //         'https://server-quplus.herokuapp.com/payment-transaction/month',
+    //         {
+    //           date: selectedMonth,
+    //         },
+    //         {
+    //           headers: {
+    //             Authorization: `Bearer ${response.data.token}`,
+    //           },
+    //         },
+    //       )
+    //       .then(res => {
+    //         console.log(res.data);
+    //         setTransaction(res.data.map(tran => ({
+    //           otherAccountNumber: tran.otherAccountNumber,
+    //           nameOther: tran.nameOther,
+    //           bankNameOther: tran.bankNameOther,
+    //           amount: tran.amount,
+    //           type: tran.type,
+    //           date: tran.date,
+    //           created_at: tran.created_at,
+    //           press: false,
+    //         })))
+    //       });
+    //   });
+
     setTransaction(
       data.map(tran => ({
         otherAccountNumber: tran.otherAccountNumber,

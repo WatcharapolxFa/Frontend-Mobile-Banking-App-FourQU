@@ -16,18 +16,35 @@ import {
 } from 'react-native-heroicons/outline';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-
+import axios from 'axios';
 import logo from '../assets/icon/logo.png';
 
 const Transfer = ({navigation}) => {
-
-  const onPressNext = (account,amount) => {
-    console.log({account,amount});
-    if (account&&amount) {
-      navigation.navigate('Review',{account,amount})
+  const onPressNext = (account, amount) => {
+    console.log({account, amount});
+    if (account && amount) {
+      navigation.navigate('Review', {account, amount});
     }
-  }
+  };
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2Yjg3NzQyLTBhNGQtNGM5OS1hOTRmLTJjYjBhYmU1ZjkxNiIsImZpcnN0TmFtZSI6IlBQUCIsIm1pZGRsZU5hbWUiOiJkYXMiLCJsYXN0TmFtZSI6IlRUVCIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDEwOjE3OjQ4LjIwNloiLCJpYXQiOjE2NjkxMTIyNjgsImV4cCI6MTY2OTcxNzA2OH0.lOOGf0N0QYLMuh6v4blvBIcrxlcPJGaiOZ8tFI6zbJY';
+  React.useEffect(() => {
+    axios
+      .post(
+        'https://server-quplus.herokuapp.com/api/auth/signin',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(res => {
+        console.log(res.data);
+      });
+  }, []);
 
+  const balance = 5000.888;
   return (
     <Formik
       initialValues={{
@@ -37,7 +54,12 @@ const Transfer = ({navigation}) => {
       onSubmit={values => Alert.alert(JSON.stringify(values))}
       validationSchema={yup.object().shape({
         account: yup.number().positive().integer().required(),
-        amount: yup.number().positive().integer().required(),
+        amount: yup
+          .number()
+          .positive()
+          .integer()
+          .max(balance, 'Amount must be least than Balance')
+          .required(),
       })}>
       {({
         values,
@@ -94,7 +116,7 @@ const Transfer = ({navigation}) => {
                       xxx-x-x1924-x
                     </Text>
                     <Text className="font-noto text-white text-xs">
-                      585.49 Baht
+                      {balance.toFixed(2)} Baht
                     </Text>
                   </View>
                 </View>
@@ -204,7 +226,7 @@ const Transfer = ({navigation}) => {
                     return (
                       <View>
                         <Text style={{fontSize: 12}} className="text-red-ja">
-                          {errors.account}
+                          {errors.amount}
                         </Text>
                       </View>
                     );
@@ -239,9 +261,13 @@ const Transfer = ({navigation}) => {
                   <Text className="font-noto text-black">Confirm</Text>
                 </View>
                 <Pressable
-                  onPressOut={() => onPressNext(values.account,values.amount)}
-                  // disabled={!isValid)}
-                  className={(touched.account && touched.amount && isValid) ? "rounded-full bg-green-oon ml-2" : "rounded-full bg-gray-400 ml-2"}>
+                  onPressOut={() => onPressNext(values.account, values.amount)}
+                  disabled={!isValid}
+                  className={
+                    touched.account && touched.amount && isValid
+                      ? 'rounded-full bg-green-oon ml-2'
+                      : 'rounded-full bg-gray-400 ml-2'
+                  }>
                   <CheckIcon color="white" size={50} />
                 </Pressable>
               </View>
