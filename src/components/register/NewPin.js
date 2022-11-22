@@ -85,18 +85,6 @@ const NewPin = ({navigation}) => {
       <View
         style={{flex: 4}}
         className=" object-center w-full rounded-b-xl  bg-green-regis container">
-          <Pressable 
-          className="mt-5"
-          style={{
-                position: 'absolute',
-              }} 
-              onPress={() => prev()}>
-            <Image
-              source={backArrow}
-              className="w-8 h-8 ml-5"
-              
-            />
-          </Pressable>
         <View className=" w-full h-full  justify-between items-center ">
           <Image source={logo} className="w-32 h-32" />
           <Text

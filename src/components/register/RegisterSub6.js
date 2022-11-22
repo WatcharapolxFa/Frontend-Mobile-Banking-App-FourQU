@@ -8,15 +8,15 @@ import {
   Image,
   Alert,
 } from 'react-native';
-import axios from 'axios';
+
 import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import validator from 'validator';
 
-
 import logo from '../../assets/icon/logo.png';
 import backArrow from '../../assets/icon/backArrow.png';
+import axios from 'axios';
 
 const RegisterSub6 = ({navigation,route}) => {
   const [phone, setPhone] = useState();
@@ -25,7 +25,7 @@ const RegisterSub6 = ({navigation,route}) => {
     var submit = true;
     var validator = require('validator');
 
-    if (phone == null) {
+    if (phone == null || phone == '') {
       submit = false;
       alert('Please enter your Phone number.');
     } else if (phone.length < 10) {
@@ -34,7 +34,7 @@ const RegisterSub6 = ({navigation,route}) => {
     } else if (!phone.match(/^[0-9]+$/)) {
       submit = false;
       alert('Phone number must have only 0-9 characters.');
-    } else if (email == null) {
+    } else if (email == null || email== '') {
       submit = false;
       alert('Please enter your email.');
     } else if (!validator.isEmail(email)) {
@@ -43,44 +43,44 @@ const RegisterSub6 = ({navigation,route}) => {
     }
     if (submit == true) {
 
-      // console.log(route.params.ssn.ssn);
-      // console.log(route.params.laserId.laserId);
-      // console.log(route.params.citizenship.citizenship);
-      // console.log(route.params.country.country);
-      // console.log(route.params.firstName.firstName);
-      // console.log(route.params.middleName.middleName);
-      // console.log(route.params.lastName.lastName);
-      // console.log(route.params.BoD.Bod);
-      // console.log(route.params.title.title);
-      // console.log(route.params.status.status);
-      // console.log(route.params.houseNo.houseNo);
-      // console.log(route.params.village.village);
-      // console.log(route.params.lane.lane);
-      // console.log(route.params.road.road);
-      // console.log(route.params.subDistrict.subDistrict);
-      // console.log(route.params.district.district);
-      // console.log(route.params.province.province);
-      // console.log(route.params.postalNo.postalNo);
-      // console.log(route.params.careerID.selectedCareer);
-      // console.log(route.params.salary.selectedSalary);
-      // console.log(email);
-      // console.log(phone);
+      console.log("ssn ",route.params.ssn.ssn);
+      console.log("laser ",route.params.laserId.laserId);
+      console.log("citizen ",route.params.citizenship.citizenship);
+      console.log("country ",route.params.country.country);
+      console.log("first ",route.params.firstName.firstName);
+      console.log("mid ",route.params.middleName.middleName);
+      console.log("last ",route.params.lastName.lastName);
+      console.log("Bod ",route.params.BoD.BoD);
+      console.log("title ",route.params.title.title);
+      console.log("status ",route.params.status.status);
+      console.log("hNO ",route.params.houseNo.houseNo);
+      console.log("vill ",route.params.village.village);
+      console.log("lane ",route.params.lane.lane);
+      console.log("road ",route.params.road.road);
+      console.log("sub ",route.params.subDistrict.subDistrict);
+      console.log("dis ",route.params.district.district);
+      console.log("pro ",route.params.province.province);
+      console.log("postal ",route.params.postalNo.postalNo);
+      console.log("carree ",route.params.careerID.selectedCareer);
+      console.log("salary ",route.params.salary.selectedSalary);
+      console.log("email ",email);
+      console.log("phone ",phone);
 
 //data for post to API
-    const baseUrl = 'https://server-quplus.herokuapp.com';
-    
-    axios.post(`${baseUrl}/api/auth/signup`, {
+
+axios.post("https://server-quplus.herokuapp.com/api/auth/signup", {
+      
       LaserID: route.params.laserId.laserId,
       SSN: route.params.ssn.ssn,
       firstName: route.params.firstName.firstName,
       middleName: route.params.middleName.middleName,
       lastName: route.params.lastName.lastName,
-      BoD : route.params.BoD.Bod,
+      BoD: route.params.BoD.BoD,
       phone: phone, 
       citizenship: route.params.citizenship.citizenship,
-      email :email,
+      email: email,
       title: route.params.title.title, 
-      country : route.params.country.country,
+      country: route.params.country.country,
       salary: route.params.salary.selectedSalary,
       careerID: route.params.careerID.selectedCareer,
       postalCode: route.params.postalNo.postalNo,
@@ -89,15 +89,42 @@ const RegisterSub6 = ({navigation,route}) => {
       subDistrict: route.params.subDistrict.subDistrict,
       houseNO: route.params.houseNo.houseNo,
       village: route.params.village.village,
-      lane:route.params.lane.lane,
+      lane: route.params.lane.lane,
       road: route.params.road.road
-      }).then( res => {
-        console.log(res);
-      })
 
-      // navigation.navigate('VerifyOTP');
+      // LaserID: "123456789123",
+      // SSN: "110000112",
+      // firstName: "PPP",
+      // middleName: "das",
+      // lastName: "TTT",
+      // BoD : "25/01/2564",
+      // phone: "011111111",
+      // citizenship: "thai",
+      // email : "armytextaxios012@kmitl.ac.th",
+      // title:"0",
+      // country : "BKK",
+      // salary: "10002000",
+      // careerID: "123",
+      // postalCode: "55555",
+      // province: "Phare",
+      // district: "BKKdist",
+      // subDistrict: "BKKsub",
+      // houseNO: "123",
+      // village: "bkg",
+      // lane:"-",
+      // road: "-"
+      }).then( res => {
+        console.log("then",res.data);
+        navigation.navigate('VerifyOTP',{id: res.data.id});
+
+    }).catch( err => {
+      console.log("catch",err.response.data);
+    })
     }
   };
+
+  
+
   return (
     <View style={{flex: 1}}>
       <View style={{flex: 8.5}} className="w-full rounded-b-xl  bg-green-regis">

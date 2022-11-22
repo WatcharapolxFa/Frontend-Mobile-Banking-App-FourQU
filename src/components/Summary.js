@@ -25,49 +25,52 @@ import DatePicker from 'react-native-neat-date-picker';
 import {Dimensions} from 'react-native';
 
 import setting from '../../src/assets/icon/settng.png';
-import logo from '../../src/assets/icon/backArrow.png';
+import logo from '../../src/assets/icon/logo.png';
 import backArrow from '../../src/assets/icon/backArrow.png';
 
+import axios from 'axios';
+
 const Summary = ({navigation}) => {
-  const data = {
-    name: 'Watcharapol Yotadee',
-    photo: logo,
-    accountNo: 'xxx-x-x1924-x',
-    year: 2022,
-    incomeTransaction: 100,
-    expensesTransaction: 221,
-    sumIncome: '80,000',
-    sumExpenses: '80,000',
-    totalIncome: '21,000',
-    time: '2:32 PM',
-    income: [
-      {x: 'Jan', y: 50},
-      {x: 'Feb', y: 123},
-      {x: 'Mar', y: 124},
-      {x: 'Apl', y: 98},
-      {x: 'Jun', y: 56},
-      {x: 'Jul', y: 57},
-      {x: 'Aug', y: 78},
-      {x: 'Sep', y: 125},
-      {x: 'Oct', y: 220},
-      {x: 'Nov', y: 912},
-      {x: 'Dec', y: 780},
-    ],
-    outcome: [
-      {x: 'Jan', y: 50},
-      {x: 'Feb', y: 123},
-      {x: 'Mar', y: 124},
-      {x: 'Apl', y: 98},
-      {x: 'Jun', y: 56},
-      {x: 'Jul', y: 57},
-      {x: 'Aug', y: 78},
-      {x: 'Sep', y: 125},
-      {x: 'Oct', y: 220},
-      {x: 'Nov', y: 950},
-      {x: 'Dec', y: 780},
-    ],
+  
+  // const data = {
+  //   name: 'Watcharapol Yotadee',
+  //   photo: logo,
+  //   accountNo: 'xxx-x-x1924-x',
+  //   year: 2022,
+  //   incomeTransaction: 100,
+  //   expensesTransaction: 221,
+  //   sumIncome: '80,000',
+  //   sumExpenses: '80,000',
+  //   totalIncome: '21,000',
+  //   time: '2:32 PM',
+  //   // income: [
+  //   //   {x: 'Jan', y: 50},
+  //   //   {x: 'Feb', y: 123},
+  //   //   {x: 'Mar', y: 124},
+  //   //   {x: 'Apl', y: 98},
+  //   //   {x: 'Jun', y: 56},
+  //   //   {x: 'Jul', y: 57},
+  //   //   {x: 'Aug', y: 78},
+  //   //   // {x: 'Sep', y: 125},
+  //   //   // {x: 'Oct', y: 220},
+  //   //   // {x: 'Nov', y: 912},
+  //   //   // {x: 'Dec', y: 780},
+  //   // ],
+  //   // outcome: [
+  //   //   {x: 'Jan', y: 50},
+  //   //   {x: 'Feb', y: 123},
+  //   //   {x: 'Mar', y: 124},
+  //   //   {x: 'Apl', y: 98},
+  //   //   {x: 'Jun', y: 56},
+  //   //   {x: 'Jul', y: 57},
+  //   //   {x: 'Aug', y: 78},
+  //   //   // {x: 'Sep', y: 125},
+  //   //   // {x: 'Oct', y: 220},
+  //   //   // {x: 'Nov', y: 950},
+  //   //   // {x: 'Dec', y: 780},
+  //   // ],
     
-  };
+  // };
 
   const [date, setDate] = useState();
   const [startDate, setStartDate] = useState();
@@ -80,8 +83,13 @@ const Summary = ({navigation}) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const [modePicker, setModePicker] = useState('range');
-
-  
+  const [isBusy, setBusy] = useState(true)
+  const [account, setAccount] = useState({})
+  const [sumIncome, setSumIncome] = useState(0)
+  const [sumOutcome, setSumOutcome] = useState(0)
+  const [income, setIncome] = useState([])
+  const [outcome, setOutcome] = useState([])
+  const [data2,setData2] = useState({})
 
   const openDatePicker = () => {
     setShowDatePicker(true);
@@ -94,10 +102,14 @@ const Summary = ({navigation}) => {
     // You should close the modal in here
       setStartDate(date.startDate);
       setEndDate(date.endDate);
+      console.log(
+        formatDate2(startDate)+","+formatDate2(endDate));
       setShowDatePicker(false);
     // The parameter 'date' is a Date object so that you can use any Date prototype method.
     console.log(111);
   };
+
+  
 
   const formatDate = d => {
     const date = new Date(d);
@@ -109,26 +121,276 @@ const Summary = ({navigation}) => {
     ].join('-');
   };
 
+  const formatDate2 = d => {
+    const date = new Date(d);
+    const month = date.getMonth() + 1;
+    return [
+      date.getFullYear(),
+      month < 10 ? `0${month}` : month,
+    ].join('-');
+  };
 
+
+
+const refToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo';
   useEffect(() => {
-    // if(monthly === "Monthly") {
-    //   setModePicker("range");
+    console.log(22222)
 
-    // };
-    // if(monthly === "Daily") {
-    //   setModePicker("single");
-    // };
-  });
 
-  return (
+    
+  //   axios.
+  // post('https://server-quplus.herokuapp.com/api/auth/signin', {},{
+  //     headers:{Authorization: `Bearer ${refToken}`},
+  //   })
+  //   .then(res => {
+  //     console.log(res.data)
+  //         axios.
+  //         get('https://server-quplus.herokuapp.com/api/auth/information',{
+  //           headers:{Authorization: `Bearer ${res.data.AcessToken}`},
+            
+  //       }) .then(res =>{
+            
+  //           console.log("acccccccc: ",res.data);
+  //           setAccount(res.data);
+
+
+  //       }).catch(err => {
+  //         console.log('catch222', err.response.data);
+  
+  //       })
+  // })
+  //   .catch(err => {
+  //     console.log('catchqqq', err.response.data);
+
+  //   });
+
+    // axios.
+    //   post('https://server-quplus.herokuapp.com/api/auth/information', {
+    //       id: route.params.id,
+    //       OtpNumber: pin,
+    //     })
+    //     .then(res => {
+    //       console.log('then', res.data);
+    //       saveRefresh(res.data.token);
+
+    //       console.log('vaid PIN!!');
+    //       navigation.navigate('NewPin');
+    //     })
+    //     .catch(err => {
+    //       console.log('catch', err.response.data);
+    //       setPin(val => val.slice(0, -6));
+    //       console.log('Invaid PIN!!');
+    //     });
+    
+    if(monthly === "Monthly") {
+      axios.
+      post('https://server-quplus.herokuapp.com/api/auth/signin', {},{
+          headers:{Authorization: `Bearer ${refToken}`},
+        })
+        .then(res => {
+          console.log(res.data)
+              axios.
+              get('https://server-quplus.herokuapp.com/api/auth/information',{
+                headers:{Authorization: `Bearer ${res.data.AcessToken}`},
+                
+            }) .then(res =>{
+                
+                console.log("acccccccc: ",res.data);
+                setAccount(res.data);
+                console.log('dateee  ', startDate+","+endDate);
+                //post month in  date: "2022-01,2022-11",
+                axios
+                .post('https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/payment-transaction/summary-month', {
+                  userAccountNumber: "0093714533",
+                  date: "2022-01,2022-11",
+                })
+                .then(res => {
+                  console.log("summary month data: ",res.data);
+                  setData2(res.data);
+
+                  // mapIncome(data2);
+                  // mapOutcome(data2);
+                  // plusIncome(data2);
+                  // plusOutcome(data2);
+                })
+                .catch(err => {
+                  console.log('err sum month', err.response.data);
+                });
+
+
+            }).catch(err => {
+              console.log('catch222', err.response.data);
+      
+            })
+      })
+        .catch(err => {
+          console.log('catchqqq', err.response.data);
+    
+        });
+    };
+    if(monthly === "Daily") {
+      axios.
+      post('https://server-quplus.herokuapp.com/api/auth/signin', {},{
+          headers:{Authorization: `Bearer ${refToken}`},
+        })
+        .then(res => {
+          console.log(res.data)
+              axios.
+              get('https://server-quplus.herokuapp.com/api/auth/information',{
+                headers:{Authorization: `Bearer ${res.data.AcessToken}`},
+                
+            }) .then(res =>{
+                
+                console.log("acccccccc: ",res.data);
+                setAccount(res.data);
+
+                //post day 
+  
+                axios
+                .post('https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/payment-transaction/summary-date', {
+                  userAccountNumber: "0093714533",
+                  date: formatDate(startDate)+","+formatDate(endDate),
+                })
+                .then(res => {
+                  console.log("summary date data: ",res.data);
+                  setData2(res.data);
+
+                  mapIncome(data2);
+                  mapOutcome(data2);
+                  plusIncome(data2);
+                  plusOutcome(data2);
+                })
+                .catch(err => {
+                  console.log('err sum date', err.response.data);
+                });
+
+
+            }).catch(err => {
+              console.log('catch222', err.response.data);
+      
+            })
+      })
+        .catch(err => {
+          console.log('catchqqq', err.response.data);
+    
+        });
+    };
+
+    
+    [{
+      "date": "21/11/2022",
+       "income": 615264240, 
+       "outcome": 40
+      }, 
+       {"date": "22/11/2022", "income": 50000, "outcome": 0}, {"date": "19/11/2022", "income": 100000, "outcome": 50000}, {"date": "23/11/2022", "income": 205088080, "outcome": 0}]
+
+
+    
+  },[monthly]);
+
+  // const data2 = 
+  //   [
+  //     {
+  //         "date": "17/11/22",
+  //         "income": 3245,
+  //         "outcome": 1014
+  //     },
+  //     {
+  //         "date": "18/11/22",
+  //         "income": 1253,
+  //         "outcome": 1503
+  //     },
+  //     {
+  //         "date": "19/11/22",
+  //         "income": 654,
+  //         "outcome": 150
+  //     },
+  //     {
+  //         "date": "20/11/22",
+  //         "income": 526,
+  //         "outcome": 555
+  //     },
+  //     {
+  //         "date": "21/11/22",
+  //         "income": 526,
+  //         "outcome": 555
+  //     },
+  //     {
+  //         "date": "22/11/22",
+  //         "income": 1236,
+  //         "outcome": 555
+  //     },
+  //     {
+  //         "date": "23/11/22",
+  //         "income": 1236,
+  //         "outcome": 555
+  //     }
+
+  //   ];
+    
+    //------------- function for calulate -------------
+    const mapIncome = data => {
+      const a1=[];
+      data.map((x)=>{
+        if(monthly=="Daily"){
+          a1.push({x:x.date, y:x.income});
+        }
+        else{
+          a1.push({x:x.month, y:x.income});
+        };
+       
+      })
+      setIncome(a1);
+    };
+  
+    const mapOutcome = data => {
+      const a2=[];
+      data.map((x)=>{
+        if(monthly=="Daily"){
+        a2.push({x:x.date, y:x.outcome});
+        }
+        else{
+          a2.push({x:x.month, y:x.outcome});
+          };
+      })
+      setOutcome(a2);
+    };
+    
+    const plusIncome = data => {
+      sum = 0;
+      data.map((x)=>{
+        sum += x.income;
+      })
+      setSumIncome(sum);
+    };
+
+    const plusOutcome = data => {
+      sum = 0;
+      data.map((x)=>{
+        sum += x.outcome;
+      })
+      setSumOutcome(sum);
+    };
+
+    // console.log("II : ", sumIncome(data2));
+    // console.log("OO : ", sumOutcome(data2));
+    
+
+    return (
+    
     <View style={{flex: 1}}>
+      
+        <View>
+          <Text>is loading</Text>
+        </View>
+      
       <DatePicker
         isVisible={showDatePicker}
         mode={modePicker}
         colorOptions={{headerColor: '#9DD9D2'}}
         onCancel={onCancel}
         onConfirm={onConfirm}
-        dateStringFormat={'dd-mm-yyyy'}
+        dateStringFormat={'yyyy-mm-dd'}
       />
       
       <View style={{flex: 7.5}} className=" bg-green-regis rounded-b-xl">
@@ -148,13 +410,13 @@ const Summary = ({navigation}) => {
             <View className="flex flex-row w-11/12 mx-5">
               <View className="w-20 h-20 my-auto mx-2 rounded-full ">
                 <Image
-                  source={data.photo}
+                  source={logo}
                   className="my-auto mx-auto w-full h-full"
                 />
               </View>
               <View className="my-auto">
-                <Text className="text-egg text-xl">{data.name}</Text>
-                <Text className=" text-white text-sm">{data.accountNo}</Text>
+                <Text className="text-egg text-xl">{account?.data?.firstName ?? ""}</Text>
+                <Text className=" text-white text-sm">{account?.data?.accountNumber ?? ""}</Text>
               </View>
             </View>
             <View className="w-11/12 h-[1] bg-base mx-auto"></View>
@@ -164,35 +426,36 @@ const Summary = ({navigation}) => {
               <View className="flex-1 mx-2 my-1 ">
                 <View className="flex-1 flex-row justify-between ">
                   <Text className="text-white font-bold ">
-                    Statement Summary of Y{data.year}
+                    Statement Summary of {startDate &&
+                      `${formatDate(startDate)} : ${formatDate(endDate)}`}
                   </Text>
                 </View>
 
                 <View className="flex-1 flex-row justify-between ">
                   <Text className="justify-start text-white text-sm">
-                    Income {data.incomeTransaction} transaction(s):
+                    Income :
                   </Text>
                   <Text className="justify-end text-white text-sm">
                     {' '}
-                    {data.sumIncome} Bath
+                    {sumIncome} Bath
                   </Text>
                 </View>
                 <View className="flex-1 flex-row justify-between">
                   <Text className="justify-start text-white text-sm">
-                    Expenses {data.expensesTransaction} transaction(s):
+                    Expenses :
                   </Text>
                   <Text className="justify-end text-white text-sm ">
                     {' '}
-                    {data.sumExpenses} Bath
+                    {sumOutcome} Bath
                   </Text>
                 </View>
               </View>
             </View>
           </View>
-          <View className=" m-w-fit" style={{flex: 0.6}}>
+          <View className=" m-w-fit ml-5" style={{flex: 0.6}}>
             <VictoryChart
               domainPadding={{x: 20, y: 0}}
-              width={screenWidth + 30}
+              width={screenWidth - 10 }
               height={screenHeight * 0.4}>
                
                <VictoryLegend x={screenWidth/4} y={5}
@@ -206,7 +469,7 @@ const Summary = ({navigation}) => {
             />
               <VictoryAxis
                 tickLabelComponent={<VictoryLabel dy={0} dx={0} />}
-                tickFormat={data.X}
+                tickFormat={data2.X}
                 style={{
                   axis: {
                     stroke: 'white', //CHANGE COLOR OF X-AXIS
@@ -214,27 +477,30 @@ const Summary = ({navigation}) => {
                   tickLabels: {
                     fill: 'white', //CHANGE COLOR OF X-AXIS LABELS
                     fontSize: 10,
+                    angle: 20
                   },
                 }}
               />
               <VictoryAxis
                 dependentAxis
                 tickLabelComponent={<VictoryLabel dy={0} dx={-5} />}
-                tickFormat={data.y}
+                tickFormat={data2.y}
                 style={{
                   axis: {
                     stroke: 'transparent', //CHANGE COLOR OF X-AXIS
                   },
                   tickLabels: {
                     fill: '#F6D8A9', //CHANGE COLOR OF X-AXIS LABELS
-                    fontSize: 13,
+                    fontSize: 11,
+                    angle: 0,
+                    padding: -3
                   },
                   grid: {stroke: '#F6D8A9'},
                 }}
               />
               <VictoryGroup offset={5} style={{data: {width: 5}}}>
                 <VictoryBar
-                  data={transactionType == "Total Expenses" ? null : data.income}
+                  data={transactionType == "Total Expenses" ? null : income}
                   style={{
                     data: {
                       fill: '#8DD0BD',
@@ -243,7 +509,7 @@ const Summary = ({navigation}) => {
                 />
 
                 <VictoryBar
-                  data={transactionType == "Total Income" ? null : data.outcome}
+                  data={transactionType == "Total Income" ? null : outcome}
                   style={{
                     data: {
                       fill: '#FD6565',
@@ -254,7 +520,7 @@ const Summary = ({navigation}) => {
             </VictoryChart>
           </View>
           <View className=" " style={{flex: 0.1}}>
-            <Text className=" text-egg m-auto">Update at {data.time}</Text>
+            <Text className=" text-egg m-auto">Update at {account.time_stamp}</Text>
           </View>
         </View>
       </View>
@@ -334,7 +600,7 @@ const Summary = ({navigation}) => {
                 <View className="h-8">
                   <Text className="text-xs my-auto text-black ml-2">
                     {startDate &&
-                      `${formatDate(startDate)} - ${formatDate(endDate)}`}
+                      `${formatDate(startDate)} : ${formatDate(endDate)}`}
                   </Text>
                 </View>
               </Pressable>
@@ -352,8 +618,8 @@ const Summary = ({navigation}) => {
               </View>
 
               <View className=" basis-1/2 flex-row-reverse">
-                <Text className=" my-auto mx-5 text-green-total">
-                  {data.totalIncome} Bath
+                <Text className={` my-auto mx-5 ${sumIncome-sumOutcome < 0 ? "text-red-noti":"text-green-total"}`}>
+                  {sumIncome-sumOutcome} Bath
                 </Text>
               </View>
             </View>

@@ -18,9 +18,9 @@ import DatePicker from 'react-native-neat-date-picker';
 import logo from '../../assets/icon/logo.png';
 
 const RegisterSub2 = ({navigation, route}) => {
-  const [firstName, setFirstName] = useState();
-  const [middleName, setMiddleName] = useState();
-  const [lastName, setLastName] = useState();
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [title, setTitle] = useState('Mr.');
   const [status, setStatus] = useState('Single');
   const [BoD, setBoD] = useState();
@@ -62,7 +62,7 @@ const RegisterSub2 = ({navigation, route}) => {
     var number = /^[0-9]+$/;
     var letters = /^[A-Za-z]+$/;
     
-    if (firstName == null) {
+    if (firstName == null || firstName == '') {
       submit = false;
       alert('Please enter your first name');
     }
@@ -71,7 +71,7 @@ const RegisterSub2 = ({navigation, route}) => {
       alert("firstname must have only A-Z or a-z characters");
     }
     
-    else if (lastName == null) {
+    else if (lastName == null || lastName == '') {
       submit = false;
       alert('Please enter your last name');
     }
@@ -79,15 +79,15 @@ const RegisterSub2 = ({navigation, route}) => {
       submit = false;
       alert("last name must have only A-Z or a-z characters");
     }
-    else if(title == null){
+    else if(title == null || title == ''){
       submit = false;
       alert("Please select your title");
     }
-    else if(BoD == null){
+    else if(BoD == null || BoD == ''){
       submit = false;
       alert("Please select your birth date");
     }
-    else if(status == null){
+    else if(status == null || status == ''){
       submit = false;
       alert("Please select your status");
     }

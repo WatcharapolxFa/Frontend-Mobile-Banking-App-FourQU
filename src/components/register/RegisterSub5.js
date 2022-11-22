@@ -31,30 +31,50 @@ const career = [
   },
 ];
 
-const salary = [
-  {
-    id: '1',
-    title: '0-10,000',
-  },
-  {
-    id: '2',
-    title: '10,001-50,000',
-  },
-  {
-    id: '3',
-    title: '50,001-100,000',
-  },
-  {
-    id: '4',
-    title: '100,000++',
-  },
-];
+
 const height = Dimensions.get('window').height;
 
 const RegisterSub5 = ({navigation,route}) => {
   const [selectedCareer, setSelectedCareer] = useState('Student');
-  const [selectedSalary, setSelectedSalary] = useState('0-10,000');
+  const [selectedSalary, setSelectedSalary] = useState('');
 
+  const checkValidate = () => {
+    const date = new Date();
+    var submit = true;
+    if (selectedSalary == null || selectedSalary == '') {
+      submit = false;
+      alert('Please enter your salary');
+    }
+    else if (!selectedSalary.match(/^[0-9]+$/)){
+      submit = false;
+      alert("Salary must have only 0-9 characters.");
+    };
+    if (submit){
+      navigation.navigate('RegisterSub6',{
+        'ssn':route.params.ssn,
+        'laserId':route.params.laserId,
+        'citizenship':route.params.citizenship,
+        'country':route.params.country,
+        'firstName':route.params.firstName,
+        'middleName':route.params.middleName,
+        'lastName':route.params.lastName,
+        'BoD':route.params.BoD,
+        'title':route.params.title,
+        'status':route.params.status,
+        'houseNo':route.params.houseNo,
+        'village':route.params.village,
+        'lane':route.params.lane,
+        'road':route.params.road,
+        'subDistrict':route.params.subDistrict,
+        'district':route.params.district,
+        'province':route.params.province,
+        'postalNo':route.params.postalNo,
+
+        'careerID':{selectedCareer},
+        'salary':{selectedSalary},
+      })
+    };
+  };
   return (
     <View style={{flex: 1}}>
       <View
@@ -92,18 +112,13 @@ const RegisterSub5 = ({navigation,route}) => {
               <Text
                 style={{fontFamily: 'NotoSans-Bold'}}
                 className="text-1xl text-white mt-8">
-                Salary
+                Salary per year
               </Text>
-              <View className="w-full bg-white mt-2 rounded-lg">
-                <Picker
-                  selectedValue={selectedSalary}
-                  onValueChange={salaryId => setSelectedSalary(salaryId)}>
-                  {salary.map(function (salary,index) {
-                    return (
-                      <Picker.Item key={index} label={salary.title} value={salary.id} />
-                    );
-                  })}
-                </Picker>
+              <View className="w-full bg-white mt-2 rounded-lg h-14">
+              <TextInput
+                  className="p-0 ml-4 my-auto text-black text-1xl"
+                  onChangeText={newText => setSelectedSalary(newText)}
+                  maxLength={10}></TextInput>
               </View>
             </View>
           </View>
@@ -153,30 +168,8 @@ const RegisterSub5 = ({navigation,route}) => {
 
           <View className=" justify-items-start basis-1/2">
             <View className="flex-1 flex-row-reverse">
-              <Pressable onPress={() => 
-              navigation.navigate('RegisterSub6',{
-                'ssn':route.params.ssn,
-                'laserId':route.params.laserId,
-                'citizenship':route.params.citizenship,
-                'country':route.params.country,
-                'firstName':route.params.firstName,
-                'middleName':route.params.middleName,
-                'lastName':route.params.lastName,
-                'BoD':route.params.BoD,
-                'title':route.params.title,
-                'status':route.params.status,
-                'houseNo':route.params.houseNo,
-                'village':route.params.village,
-                'lane':route.params.lane,
-                'road':route.params.road,
-                'subDistrict':route.params.subDistrict,
-                'district':route.params.district,
-                'province':route.params.province,
-                'postalNo':route.params.postalNo,
-
-                'careerID':{selectedCareer},
-                'salary':{selectedSalary},
-              })
+              <Pressable onPress={() => checkValidate()
+              
               }>
                 <View className=" my-auto mr-5 w-14 h-14 rounded-full bg-green-button justify-items-end">
                   <Image
