@@ -78,7 +78,7 @@ export default function CameraScan({navigation,route}) {
             decryption(barcode);
             
           </Text>
-          navigation.navigate('Home');
+          // navigation.navigate('Home');
         ))}
       </>
     )
