@@ -1,20 +1,35 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView,TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import axios from 'axios';
 import MeterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SettingScreen = ({navigation}) => {
-  let initialData = {
-    account: '',
-    contactus: '',
-    email: '',
-    pin: '',
-    limitperday: '',
-    address: '',
-    phone: '',
-  };
+  // let initialData = {
+  //   firstName: '',
+  //   middleName: '',
+  //   lastName: '',
+  //   phone: '',
+  //   email: '',
+  //   pictureProfile: '',
+  //   postalCode:'',
+  //   province:'',
+  //   district:'',
+  //   subDistrict:'',
+  //   houseNo: '',
+  //   village: '',
+  //   lane: '',
+  //   road: '',
+  //   limitperday: '',
+    
+  // };
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -25,30 +40,59 @@ const SettingScreen = ({navigation}) => {
     // Call only when screen open or when back on screen
   }, [navigation]);
 
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2Yjg3NzQyLTBhNGQtNGM5OS1hOTRmLTJjYjBhYmU1ZjkxNiIsImZpcnN0TmFtZSI6IlBQUCIsIm1pZGRsZU5hbWUiOiJkYXMiLCJsYXN0TmFtZSI6IlRUVCIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDEwOjE3OjQ4LjIwNloiLCJpYXQiOjE2NjkxMTIyNjgsImV4cCI6MTY2OTcxNzA2OH0.lOOGf0N0QYLMuh6v4blvBIcrxlcPJGaiOZ8tFI6zbJY';
+  const [Ftoken,setFToken] = useState('')
   const axiosGetData = async () => {
-    axios
-      .post('http://10.0.2.2:5000/UserTemp/data', {
-        id: '634ef2258c984f3e0bce4fb6',
-      })
-      .then(function (response) {
-        if (response.data.status == 'FAILED') {
-          throw Error('FAILED');
-        } else {
-          initialData = {
-            account: response.data.data.account,
-            contactus: response.data.data.contactus,
-            email: response.data.data.email,
-            pin: response.data.data.pin,
-            limitperday: response.data.data.limitperday,
-            address: response.data.data.address,
-            phone: response.data.data.phone,
-          };
-          console.log(initialData);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+     axios
+       .post('https://server-quplus.herokuapp.com/api/auth/signin',{}, {
+         headers: { Authorization: `Bearer ${token}`, },
+       })
+       .then(function (response) {
+        setFToken(response.data.token);
+          axios
+               .get('https://server-quplus.herokuapp.com/api/auth/information', {
+                 headers: { Authorization: `Bearer ${response.data.token}`, },
+               })
+               .then(function (response) {
+                 initialData = {
+                   firstName: response.data.firstName,
+                   middleName: response.data.data.middleName,
+                   lastName: response.data.data.lastName,
+                   phone: response.data.data.phone,
+                   email: response.data.data.email,
+                   pictureProfile: response.data.data.pictureProfile,
+                   postalCode: response.data.data.address.postalCodeS,
+                   province: response.data.data.address.province,
+                   district: response.data.data.address.district,
+                   subDistrict: response.data.data.address.subDistrict,
+                   houseNo: response.data.data.address.houseNo,
+                   village: response.data.data.address.village,
+                   lane: response.data.data.address.lane,
+                   road: response.data.data.address.road,
+                 };
+          
+                 console.log('initialData', initialData);
+                 
+               })
+               .catch(function (error) {
+                 console.log('error info', error);
+               });
+          // axios
+          //     .get('https://server-quplus.herokuapp.com/user-payment/limit/day/', {
+          //         headers: { Authorization: `Bearer ${response.data.token}`, },
+          //       })
+          //     .then(function (response) {
+          //         console.log('response', response);
+          //     })
+          //     .catch(function (error) {
+          //       console.log('error limit', error);
+          //     });
+       })
+       .catch(function (error) {
+         console.log('error signin', error.response.data);
+       });
+    
+   
   };
 
   return (
@@ -72,7 +116,7 @@ const SettingScreen = ({navigation}) => {
             name="arrow-back-ios"
             size={25}
             color="#f3f0ea"
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => console.log('back')}
             backgroundColor="transparent"
             style={{
               position: 'absolute',
@@ -97,6 +141,14 @@ const SettingScreen = ({navigation}) => {
           onPress={() =>
             navigation.navigate('PersonalInformation', {
               phone: initialData.phone,
+              email: initialData.email,
+              firstName: initialData.firstName,
+              middleName: initialData.middleName,
+              lastName: initialData.lastName,
+              phone: initialData.phone,
+              email: initialData.email,
+              pictureProfile: initialData.pictureProfile,
+              Ftoken:Ftoken,
             })
           }>
           <View style={styles.item}>
@@ -111,29 +163,10 @@ const SettingScreen = ({navigation}) => {
           </View>
         </TouchableOpacity>
 
-        {/* Eemail */}
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Email', {
-              email: initialData.email,
-            })
-          }>
-          <View style={styles.item}>
-            <MeterialIcons name="email" size={50} color="#000000" />
-            <View style={styles.textBetweenbutton}>
-              <View>
-                <Text style={styles.itemText}>Email</Text>
-                <Text style={styles.itemText}>can change</Text>
-              </View>
-              <MeterialIcons name="arrow-forward" size={25} color="#000000" />
-            </View>
-          </View>
-        </TouchableOpacity>
-
         {/* Security */}
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('CheckPinSecurity', {pin: initialData.pin})
+            navigation.navigate('CheckPinSecurity')
           }>
           <View style={styles.item}>
             <MeterialIcons name="lock-outline" size={50} color="#000000" />
@@ -149,8 +182,19 @@ const SettingScreen = ({navigation}) => {
 
         {/* Current address */}
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Currentaddress', {pin: initialData.pin})
+          onPress={() =>{
+            navigation.navigate('Currentaddress', {
+              houseNo: initialData.houseNo,
+              village: initialData.village,
+              lane: initialData.lane,
+              road: initialData.road,
+              subDistrict: initialData.subDistrict,
+              district: initialData.district,
+              province: initialData.province,
+              postalCode: initialData.postalCode,
+              
+            })
+          }
           }>
           <View style={styles.item}>
             <MeterialIcons name="explore" size={50} color="#000000" />
@@ -169,6 +213,7 @@ const SettingScreen = ({navigation}) => {
           onPress={() =>
             navigation.navigate('LimitPerDay', {
               limitperday: initialData.limitperday,
+              Ftoken:Ftoken,
             })
           }>
           <View style={styles.item}>

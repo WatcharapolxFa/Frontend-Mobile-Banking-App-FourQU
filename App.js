@@ -23,15 +23,15 @@ import Login from './src/components/Login';
 import Transfer from './src/components/Transfer'
 import Review from './src/components/Review';
 
+//Palm
 import SettingScreen from './src/components/screens setting/SettingScreen';
 import PersonalInformation from './src/components/screens setting/PersonalInformation';
-import Email from './src/components/screens setting/Email';
 import Security from './src/components/screens setting/Security';
 import Currentaddress from './src/components/screens setting/Currentaddress';
 import LimitPerDay from './src/components/screens setting/LimitPerDay';
 import Terms from './src/components/screens setting/Terms';
 import ContactUs from './src/components/screens setting/ContactUs';
-import ChangeEmail from './src/components/screens setting/ChangeEmail';
+
 
 //arm
 import RegisterSub1 from './src/components/register/RegisterSub1';
@@ -88,7 +88,6 @@ const App = () => {
 
           <Stack.Screen name="Setting" component={SettingScreen} />
           <Stack.Screen name="PersonalInformation" component={PersonalInformation} />
-          <Stack.Screen name="Email" component={Email} />
           <Stack.Screen name="Security" component={Security} />
           <Stack.Screen name="CheckPinSecurity" component={CheckPinSecurity} />
           <Stack.Screen name="NewSecurity" component={NewSecurity} />
@@ -97,7 +96,6 @@ const App = () => {
           <Stack.Screen name="LimitPerDay" component={LimitPerDay} />
           <Stack.Screen name="Terms" component={Terms} />
           <Stack.Screen name="ContactUs" component={ContactUs} />
-          <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
 
           <Stack.Screen name="Noti" component={Noti} />
           <Stack.Screen name="Sucessful" component={Sucessful} />
