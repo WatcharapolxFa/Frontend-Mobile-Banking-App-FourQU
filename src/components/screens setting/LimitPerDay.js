@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {useState, useEffect} from 'react';
-import {
+import { 
   View,
   Text,
 } from 'react-native';
@@ -9,24 +9,29 @@ import MeterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Slider from '@react-native-community/slider';
 
 const axiosUpDatedData = async obj => {
-  axios
-    .post('http://10.0.2.2:5000/UserTemp/updatedata', obj)
-    .then(function (response) {
-      if (response.data.status == 'FAILED') {
-        throw Error('FAILED');
-      } else {
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    axios
+      .patch('https://server-quplus.herokuapp.com/user-payment/limit/day', 
+      {
+        amount : sliderValue
+      },
+      {
+        headers: {Authorization: `Bearer ${route.params.Ftoken}`},
+      })
+      .then(function (response) {
+        console.log('response', response);
+      })
+      .catch(function (error) {
+        console.log('error limit', error);
+      });
 };
 
 
 
+
 const LimitPerDay = ({navigation, route}) => {
-  const [sliderValue, setSliderValue] = useState(route.params.limitperday);
+  const [sliderValue, setSliderValue] = useState(route.params.limitperday? route.params.limitperday:100000);
   const [edit, setEdit] = useState(false);
+  console.log('Ftoken',route.params.Ftoken)
   return (
     <View style={{height: '100%', backgroundColor: '#f3f0ea'}}>
       <View
@@ -51,8 +56,7 @@ const LimitPerDay = ({navigation, route}) => {
             color="#f3f0ea"
             onPress={() => {
               axiosUpDatedData({
-                id: '634ef2258c984f3e0bce4fb6',
-                limitperday: sliderValue,
+                amount: sliderValue,
               });
               console.log('VerifyOTP Success');
               navigation.navigate('Setting');

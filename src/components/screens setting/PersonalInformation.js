@@ -12,20 +12,77 @@ import axios from 'axios';
 import MeterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import {PermissionsAndroid, Platform} from 'react-native';
+import CameraRoll from '@react-native-community/cameraroll';
 
 const PersonalInformation = ({navigation, route}) => {
+  console.log(route.params.Ftoken)
   const [image, setImage] = useState(
-    'https://media.istockphoto.com/photos/portrait-of-handsome-latino-african-man-picture-id1007763808?k=20&m=1007763808&s=612x612&w=0&h=q4qlV-99EK1VHePL1-Xon4gpdpK7kz3631XK4Hgr1ls=',
+    route.params.pictureProfile? route.params.pictureProfile : 'https://img.myloview.com/posters/default-avatar-profile-icon-social-media-user-vector-image-400-242023490.jpg'
   );
-  const takePhotoFromCamera = () => {
+
+  const [dataFormImg, setDataFormImg] = useState({});
+
+
+  const upLoadImgToServer = async () =>{
+    console.log(dataFormImg.uri);
+    console.log(dataFormImg.name);
+    console.log(dataFormImg.type);
+        const data = new FormData();
+        data.append('my_photo', {
+          uri:  dataFormImg.uri,
+          name: dataFormImg.name,
+          type: dataFormImg.type,
+        });
+
+   
+    axios
+      .path ('https://server-quplus.herokuapp.com/api/auth/editPicProfile',
+      { 
+        image:data 
+      }, 
+      { 
+        headers: { Authorization: `Bearer ${route.params.Ftoken}` } 
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  
+
+
+}
+
+
+  const takePhotoFromCamera = async () => {
     ImagePicker.openCamera({
       compressImageMaxWidth: 300,
       compressImageMaxHeight: 300,
       cropping: true,
       compressImageQuality: 0.7,
     }).then(image => {
-      console.log(image);
+      const nameImg = image.path.split('/');
+      console.log(nameImg['11']);
+      setDataFormImg({
+        uri: image.path,
+        name: nameImg['11'],
+        type: image.mime,
+      });
+      // upLoadImgToServer(image.path, nameImg['11'],image.mime);
       setImage(image.path);
+      
+      
+      CameraRoll.save(image.path, 'photo')
+        .then(() => {
+          console.log('can save');
+        })
+        .catch(err => {
+          console.log('can not save');
+          console.log(err);
+        });
+
       this.bs.current.snapTo(1);
     });
   };
@@ -37,14 +94,51 @@ const PersonalInformation = ({navigation, route}) => {
       cropping: true,
       compressImageQuality: 0.7,
     }).then(image => {
-      console.log(image);
+      const nameImg = image.path.split('/');
+        setDataFormImg({
+          uri: image.path,
+          name: nameImg['11'],
+          type: image.mime,
+        });
+      // upLoadImgToServer(image.path, nameImg['11'], image.mime);
       setImage(image.path);
       this.bs.current.snapTo(1);
     });
   };
 
+  
+  const getPermissionAndroid = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Image Download Permission',
+          message: 'Your permission is required to save images to your device',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        return true;
+      }
+      Alert.alert(
+        'Save remote Image',
+        'Grant Me Permission to save Image',
+        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      );
+    } catch (err) {
+      Alert.alert(
+        'Save remote Image',
+        'Failed to save Image: ' + err.message,
+        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      );
+    }
+  };
+
   return (
-    <View style={{height: '100%', backgroundColor: '#f3f0ea'}}>
+    <View style={{height: '100%', backgroundColor: '#f3f0ea', }}>
       <RBSheet
         ref={ref => {
           this.RBSheet = ref;
@@ -98,7 +192,10 @@ const PersonalInformation = ({navigation, route}) => {
             name="arrow-back-ios"
             size={25}
             color="#f3f0ea"
-            onPress={() => navigation.navigate('Setting')}
+            onPress={() =>{ 
+              upLoadImgToServer();
+              navigation.navigate('Setting')
+            }}
             backgroundColor="transparent"
             style={{
               position: 'absolute',
@@ -145,6 +242,7 @@ const PersonalInformation = ({navigation, route}) => {
           borderBottomRightRadius: 20,
           justifyContent: 'center',
           alignItems: 'center',
+          paddingBottom: 20
         }}>
         <Image
           source={{
@@ -175,7 +273,7 @@ const PersonalInformation = ({navigation, route}) => {
             fontWeight: 'bold',
             fontSize: 16,
           }}>
-          Watcharapol
+          {route.params.firstName} {route.params.middleName} {route.params.lastName}
         </Text>
         <Text
           style={{
@@ -185,6 +283,15 @@ const PersonalInformation = ({navigation, route}) => {
             fontSize: 12,
           }}>
           Mobile No: {route.params.phone}
+        </Text>
+        <Text
+          style={{
+            color: '#ffffff',
+            marginTop: 10,
+            fontWeight: '500',
+            fontSize: 12,
+          }}>
+          Email : {route.params.email}
         </Text>
       </View>
     </View>

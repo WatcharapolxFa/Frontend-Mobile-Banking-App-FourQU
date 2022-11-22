@@ -56,22 +56,32 @@ const ScanQrCode = () => {
     //     })),
     //   );
     // });
-
+    
 
 
   //creat get api
   const fetchQr = () => {
     const baseUrl = 'https://server-quplus.herokuapp.com';
-    axios({
-      method: "get",
-      url: "`${baseUrl}/user-payment/",
+    const acctoken = 'ABCDEF';
+    const reftoken = '';
+    axios.post(`${baseUrl}/api/auth/signin`, {}, {
       headers: {
-        Authorization: `Bearer ${process.env.TOKEN}`,
-      },
+        Authorization: `Bearer ${reftoken}`
+  }
+    })
 
-    }).then(function (response) {
-      console.log(response.data);
+    axios.post(`${baseUrl}/user-payment/`, {}, {
+      headers: {
+        Authorization: `Bearer ${acctoken}`
+  }
+    })
+    .then(res => {
+      console.log('then', err.response.data);
+    })
+    .catch(err => {
+      console.log('catch', err.response.data);
     });
+
   };
 
 

@@ -152,25 +152,36 @@ const ReqState = () => {
     });
     //selectedMonth
     console.log(selectedMonth);
+    setModalSubmit(true);
 
     // axios
     //   .post(
-    //     'https://server-quplus.herokuapp.com/userStatement',
-    //     {
-    //       destEmail: useremail,
-    //       Date: selectedMonth,
-    //     },
+    //     'https://server-quplus.herokuapp.com/api/auth/signin',
+    //     {},
     //     {
     //       headers: {
-    //         Authorization: 'Bearer <access token>',
+    //         Authorization: `Bearer ${token}`,
     //       },
     //     },
     //   )
-    //   .then(() => {
-    //     setModalSubmit(true);
+    //   .then(response => {
+    //     axios
+    //       .post(
+    //         'https://server-quplus.herokuapp.com/userStatement',
+    //         {
+    //           destEmail: userEmail,
+    //           Date: selectedMonth,
+    //         },
+    //         {
+    //           headers: {
+    //             Authorization: `Bearer ${response.data.token}`,
+    //           },
+    //         },
+    //       )
+    //       .then(()=>{
+    //         setModalSubmit(true);
+    //       });
     //   });
-
-    setModalSubmit(true);
   };
 
   return (
