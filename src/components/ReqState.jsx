@@ -6,6 +6,11 @@ import {
   ScrollView,
   Pressable,
 } from 'react-native';
+import {
+  CheckIcon,
+  ExclamationCircleIcon,
+  CheckCircleIcon,
+} from 'react-native-heroicons/outline';
 import CheckBox from '@react-native-community/checkbox';
 import Modal from 'react-native-modal';
 import axios from 'axios';
@@ -81,6 +86,7 @@ const ReqState = () => {
 
   const [monthNow, setMonthNow] = React.useState([]);
   const [monthPass, setMonthPass] = React.useState([]);
+  const [disableSubmit, setdisableSubmit] = React.useState(true);
 
   React.useEffect(() => {
     setMonthNow(showMonthNow(create, now));
@@ -103,7 +109,10 @@ const ReqState = () => {
     return num;
   };
 
+  //Select Month
   const handleChange = (label, newvalue, month, name) => {
+    setdisableSubmit(false);
+    if (numberRequest() == 1 && newvalue == false) setdisableSubmit(true);
     if (numberRequest() < 6 || newvalue == false) {
       let temp = month.map(month => {
         if (label === month.label) {
@@ -116,10 +125,13 @@ const ReqState = () => {
       } else if (name == 'monthNow') {
         setMonthNow(temp);
       }
+    } else {
+      setModalMax(true);
     }
   };
 
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalMax, setModalMax] = React.useState(false);
+  const [modalSubmit, setModalSubmit] = React.useState(false);
 
   const submitRequest = () => {
     let selectedMonth = '';
@@ -140,7 +152,25 @@ const ReqState = () => {
     });
     //selectedMonth
     console.log(selectedMonth);
-    setModalVisible(true);
+    
+    // axios
+    //   .post(
+    //     'https://server-quplus.herokuapp.com/userStatement',
+    //     {
+    //       destEmail: useremail,
+    //       Date: selectedMonth,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: 'Bearer <access token>',
+    //       },
+    //     },
+    //   )
+    //   .then(() => {
+    //     setModalSubmit(true);
+    //   });
+
+    setModalSubmit(true);
   };
 
   return (
@@ -150,23 +180,61 @@ const ReqState = () => {
       <View className="mb-2">
         <Text className="font-notobold text-black">Select Month(s)</Text>
       </View>
-      <Modal
-        animationType="slide"
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(!modalVisible)}>
-        <View className="flex justify-center items-center bg-white border h-40">
-          <Text>Sent Already</Text>
-          <Pressable
-            onPress={() => {
-              setModalVisible(!modalVisible);
-              setMonthNow(showMonthNow(create, now));
-              setMonthPass(showMonthPass(create, now));
-            }}>
-            <Text>OK</Text>
-          </Pressable>
+
+      {/* Modal Max 6 Month */}
+      <Modal isVisible={modalMax} backdropOpacity={0.7}>
+        <View className="flex bg-white rounded-md h-52 px-4">
+          <View className="items-center justify-between py-4  h-[70%]">
+            <ExclamationCircleIcon color="black" size={50} />
+            <Text className="text-black text-base">Sorry</Text>
+            <Text className="text-base">You can choose max 6 months</Text>
+          </View>
+          <View className="border-b border-black w-full" />
+          <View className="flex-row items-center justify-end  h-[30%]">
+            <View>
+              <Text className="text-black text-lg">OK</Text>
+            </View>
+            <Pressable
+              onPress={() => {
+                setModalMax(!modalMax);
+              }}
+              className={'rounded-full bg-green-oon ml-2 p-1 '}>
+              <CheckIcon color="white" size={35} />
+            </Pressable>
+          </View>
         </View>
       </Modal>
-      <ScrollView className="">
+      {/* Modal Max 6 Month */}
+
+      {/* Modal Submit */}
+      <Modal isVisible={modalSubmit} backdropOpacity={0.7}>
+        <View className="flex bg-white rounded-md h-52 px-4">
+          <View className="items-center justify-between py-4  h-[70%]">
+            <CheckCircleIcon color="black" size={50} />
+            <Text className="text-black text-base">Success</Text>
+            <Text>Statements sent to kueakun0112@gmail.com</Text>
+          </View>
+          <View className="border-b border-black w-full" />
+          <View className="flex-row items-center justify-end  h-[30%]">
+            <View>
+              <Text className="text-black text-lg">OK</Text>
+            </View>
+            <Pressable
+              onPress={() => {
+                setModalSubmit(!modalSubmit);
+                setMonthNow(showMonthNow(create, now));
+                setMonthPass(showMonthPass(create, now));
+                setdisableSubmit(true);
+              }}
+              className={'rounded-full bg-green-oon ml-2 p-1 '}>
+              <CheckIcon color="white" size={35} />
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      {/* Modal Submit */}
+
+      <ScrollView>
         {/* Year Pass */}
         {(() => {
           if (monthPass.length > 0) {
@@ -226,7 +294,13 @@ const ReqState = () => {
       <View className="justify-center">
         <TouchableOpacity
           onPressOut={submitRequest}
-          className="bg-green-kem rounded-lg items-center py-4 shadow shadow-black">
+          disabled={disableSubmit}
+          className={
+            (disableSubmit
+              ? 'bg-gray-400'
+              : 'bg-green-kem shadow shadow-black') +
+            ' rounded-lg items-center py-4 '
+          }>
           <Text className="font-notoMedium text-xl text-white">
             Submit Request
           </Text>
@@ -236,5 +310,4 @@ const ReqState = () => {
     </View>
   );
 };
-
 export default ReqState;
