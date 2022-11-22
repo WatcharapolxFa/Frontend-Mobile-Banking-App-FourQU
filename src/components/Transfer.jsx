@@ -20,38 +20,84 @@ import axios from 'axios';
 import logo from '../assets/icon/logo.png';
 
 const Transfer = ({navigation}) => {
-  const onPressNext = (account, amount) => {
-    console.log({account, amount});
-    if (account && amount) {
-      navigation.navigate('Review', {account, amount});
+  const [nameOther, setNameOther] = React.useState('Destina TION');
+  const balance = 5000.888;
+  const name = 'TestTest TestTest';
+  const accountNO = '0093714533';
+
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQxMmFlZmJiLTNmMjktNDBhYS1hNDQ2LWI3M2M1Nzg1MjQyZCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE1OjM4OjE4LjMxMloiLCJpYXQiOjE2NjkxMzE0OTgsImV4cCI6MTY2OTczNjI5OH0.awogT3JVanCipWMxjaqZxTq5UGlvN2qs1ZuXMkzAD5U';
+
+  const onPressNext = async (accountOther, amountS) => {
+    // const accountOther = Number(accountOtherS)
+    const amount = Number(amountS);
+    console.log({accountOther, amount});
+    if (accountOther && amount) {
+      // await axios
+      //   .post(
+      //     'https://server-quplus.herokuapp.com/api/auth/signin',
+      //     {},
+      //     {
+      //       headers: {
+      //         Authorization: `Bearer ${token}`,
+      //       },
+      //     },
+      //   )
+      //   .then(response => {
+      //     axios.post('https://server-quplus.herokuapp.com/api/auth/information',
+      //     {
+      //       accountNumber: accountOther,
+      //     },
+      //     {
+      //       headers: {
+      //         Authorization: `Bearer ${response.data.token}`,
+      //       },
+      //     }).then((res)=>{
+      //       if(res.status == 200){
+      //         setNameOther(res.data.firstName+' '+res.data.lastName)
+      //         navigation.navigate('Review', {
+      //           name,
+      //           accountNO,
+      //           nameOther,
+      //           accountOther,
+      //           amount,
+      //         });
+      //       }
+      //       else{
+
+      //       }
+
+      //     })
+      //   });
+
+      navigation.navigate('Review', {
+        name,
+        accountNO,
+        nameOther,
+        accountOther,
+        amount,
+      });
     }
   };
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2Yjg3NzQyLTBhNGQtNGM5OS1hOTRmLTJjYjBhYmU1ZjkxNiIsImZpcnN0TmFtZSI6IlBQUCIsIm1pZGRsZU5hbWUiOiJkYXMiLCJsYXN0TmFtZSI6IlRUVCIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDEwOjE3OjQ4LjIwNloiLCJpYXQiOjE2NjkxMTIyNjgsImV4cCI6MTY2OTcxNzA2OH0.lOOGf0N0QYLMuh6v4blvBIcrxlcPJGaiOZ8tFI6zbJY';
-  React.useEffect(() => {
-    axios
-      .post(
-        'https://server-quplus.herokuapp.com/api/auth/signin',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
-      .then(res => {
-        console.log(res.data);
-      });
-  }, []);
 
-  const balance = 5000.888;
+  const hashAccountNo = accountNo => {
+    result = '';
+    for (let i = 0; i < accountNo.length; i++) {
+      if (i >= accountNo.length - 5 && i < accountNo.length - 1)
+        result += accountNo.charAt(i);
+      else result += 'x';
+      if (i === 2 || i === 3 || i === accountNo.length - 2) result += '-';
+    }
+    return result;
+  };
+
   return (
     <Formik
       initialValues={{
-        account: '',
-        amount: '',
+        account: 0,
+        amount: 0,
       }}
-      onSubmit={values => Alert.alert(JSON.stringify(values))}
+      // onSubmit={values => Alert.alert(JSON.stringify(values))}
       validationSchema={yup.object().shape({
         account: yup.number().positive().integer().required(),
         amount: yup
@@ -108,12 +154,12 @@ const Transfer = ({navigation}) => {
                 <View className=" ml-4 justify-between ">
                   <View className="">
                     <Text className=" font-notobold text-white text-lg">
-                      OShop
+                      {name}
                     </Text>
                   </View>
                   <View className="mb-2">
                     <Text className="font-noto text-yellowonn text-xs">
-                      xxx-x-x1924-x
+                      {hashAccountNo(accountNO)}
                     </Text>
                     <Text className="font-noto text-white text-xs">
                       {balance.toFixed(2)} Baht
@@ -124,7 +170,7 @@ const Transfer = ({navigation}) => {
               {/* Bank logo + Name */}
 
               {/* update */}
-              <View className="flex-row justify-end mx-6 items-center mb-2">
+              <View className="flex-row justify-end mx-6 items-center mb-2 bg-red-500">
                 <ArrowPathIcon color="white" size={13} />
                 <Text className="ml-1 font-noto text-xs text-white">
                   Updated at 10 .30 PM

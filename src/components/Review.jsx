@@ -1,23 +1,93 @@
-import {
-  View,
-  Text,
-  Pressable,
-  Image,
-  ScrollView
-} from 'react-native';
+import {View, Text, Pressable, Image, ScrollView} from 'react-native';
 import {ChevronLeftIcon, ArrowPathIcon} from 'react-native-heroicons/outline';
 import React, {useEffect} from 'react';
 import logo from '../assets/icon/logo.png';
 import Arrow from '../assets/icon/Arrow.png';
-import confirm from '../assets/icon/confirm-icon.png';
-import cancel from '../assets/icon/cancel-icon.png';
 import {XMarkIcon, CheckIcon} from 'react-native-heroicons/outline';
 import {TextInput} from '@react-native-material/core';
 
-const Review = ({navigation,route}) => {
-  useEffect(()=>{
-    console.log(route.params);
-  },[])
+const Review = ({navigation, route}) => {
+  const [memo, SetMemo] = React.useState('');
+
+  const timestamp = 'Mon, 21 Nov 2022 07:29:36 GMT';
+  const nameOther = route.params.nameOther;
+  const otherAccountNumber = route.params.accountOther;
+  const amount = route.params.amount;
+
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQxMmFlZmJiLTNmMjktNDBhYS1hNDQ2LWI3M2M1Nzg1MjQyZCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE1OjM4OjE4LjMxMloiLCJpYXQiOjE2NjkxMzE0OTgsImV4cCI6MTY2OTczNjI5OH0.awogT3JVanCipWMxjaqZxTq5UGlvN2qs1ZuXMkzAD5U';
+
+  useEffect(() => {
+    console.log(memo);
+  }, [memo]);
+
+  const hashAccountNo = accountNo => {
+    result = '';
+    for (let i = 0; i < accountNo.length; i++) {
+      if (i >= accountNo.length - 5 && i < accountNo.length - 1)
+        result += accountNo.charAt(i);
+      else result += 'x';
+      if (i === 2 || i === 3 || i === accountNo.length - 2) result += '-';
+    }
+    return result;
+  };
+
+  const confirmTransfer = async () => {
+    // await axios
+    //   .post(
+    //     'https://server-quplus.herokuapp.com/api/auth/signin',
+    //     {},
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     },
+    //   )
+    //   .then(response => {
+    //     axios
+    //       .post(
+    //         '/shop-payment/transfer/same/',
+    //         {
+    //           otherAccountNumber: route.params.accountOther,
+    //           nameOther: route.params.nameOther,
+    //           bankNameOther: 'FourQU',
+    //           amount: route.params.amount,
+    //           fee: 0,
+    //           type: 'transfer',
+    //         },
+    //         {
+    //           headers: {
+    //             Authorization: `Bearer ${response.data.token}`,
+    //           },
+    //         },
+    //       )
+    //       .then(res => {
+    //         if (res.data.statusCode == 200) {
+    //           const timestamp = res.data.timestamp;
+    //           const nameOther = route.params.nameOther;
+    //           const otherAccountNumber = route.params.accountOther;
+    //           const amount = route.params.amount;
+    //           navigation.navigate('Sucessful', {
+    //             timestamp,
+    //             nameOther,
+    //             otherAccountNumber,
+    //             amount,
+    //             memo,
+    //           });
+    //         } else {
+    //         }
+    //       });
+    //   });
+
+    navigation.navigate('Sucessful', {
+      timestamp,
+      nameOther,
+      otherAccountNumber,
+      amount,
+      memo,
+    });
+  };
+
   return (
     <ScrollView className=" min-h-full h-max bg-base">
       <View className=" h-[72%]">
@@ -46,13 +116,13 @@ const Review = ({navigation,route}) => {
             </View>
             <View className=" ml-2 justify-center">
               <Text className="font-notobold text-white text-xl">
-                Source Name
+                {route.params.name}
               </Text>
               <Text className="mt-3 font-noto text-yellowonn text-sm">
                 FourQU
               </Text>
               <Text className="font-noto text-yellowonn text-xs">
-                xxx-x-x1924-x
+                {hashAccountNo(route.params.accountNO)}
               </Text>
             </View>
           </View>
@@ -71,13 +141,13 @@ const Review = ({navigation,route}) => {
             </View>
             <View className=" ml-2 justify-center">
               <Text className="font-notobold text-white text-xl">
-                Receiver Name
+                {route.params.nameOther}
               </Text>
               <Text className="mt-3 font-noto text-yellowonn text-sm">
                 FourQU
               </Text>
               <Text className="font-noto text-yellowonn text-xs">
-                {route.params.account}
+                {hashAccountNo(route.params.accountOther)}
               </Text>
             </View>
           </View>
@@ -106,7 +176,7 @@ const Review = ({navigation,route}) => {
               <View className="flex-1">
                 <View>
                   <Text className="mt-3 mr-6 font-notobold text-white text-xl text-right">
-                    {route.params.amount} Bath
+                    {route.params.amount.toFixed(2)} Bath
                   </Text>
                   <Text className="mt-3 mr-6 font-notobold text-white text-xl text-right">
                     0.00 Baht
@@ -123,7 +193,11 @@ const Review = ({navigation,route}) => {
         <Text className="text-base text-black font-noto">Memo : </Text>
       </View>
       <View>
-        <TextInput maxLength={40} />
+        <TextInput
+          defaultValue={memo}
+          onChangeText={newText => SetMemo(newText)}
+          maxLength={40}
+        />
       </View>
       <Text></Text>
       {/* confirm and cancel */}
@@ -145,7 +219,7 @@ const Review = ({navigation,route}) => {
             <Text className="font-noto text-black">Confirm</Text>
           </View>
           <View className="rounded-full bg-green-oon ml-2">
-            <Pressable onPress={() => navigation.navigate('Sucessful')}>
+            <Pressable onPress={() => confirmTransfer()}>
               <CheckIcon color="white" size={50} />
             </Pressable>
           </View>
