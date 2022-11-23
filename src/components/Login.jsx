@@ -19,24 +19,30 @@ const Login = ({navigation}) => {
 
   const HandleSignin = (values) => {
     console.log(values)
-    navigation.navigate('VerifyOTP')
+    
 
-    // axios.post('https://test/post', {
-    //   phone: values.phone,
-    //   email: values.email,
-    // }).then( res => {
-    //   res ? navigation.navigate('NewPin') : Alert.alert("Sign In Fail")
-    // })
+    axios.post('https://server-quplus.herokuapp.com/api/auth/signinEmail', {
+      email: values.email,
+      SSN: values.SSN,
+    }).then( res => {
+      if(res.status == 201){
+        navigation.navigate('NewPin')
+      }
+      else{
+        Alert.alert("Sign In Fail")
+      }
+      // navigation.navigate('NewPin') :
+    })
   }
   return (
     <Formik
       initialValues={{
-        phone: '',
+        SSN: '',
         email: '',
       }}
       onSubmit={values => HandleSignin(values)}
       validationSchema={yup.object().shape({
-        phone: yup.number().integer().required(),
+        SSN: yup.string().required(),
         email: yup.string().email().required(),
       })}>
       {({
@@ -71,17 +77,17 @@ const Login = ({navigation}) => {
 
             <View className=" h-1/2 justify-center">
               <View className="mx-7 justify-center">
-                <Text className="font-notobold text-white mb-2">Phone</Text>
+                <Text className="font-notobold text-white mb-2">SSN</Text>
                 <TextInput
-                  keyboardType="number-pad"
-                  onChangeText={handleChange('phone')}
-                  onBlur={() => setFieldTouched('phone')}
-                  value={values.phone}
+                  
+                  onChangeText={handleChange('SSN')}
+                  onBlur={() => setFieldTouched('SSN')}
+                  value={values.SSN}
                   className=" bg-white rounded h-8 px-1 py-0 font-noto"
                 />
-                {touched.phone && errors.phone && (
+                {touched.SSN && errors.SSN && (
                   <Text style={{fontSize: 12, color: '#FF0D10'}}>
-                    {errors.phone}
+                    {errors.SSN}
                   </Text>
                 )}
 
