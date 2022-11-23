@@ -7,7 +7,6 @@ import logo from '../assets/icon/logo.png';
 
 import Activity from './Activity';
 import ReqState from './ReqState';
-import {err} from 'react-native-svg/lib/typescript/xml';
 
 const Tab = createNativeStackNavigator();
 
