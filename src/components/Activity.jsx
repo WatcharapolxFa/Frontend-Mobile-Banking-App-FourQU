@@ -5,6 +5,7 @@ import axios from 'axios';
 import {Picker} from '@react-native-picker/picker';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { err } from 'react-native-svg/lib/typescript/xml';
 const Activity = () => {
   const navigation = useNavigation();
 
@@ -140,12 +141,15 @@ const Activity = () => {
 
   React.useEffect(() => {
     setmonthList(MonthShow(create, now));
-    console.log(selectedMonth)
+    console.log(selectedMonth);
     fetchTransaction();
   }, [selectedMonth]);
 
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo';
+
   // fetchTransaction from backend
-  const fetchTransaction = () => {
+  const fetchTransaction = async() => {
     // axios
     //   .post(
     //     'https://server-quplus.herokuapp.com/api/auth/signin',
@@ -157,6 +161,7 @@ const Activity = () => {
     //     },
     //   )
     //   .then(response => {
+    //     console.log(response.data.AcessToken)
     //     axios
     //       .post(
     //         'https://server-quplus.herokuapp.com/payment-transaction/month',
@@ -165,27 +170,33 @@ const Activity = () => {
     //         },
     //         {
     //           headers: {
-    //             Authorization: `Bearer ${response.data.token}`,
+    //             Authorization: `Bearer ${response.data.AcessToken}`,
     //           },
     //         },
     //       )
-    //       .then(res => {
-    //         console.log(res.data);
-    //         setTransaction(res.data.map(tran => ({
-    //           otherAccountNumber: tran.otherAccountNumber,
-    //           nameOther: tran.nameOther,
-    //           bankNameOther: tran.bankNameOther,
-    //           amount: tran.amount,
-    //           type: tran.type,
-    //           date: tran.date,
-    //           created_at: tran.created_at,
-    //           press: false,
-    //         })))
-    //       });
+          // .then(res => {
+          //   console.log(res);
+          //   setTransaction(res.data.map(tran => ({
+          //     otherAccountNumber: tran.otherAccountNumber,
+          //     nameOther: tran.nameOther,
+          //     bankNameOther: tran.bankNameOther,
+          //     amount: tran.amount,
+          //     type: tran.type,
+          //     date: tran.date,
+          //     created_at: tran.created_at,
+          //     press: false,
+          //   })))
+          // });
+    //   }).catch(err => {
+    //     console.log(err)
     //   });
 
-    setTransaction(
-      data.map(tran => ({
+    await axios.post('https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/payment-transaction/month',{
+      userAccountNumber:"0093714533",
+      date:selectedMonth,
+    }).then(res => {
+      console.log(res.data);
+      setTransaction(res.data.map(tran => ({
         otherAccountNumber: tran.otherAccountNumber,
         nameOther: tran.nameOther,
         bankNameOther: tran.bankNameOther,
@@ -194,8 +205,21 @@ const Activity = () => {
         date: tran.date,
         created_at: tran.created_at,
         press: false,
-      })),
-    );
+      })))
+    });
+
+    // setTransaction(
+    //   data.map(tran => ({
+    //     otherAccountNumber: tran.otherAccountNumber,
+    //     nameOther: tran.nameOther,
+    //     bankNameOther: tran.bankNameOther,
+    //     amount: tran.amount,
+    //     type: tran.type,
+    //     date: tran.date,
+    //     created_at: tran.created_at,
+    //     press: false,
+    //   })),
+    // );
   };
   return (
     <View className="flex-1 bg-base">
@@ -245,12 +269,13 @@ const Activity = () => {
             <View key={index}>
               {/* Date */}
               {(() => {
-                if (tran.date != initdate) {
-                  initdate = tran.date;
+                if (tran.created_at.slice(8,10) != initdate) {
+                  console.log(tran.created_at.slice(8,10))
+                  initdate = tran.created_at.slice(8,10);
                   return (
                     <View className="px-5 pb-2 pt-1">
                       <Text className="font-notobold text-black text-base">
-                        {formatDate(tran.date)}
+                        {formatDate(tran.created_at)}
                       </Text>
                     </View>
                   );

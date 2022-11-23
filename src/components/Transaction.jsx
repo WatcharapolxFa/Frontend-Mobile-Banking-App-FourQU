@@ -7,15 +7,18 @@ import logo from '../assets/icon/logo.png';
 
 import Activity from './Activity';
 import ReqState from './ReqState';
+import {err} from 'react-native-svg/lib/typescript/xml';
 
 const Tab = createNativeStackNavigator();
 
 const Transaction = ({navigation}) => {
   const [active, setActive] = React.useState(true);
-  // const token =
-  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2Yjg3NzQyLTBhNGQtNGM5OS1hOTRmLTJjYjBhYmU1ZjkxNiIsImZpcnN0TmFtZSI6IlBQUCIsIm1pZGRsZU5hbWUiOiJkYXMiLCJsYXN0TmFtZSI6IlRUVCIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDEwOjE3OjQ4LjIwNloiLCJpYXQiOjE2NjkxMTIyNjgsImV4cCI6MTY2OTcxNzA2OH0.lOOGf0N0QYLMuh6v4blvBIcrxlcPJGaiOZ8tFI6zbJY';
-  // React.useEffect(() => {
-  //   axios
+  const [name, setName] = React.useState('test1 Test1');
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo';
+
+  // const fetchData = async() => {
+  //   await axios
   //     .post(
   //       'https://server-quplus.herokuapp.com/api/auth/signin',
   //       {},
@@ -25,14 +28,41 @@ const Transaction = ({navigation}) => {
   //         },
   //       },
   //     )
-  //     .then(res => {
-  //       console.log(res.data.token);
-  //       axios.post('https://server-quplus.herokuapp.com/payment-transaction/month',
-  //       {
-          
-  //       })
+  //     .then(response => {
+  //       console.log(response.data.AcessToken);
+  //       axios
+  //         .get(
+  //           'https://server-quplus.herokuapp.com/api/auth/information',
+  //           {},
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${response.data.AcessToken}`,
+  //             },
+  //           },
+  //         )
+  //         .then(res => {
+  //           console.log(res.data);
+  //           setName(res.data.data.firstName);
+  //         })
+  //         .catch(err => {
+  //           console.log(err);
+  //         });
   //     });
+  // };
+  // React.useEffect(() => {
+  //   fetchData()
   // }, []);
+
+  const hashAccountNo = accountNo => {
+    result = '';
+    for (let i = 0; i < accountNo.length; i++) {
+      if (i >= accountNo.length - 5 && i < accountNo.length - 1)
+        result += accountNo.charAt(i);
+      else result += 'x';
+      if (i === 2 || i === 3 || i === accountNo.length - 2) result += '-';
+    }
+    return result;
+  };
 
   return (
     <View className=" min-h-full h-max bg-base">
@@ -66,7 +96,7 @@ const Transaction = ({navigation}) => {
             </View>
             <View className=" ml-2 justify-center">
               <Text className=" font-notobold text-yellowonn text-lg ">
-                Watcharapol Yotadee{' '}
+                {name}
               </Text>
               <Text className="font-noto text-xs text-white ">
                 xxx-x-x1924-x

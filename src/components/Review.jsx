@@ -5,6 +5,7 @@ import logo from '../assets/icon/logo.png';
 import Arrow from '../assets/icon/Arrow.png';
 import {XMarkIcon, CheckIcon} from 'react-native-heroicons/outline';
 import {TextInput} from '@react-native-material/core';
+import axios from 'axios';
 
 const Review = ({navigation, route}) => {
   const [memo, SetMemo] = React.useState('');
@@ -15,7 +16,7 @@ const Review = ({navigation, route}) => {
   const amount = route.params.amount;
 
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQxMmFlZmJiLTNmMjktNDBhYS1hNDQ2LWI3M2M1Nzg1MjQyZCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE1OjM4OjE4LjMxMloiLCJpYXQiOjE2NjkxMzE0OTgsImV4cCI6MTY2OTczNjI5OH0.awogT3JVanCipWMxjaqZxTq5UGlvN2qs1ZuXMkzAD5U';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo';
 
   useEffect(() => {
     console.log(memo);
@@ -33,59 +34,64 @@ const Review = ({navigation, route}) => {
   };
 
   const confirmTransfer = async () => {
-    // await axios
-    //   .post(
-    //     'https://server-quplus.herokuapp.com/api/auth/signin',
-    //     {},
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     },
-    //   )
-    //   .then(response => {
-    //     axios
-    //       .post(
-    //         '/shop-payment/transfer/same/',
-    //         {
-    //           otherAccountNumber: route.params.accountOther,
-    //           nameOther: route.params.nameOther,
-    //           bankNameOther: 'FourQU',
-    //           amount: route.params.amount,
-    //           fee: 0,
-    //           type: 'transfer',
-    //         },
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${response.data.token}`,
-    //           },
-    //         },
-    //       )
-    //       .then(res => {
-    //         if (res.data.statusCode == 200) {
-    //           const timestamp = res.data.timestamp;
-    //           const nameOther = route.params.nameOther;
-    //           const otherAccountNumber = route.params.accountOther;
-    //           const amount = route.params.amount;
-    //           navigation.navigate('Sucessful', {
-    //             timestamp,
-    //             nameOther,
-    //             otherAccountNumber,
-    //             amount,
-    //             memo,
-    //           });
-    //         } else {
-    //         }
-    //       });
-    //   });
+    await axios
+      .post(
+        'https://server-quplus.herokuapp.com/api/auth/signin',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(response => {
+        console.log(response.data.AcessToken)
+        console.log(route.params.accountOther, route.params.nameOther, 'FourQU', route.params.amount, 0, 'transfer')
+        axios
+          .post(
+            'https://server-quplus.herokuapp.com/api/user-payment/',
+            {
+              otherAccountNumber: route.params.accountOther,
+              nameOther: route.params.nameOther,
+              bankNameOther: 'FourQU',
+              destPhone: route.params.destPhone,
+              amount: route.params.amount,
+              fee: 0,
+              destEmail:route.params.destEmail,
+              ref: 'refref',
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${response.data.AcessToken}`,
+              },
+            },
+          )
+          .then(res => {
+            if (res.data.statusCode == 200) {
+              const timestamp = res.data.timestamp;
+              const nameOther = route.params.nameOther;
+              const otherAccountNumber = route.params.accountOther;
+              const amount = route.params.amount;
+              navigation.navigate('Sucessful', {
+                timestamp,
+                nameOther,
+                otherAccountNumber,
+                amount,
+                memo,
+              });
+            } else {
+              console.log(res.data.statusCode)
+            }
+          });
+      });
 
-    navigation.navigate('Sucessful', {
-      timestamp,
-      nameOther,
-      otherAccountNumber,
-      amount,
-      memo,
-    });
+    // navigation.navigate('Sucessful', {
+    //   timestamp,
+    //   nameOther,
+    //   otherAccountNumber,
+    //   amount,
+    //   memo,
+    // });
   };
 
   return (

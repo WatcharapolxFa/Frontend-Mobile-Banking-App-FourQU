@@ -19,8 +19,16 @@ import * as yup from 'yup';
 import axios from 'axios';
 import logo from '../assets/icon/logo.png';
 
-const Transfer = ({navigation}) => {
-  const [nameOther, setNameOther] = React.useState('Destina TION');
+const Transfer = ({navigation, route}) => {
+  const [edit, setEdit] = React.useState(true)
+
+  React.useEffect(()=>{
+    console.log((route?.params?.data ?? 'not pass'))
+    setEdit((route?.params?.data == undefined ? true : false))
+    console.log(edit)
+  }, [])
+
+  // let nameOther =""
   const balance = 5000.888;
   const name = 'TestTest TestTest';
   const accountNO = '0093714533';
@@ -33,50 +41,56 @@ const Transfer = ({navigation}) => {
     const amount = Number(amountS);
     console.log({accountOther, amount});
     if (accountOther && amount) {
-      // await axios
-      //   .post(
-      //     'https://server-quplus.herokuapp.com/api/auth/signin',
-      //     {},
-      //     {
-      //       headers: {
-      //         Authorization: `Bearer ${token}`,
-      //       },
-      //     },
-      //   )
-      //   .then(response => {
-      //     axios.post('https://server-quplus.herokuapp.com/api/auth/information',
-      //     {
-      //       accountNumber: accountOther,
-      //     },
-      //     {
-      //       headers: {
-      //         Authorization: `Bearer ${response.data.token}`,
-      //       },
-      //     }).then((res)=>{
-      //       if(res.status == 200){
-      //         setNameOther(res.data.firstName+' '+res.data.lastName)
-      //         navigation.navigate('Review', {
-      //           name,
-      //           accountNO,
-      //           nameOther,
-      //           accountOther,
-      //           amount,
-      //         });
-      //       }
-      //       else{
 
-      //       }
+      await axios
+        .post(
+          'https://server-quplus.herokuapp.com/api/auth/signin',
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        )
+        .then(response => {
+          axios.get('https://server-quplus.herokuapp.com/api/auth/informationByAccountNumber',
+          {
+            accountNumber: accountOther,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${response.data.AcessToken}`,
+            },
+          }).then(async(res)=>{
+            if(res.status == 200){
+              console.log(res.data)
+              console.log(res.data.data.firstName, res.data.data.lastName)
+              let nameOther = res.data.data.firstName+' '+res.data.data.lastName
+              let destPhone = res.data.data.phone
+              let destEmail = res.data.data.email
+              console.log(nameOther)
+              navigation.navigate('Review', {
+                name,
+                accountNO,
+                nameOther,
+                destPhone,
+                destEmail,
+                accountOther,
+                amount,
+              });
+            }
+            else{
+            }
+          })
+        });
 
-      //     })
-      //   });
-
-      navigation.navigate('Review', {
-        name,
-        accountNO,
-        nameOther,
-        accountOther,
-        amount,
-      });
+    //   navigation.navigate('Review', {
+    //     name,
+    //     accountNO,
+    //     nameOther,
+    //     accountOther,
+    //     amount,
+    //   });
     }
   };
 
@@ -94,8 +108,8 @@ const Transfer = ({navigation}) => {
   return (
     <Formik
       initialValues={{
-        account: 0,
-        amount: 0,
+        account: (route?.params?.accountNumber ?? ''),
+        amount: (route?.params?.amount ?? ''),
       }}
       // onSubmit={values => Alert.alert(JSON.stringify(values))}
       validationSchema={yup.object().shape({
@@ -170,7 +184,7 @@ const Transfer = ({navigation}) => {
               {/* Bank logo + Name */}
 
               {/* update */}
-              <View className="flex-row justify-end mx-6 items-center mb-2 bg-red-500">
+              <View className="flex-row justify-end mx-6 items-center mb-2 ">
                 <ArrowPathIcon color="white" size={13} />
                 <Text className="ml-1 font-noto text-xs text-white">
                   Updated at 10 .30 PM
@@ -214,6 +228,8 @@ const Transfer = ({navigation}) => {
                   onChangeText={handleChange('account')}
                   onBlur={() => setFieldTouched('account')}
                   value={values.account}
+                  editable={edit}
+                  selectTextOnFocus={edit}
                   className={
                     touched.account && errors.account
                       ? 'border-b-[0.75px] p-0 border-red-ja'
@@ -258,6 +274,8 @@ const Transfer = ({navigation}) => {
                   onChangeText={handleChange('amount')}
                   onBlur={() => setFieldTouched('amount')}
                   value={values.amount}
+                  editable={edit}
+                  selectTextOnFocus={edit}
                   className={
                     touched.amount && errors.amount
                       ? 'border-b-[0.75px] p-0 border-red-ja'
@@ -310,7 +328,7 @@ const Transfer = ({navigation}) => {
                   onPressOut={() => onPressNext(values.account, values.amount)}
                   disabled={!isValid}
                   className={
-                    touched.account && touched.amount && isValid
+                    (touched.account && touched.amount && isValid) || !edit
                       ? 'rounded-full bg-green-oon ml-2'
                       : 'rounded-full bg-gray-400 ml-2'
                   }>

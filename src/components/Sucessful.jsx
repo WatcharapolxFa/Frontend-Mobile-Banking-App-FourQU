@@ -95,7 +95,7 @@ const Sucessful = ({navigation, route}) => {
         />
         {/* <Image source={bill} className="rounded-xl w-[350] h-[350]"/> */}
       </ViewShot>
-      <View className="mt-4 ml-6 bg-red-500">
+      <View className="mt-4 ml-6 ">
         <Text className="font-noto text-white text-sm">
           Available Balance: 1234.00 Baht
         </Text>

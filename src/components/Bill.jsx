@@ -46,7 +46,7 @@ const Bill = props => {
                   Transfer Completed
                 </Text>
                 <Text className="text-sm text-black font-noto">
-                  {new Date(props.timestamp).toLocaleString()}
+                  {props.timestamp}
                 </Text>
               </View>
             </View>
@@ -96,7 +96,7 @@ const Bill = props => {
               <Text className="font-notobold text-xs text-black">
                 Transaction ID:
               </Text>
-              <View className="flex flex-row justify-end border-b-[1px] w-64 bg-red-500">
+              <View className="flex flex-row justify-end border-b-[1px] w-64">
                 <Text className="font-noto text-xs text-black">
                   c1a71808-62ca-4c1b-8756-5942c11a84d0
                 </Text>

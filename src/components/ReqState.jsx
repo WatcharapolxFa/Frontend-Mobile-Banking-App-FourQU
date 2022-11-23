@@ -151,37 +151,40 @@ const ReqState = () => {
       }
     });
     //selectedMonth
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI0YWVkNjk3LWVkMWItNDkzNS1iYWYxLWQ3OWIxZDRkOTU2YSIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE4OjI5OjIxLjI5MFoiLCJpYXQiOjE2NjkxNDE3NjEsImV4cCI6MTY2OTc0NjU2MX0.HoDfbMQ1BIAoHNj3bzJtzWK2x7xgnz-Qs48-TCDsIqY"
     console.log(selectedMonth);
     setModalSubmit(true);
 
-    // axios
-    //   .post(
-    //     'https://server-quplus.herokuapp.com/api/auth/signin',
-    //     {},
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     },
-    //   )
-    //   .then(response => {
-    //     axios
-    //       .post(
-    //         'https://server-quplus.herokuapp.com/userStatement',
-    //         {
-    //           destEmail: userEmail,
-    //           Date: selectedMonth,
-    //         },
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${response.data.token}`,
-    //           },
-    //         },
-    //       )
-    //       .then(()=>{
-    //         setModalSubmit(true);
-    //       });
-    //   });
+    axios
+      .post(
+        'https://server-quplus.herokuapp.com/api/auth/signin',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(response => {
+        console.log(response.data)
+        axios
+          .get(
+            'https://server-quplus.herokuapp.com/userStatement',
+            {
+              destEmail: "manassawin369@gmail.com",
+              Date: selectedMonth,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${response.data.AcessToken}`,
+              },
+            },
+          )
+          .then((res)=>{
+            console.log(res)
+            setModalSubmit(true);
+          });
+      });
   };
 
   return (
