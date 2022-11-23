@@ -202,16 +202,16 @@ const refToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZ
                 axios
                 .post('https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/payment-transaction/summary-month', {
                   userAccountNumber: "0093714533",
-                  date: "2022-01,2022-11",
+                  date: formatDate2(startDate)+","+formatDate2(endDate),
                 })
                 .then(res => {
                   console.log("summary month data: ",res.data);
                   setData2(res.data);
 
-                  // mapIncome(data2);
-                  // mapOutcome(data2);
-                  // plusIncome(data2);
-                  // plusOutcome(data2);
+                  mapIncome(data2);
+                  mapOutcome(data2);
+                  plusIncome(data2);
+                  plusOutcome(data2);
                 })
                 .catch(err => {
                   console.log('err sum month', err.response.data);
@@ -277,14 +277,6 @@ const refToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZ
     };
 
     
-    [{
-      "date": "21/11/2022",
-       "income": 615264240, 
-       "outcome": 40
-      }, 
-       {"date": "22/11/2022", "income": 50000, "outcome": 0}, {"date": "19/11/2022", "income": 100000, "outcome": 50000}, {"date": "23/11/2022", "income": 205088080, "outcome": 0}]
-
-
     
   },[monthly]);
 

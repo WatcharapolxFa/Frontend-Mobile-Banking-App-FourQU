@@ -80,7 +80,7 @@ const ScanQrCode = () => {
          
             })
             .catch(function (error) {
-              console.log('error user-payment', error);
+              console.log('error user-payment', error.response.data);
             });
       // axios
       //  .get(

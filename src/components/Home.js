@@ -14,6 +14,8 @@ import {
   RefreshControl
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { thunk_fetch_transaction } from '../redux/actions/transactionAction';
 // import { fetch_user_info, fetch_user_pay_info, setRefreshToken } from '../redux/actions/accountAction';
 import axios from 'axios';
@@ -64,8 +66,10 @@ const Home = ({ navigation }) => {
   const id_visible = useSelector((store) => store.visible.idVisible);
   const bal_visible = useSelector((store) => store.visible.balVisible);
   const isRead = useSelector((store) => store.visible.isRead);
-  const transaction = useSelector((store) => store.transaction.userData);
+  // const transaction = useSelector((store) => store.transaction.userData);
   const account = useSelector((store) => store.account);
+
+  const [transaction, setTransaction] = useState([])
 
   let initdate = 0;
 
@@ -81,7 +85,8 @@ const Home = ({ navigation }) => {
   const refreshPage = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
-    // dispatch(updateNoti());
+    dispatch(updateNoti());
+    fetchTransaction();
 
     // dispatch(thunk_fetch_transaction())
     // dispatch(thunk_fetch_account())
@@ -93,13 +98,33 @@ const Home = ({ navigation }) => {
 
   React.useEffect(() => {
     // fetchTransaction();
-    dispatch(thunk_fetch_transaction("2022-11"))
+    // dispatch(thunk_fetch_transaction("2022-11"))
     // dispatch(setRefreshToken("123456789451asdfacz"))
     // dispatch(fetch_user_info())
     // dispatch(fetch_user_pay_info())
     // createNoti()
     console.log('fetch')
   }, [refreshing]);
+
+  const fetchTransaction = async () => {
+
+    await axios.post('https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/payment-transaction/month', {
+      userAccountNumber: "0216853053",
+      date: "2022-11",
+    }).then(res => {
+      console.log(res.data);
+      setTransaction(res.data.map(tran => ({
+        otherAccountNumber: tran.otherAccountNumber,
+        nameOther: tran.nameOther,
+        bankNameOther: tran.bankNameOther,
+        amount: tran.amount,
+        type: tran.type,
+        date: tran.date,
+        created_at: tran.created_at,
+        press: false,
+      })))
+    });
+  };
 
   // Create Notification
 
@@ -115,23 +140,47 @@ const Home = ({ navigation }) => {
   //     })
   // }
 
+
   const checkNoti = () => {
     const accountID = "123e8367-e87b-12d3-a456-426614174000"
     axios.get(`https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/user-notification-transaction/${accountID}`)
       .then(function (res) {
-        res.data.map(function (noti) {
-          if (!noti.isRead) {
-            console.log("Have Noti doesn't read")
-            dispatch(updateNoti())
-          } else {
-            console.log(noti.notiID)
-            dispatch(readNoti())
-
-          }
-        })
+        console.log(readNotify())
+        if (readNotify() == res.data) {
+          console.log("Doesn't read before.")
+        }
       })
   }
 
+  const fetchNoti = () => {
+    const accountID = "123e8367-e87b-12d3-a456-426614174000"
+    axios.get(`https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/user-notification-transaction/${accountID}`)
+      .then(function (res) {
+        saveNotify(res.data.map(noti => ({
+          isRead: noti.isRead
+        })))
+      })
+  }
+
+  const saveNotify = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value)
+      await AsyncStorage.setItem('@storage_Current_Noti', jsonValue)
+      console.log("save Noti complete")
+    } catch (error) {
+      console.log("error storeNoti")
+    }
+  };
+
+  const readNotify = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@storage_Current_Noti');
+      // console.log(jsonValue)
+      return jsonValue != null ? JSON.parse(jsonValue) : null
+    } catch (error) {
+      console.log("error read Noti")
+    }
+  };
 
   return (
 
@@ -144,6 +193,7 @@ const Home = ({ navigation }) => {
               {/* go to Setting Screen */}
               <Pressable onPress={() => {
                 dispatch(resetVisState())
+                // checkNoti()
                 navigation.navigate('Setting')
               }}>
                 <Image source={require(profile_pic)} className='m-3 w-20 h-20 rounded-full'></Image>
@@ -166,7 +216,7 @@ const Home = ({ navigation }) => {
                 <Pressable onPress={() => {
                   dispatch(readNoti())
                   dispatch(resetVisState())
-                  // console.log(isRead)
+                  fetchNoti()
                   // checkNoti()
                   navigation.navigate('Noti');
                 }}>
