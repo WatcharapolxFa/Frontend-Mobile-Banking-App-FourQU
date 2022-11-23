@@ -46,7 +46,7 @@ import {
           })
           .then(res => {
             console.log('then', res.data);
-            saveRefresh(res.data.token);
+            saveRefresh(res.data.Refreshtoken);
   
             console.log('vaid PIN!!');
             navigation.navigate('NewPin');
@@ -67,7 +67,7 @@ import {
         console.log('error store refresh_token');
       }
     };
-  
+  //readRefresh()
     const readRefresh = async () => {
       try {
         return await AsyncStorage.getItem('@storage_refresh_token');

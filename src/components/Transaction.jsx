@@ -116,8 +116,8 @@ const Transaction = ({navigation, route}) => {
               </Text>
             </View>
             <View className="w-1/2 items-end">
-              <Text className="font-noto text-sm text-white">{route.params.Balance}</Text>
-              <Text className="font-noto text-sm text-white">{route.params.Balance}</Text>
+              <Text className="font-noto text-sm text-white">0</Text>
+              <Text className="font-noto text-sm text-white">0</Text>
               {/* <View className="flex-row items-center">
                 <ArrowPathIcon color="#F6D8A9" size={13} />
                 <Text className="ml-1 font-noto text-xs text-yellowonn">

@@ -21,11 +21,29 @@ import logo from '../assets/icon/logo.png';
 
 const Transfer = ({navigation, route}) => {
   const [edit, setEdit] = React.useState(true)
-
+//   const saveRefresh = async value => {
+//     try {
+//       await AsyncStorage.setItem('@storage_refresh_token', value);
+//       console.log('save refresh_token complete');
+//     } catch (error) {
+//       console.log('error store refresh_token');
+//     }
+//   };
+// //readRefresh()
+//   const readRefresh = async () => {
+//     try {
+//       return await AsyncStorage.getItem('@storage_refresh_token');
+//     } catch (error) {vaid
+//       console.log("error read refresh_token")
+//     }
+//   };
+//   const token = readRefresh()
   React.useEffect(()=>{
     console.log((route?.params?.data ?? 'not pass'))
     setEdit((route?.params?.data == undefined ? true : false))
     console.log(edit)
+    // token = readRefresh()
+    // console.log(token)
   }, [])
 
   // let nameOther =""
@@ -34,7 +52,7 @@ const Transfer = ({navigation, route}) => {
   const accountNO = '0216853053';
 
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQxMmFlZmJiLTNmMjktNDBhYS1hNDQ2LWI3M2M1Nzg1MjQyZCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE1OjM4OjE4LjMxMloiLCJpYXQiOjE2NjkxMzE0OTgsImV4cCI6MTY2OTczNjI5OH0.awogT3JVanCipWMxjaqZxTq5UGlvN2qs1ZuXMkzAD5U';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJjZDY5MGU4LTMyOWQtNDc1Ny1hNDZhLTQxYjc4NDk0ZTFjNyIsImZpcnN0TmFtZSI6IlBhcm0iLCJtaWRkbGVOYW1lIjoiS3ViIiwibGFzdE5hbWUiOiJraWtpIiwidGltZV9zdGFtcCI6IjIwMjItMTEtMjNUMDM6NTM6MDMuMDg0WiIsImlhdCI6MTY2OTE3NTU4MywiZXhwIjoxNjY5NzgwMzgzfQ.E6eNsLdRGb4ypvud2SuoDRTlMd8vKzPELw_28vomGFo';
 
   const onPressNext = async (accountOther, amountS) => {
     // const accountOther = Number(accountOtherS)

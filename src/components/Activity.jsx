@@ -145,54 +145,64 @@ const Activity = () => {
     fetchTransaction();
   }, [selectedMonth]);
 
+//   const saveRefresh = async value => {
+//     try {
+//       await AsyncStorage.setItem('@storage_refresh_token', value);
+//       console.log('save refresh_token complete');
+//     } catch (error) {
+//       console.log('error store refresh_token');
+//     }
+//   };
+// //readRefresh()
+//   const readRefresh = async () => {
+//     try {
+//       return await AsyncStorage.getItem('@storage_refresh_token');
+//     } catch (error) {vaid
+//       console.log("error read refresh_token")
+//     }
+//   };
+//   const token = readRefresh()
+let acountNo = ""
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJjZDY5MGU4LTMyOWQtNDc1Ny1hNDZhLTQxYjc4NDk0ZTFjNyIsImZpcnN0TmFtZSI6IlBhcm0iLCJtaWRkbGVOYW1lIjoiS3ViIiwibGFzdE5hbWUiOiJraWtpIiwidGltZV9zdGFtcCI6IjIwMjItMTEtMjNUMDM6NTM6MDMuMDg0WiIsImlhdCI6MTY2OTE3NTU4MywiZXhwIjoxNjY5NzgwMzgzfQ.E6eNsLdRGb4ypvud2SuoDRTlMd8vKzPELw_28vomGFo';
 
   // fetchTransaction from backend
   const fetchTransaction = async() => {
-    // axios
-    //   .post(
-    //     'https://server-quplus.herokuapp.com/api/auth/signin',
-    //     {},
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     },
-    //   )
-    //   .then(response => {
-    //     console.log(response.data.AcessToken)
-    //     axios
-    //       .post(
-    //         'https://server-quplus.herokuapp.com/payment-transaction/month',
-    //         {
-    //           date: selectedMonth,
-    //         },
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${response.data.AcessToken}`,
-    //           },
-    //         },
-    //       )
-          // .then(res => {
-          //   console.log(res);
-          //   setTransaction(res.data.map(tran => ({
-          //     otherAccountNumber: tran.otherAccountNumber,
-          //     nameOther: tran.nameOther,
-          //     bankNameOther: tran.bankNameOther,
-          //     amount: tran.amount,
-          //     type: tran.type,
-          //     date: tran.date,
-          //     created_at: tran.created_at,
-          //     press: false,
-          //   })))
-          // });
-    //   }).catch(err => {
-    //     console.log(err)
-    //   });
+    console.log(token)
+    axios
+      .post(
+        'https://server-quplus.herokuapp.com/api/auth/signin',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(response => {
+        console.log(response.data.AcessToken)
+        axios
+          .get(
+            'https://server-quplus.herokuapp.com/api/user-payment/info/',
+            {
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${response.data.AcessToken}`,
+              },
+            },
+          )
+          .then(res => {
+            console.log(res.data);
+            acountNo = res.data.userPayment.accountNumber
+            
+          });
+      }).catch(err => {
+        console.log(err)
+      }).then(
 
     await axios.post('https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/payment-transaction/month',{
-      userAccountNumber:"0216853053",
+      userAccountNumber:acountNo,
       date:selectedMonth,
     }).then(res => {
       console.log(res.data);
@@ -206,7 +216,8 @@ const Activity = () => {
         created_at: tran.created_at,
         press: false,
       })))
-    });
+    })
+    )
 
     // setTransaction(
     //   data.map(tran => ({
