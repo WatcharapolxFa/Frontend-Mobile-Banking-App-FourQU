@@ -64,7 +64,7 @@ const Bill = props => {
               </View>
               <View className="flex flex-col gap-y-1 bg-red-500">
                 <Text className="text-sm font-notobold text-black">
-                  MR. ASARAWOOT S
+                  test1 Test1
                 </Text>
                 <Text className="text-xs font-noto text-black">FourQU</Text>
                 <Text className="text-xs font-noto text-black">

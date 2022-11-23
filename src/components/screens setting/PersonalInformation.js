@@ -17,8 +17,8 @@ import CameraRoll from '@react-native-community/cameraroll';
 
 const PersonalInformation = ({navigation, route}) => {
   console.log(route.params.pictureProfile);
-  const [image, setImage] = useState(
-    route.params.pictureProfile? route.params.pictureProfile : 'https://img.myloview.com/posters/default-avatar-profile-icon-social-media-user-vector-image-400-242023490.jpg'
+  const [image, setImage] = useState('https://img.myloview.com/posters/default-avatar-profile-icon-social-media-user-vector-image-400-242023490.jpg'
+    //route.params.pictureProfile? route.params.pictureProfile : 'https://img.myloview.com/posters/default-avatar-profile-icon-social-media-user-vector-image-400-242023490.jpg'
   );
 
   const [dataFormImg, setDataFormImg] = useState({});

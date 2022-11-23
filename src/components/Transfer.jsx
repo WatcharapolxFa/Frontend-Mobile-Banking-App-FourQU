@@ -30,8 +30,8 @@ const Transfer = ({navigation, route}) => {
 
   // let nameOther =""
   const balance = 5000.888;
-  const name = 'TestTest TestTest';
-  const accountNO = '0093714533';
+  const name = 'test1 Test1';
+  const accountNO = '0216853053';
 
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQxMmFlZmJiLTNmMjktNDBhYS1hNDQ2LWI3M2M1Nzg1MjQyZCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE1OjM4OjE4LjMxMloiLCJpYXQiOjE2NjkxMzE0OTgsImV4cCI6MTY2OTczNjI5OH0.awogT3JVanCipWMxjaqZxTq5UGlvN2qs1ZuXMkzAD5U';

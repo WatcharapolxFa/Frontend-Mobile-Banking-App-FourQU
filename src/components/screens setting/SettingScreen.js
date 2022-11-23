@@ -12,23 +12,23 @@ import axios from 'axios';
 import MeterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SettingScreen = ({navigation}) => {
- const [initialData,setInitialData] = useState({
+  const [initialData, setInitialData] = useState({
     firstName: '',
     middleName: '',
     lastName: '',
     phone: '',
     email: '',
     pictureProfile: '',
-    postalCode:'',
-    province:'',
-    district:'',
-    subDistrict:'',
+    postalCode: '',
+    province: '',
+    district: '',
+    subDistrict: '',
     houseNo: '',
     village: '',
     lane: '',
     road: '',
   });
-  const [limitperday,setLimitperday] = useState(200000)
+  const [limitperday, setLimitperday] = useState(200000);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -39,95 +39,85 @@ const SettingScreen = ({navigation}) => {
     // Call only when screen open or when back on screen
   }, [navigation]);
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo'
-  const [Ftoken,setFToken] = useState('')
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo';
+  const [Ftoken, setFToken] = useState('');
   const axiosGetData = async () => {
     console.log('axiosGetData');
-     axios
-       .post('https://server-quplus.herokuapp.com/api/auth/signin',{}, {
-         headers: { Authorization: `Bearer ${token}`, },
-       })
-       .then(function (response) {
+    axios
+      .post(
+        'https://server-quplus.herokuapp.com/api/auth/signin',
+        {},
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      )
+      .then(async response => {
         // console.log('Ftoken',response.data.AcessToken);
         setFToken(response.data.AcessToken);
-          axios
-            .get('https://server-quplus.herokuapp.com/api/auth/information', 
+        axios
+          .get('https://server-quplus.herokuapp.com/api/auth/information', {
+            headers: {Authorization: `Bearer ${response.data.AcessToken}`},
+          })
+          .then(response => {
+            setInitialData({
+              firstName: response.data.firstName,
+              middleName: response.data.data.middleName,
+              lastName: response.data.data.lastName,
+              phone: response.data.data.phone,
+              email: response.data.data.email,
+              pictureProfile: response.data.data.pictureProfile,
+              postalCode: response.data.data.address.postalCodeS,
+              province: response.data.data.address.province,
+              district: response.data.data.address.district,
+              subDistrict: response.data.data.address.subDistrict,
+              houseNo: response.data.data.address.houseNo,
+              village: response.data.data.address.village,
+              lane: response.data.data.address.lane,
+              road: response.data.data.address.road,
+            });
+            //  initialData = {
+            //    firstName: response.data.firstName,
+            //    middleName: response.data.data.middleName,
+            //    lastName: response.data.data.lastName,
+            //    phone: response.data.data.phone,
+            //    email: response.data.data.email,
+            //    pictureProfile: response.data.data.pictureProfile,
+            //    postalCode: response.data.data.address.postalCodeS,
+            //    province: response.data.data.address.province,
+            //    district: response.data.data.address.district,
+            //    subDistrict: response.data.data.address.subDistrict,
+            //    houseNo: response.data.data.address.houseNo,
+            //    village: response.data.data.address.village,
+            //    lane: response.data.data.address.lane,
+            //    road: response.data.data.address.road,
+            //  };
+          })
+          .catch(function (error) {
+            console.log('error info', error.response.data);
+          });
+        await axios
+          .get(
+            'https://server-quplus.herokuapp.com/api/user-payment/limit/day',
             {
               headers: {Authorization: `Bearer ${response.data.AcessToken}`},
-            }
-            )
-            .then(function (response) {
-              setInitialData({
-                firstName: response.data.firstName,
-                middleName: response.data.data.middleName,
-                lastName: response.data.data.lastName,
-                phone: response.data.data.phone,
-                email: response.data.data.email,
-                pictureProfile: response.data.data.pictureProfile,
-                postalCode: response.data.data.address.postalCodeS,
-                province: response.data.data.address.province,
-                district: response.data.data.address.district,
-                subDistrict: response.data.data.address.subDistrict,
-                houseNo: response.data.data.address.houseNo,
-                village: response.data.data.address.village,
-                lane: response.data.data.address.lane,
-                road: response.data.data.address.road,
-              });
-              //  initialData = {
-              //    firstName: response.data.firstName,
-              //    middleName: response.data.data.middleName,
-              //    lastName: response.data.data.lastName,
-              //    phone: response.data.data.phone,
-              //    email: response.data.data.email,
-              //    pictureProfile: response.data.data.pictureProfile,
-              //    postalCode: response.data.data.address.postalCodeS,
-              //    province: response.data.data.address.province,
-              //    district: response.data.data.address.district,
-              //    subDistrict: response.data.data.address.subDistrict,
-              //    houseNo: response.data.data.address.houseNo,
-              //    village: response.data.data.address.village,
-              //    lane: response.data.data.address.lane,
-              //    road: response.data.data.address.road,
-              //  };
-         
-            })
-            .catch(function (error) {
-              console.log('error info', error.response.data);
-            });
-          axios
-            .get(
-              'https://server-quplus.herokuapp.com/api/user-payment/limit/day',
-              {
-                headers: {Authorization: `Bearer ${response.data.AcessToken}`},
-              },
-            )
-            .then(function (response) {
-              // console.log('response.data.amountLimit',response.data.amountLimit);
-              setLimitperday(response.data.amountLimit);
-            })
-            .catch(function (error) {
-              console.log('error limit', error);
-            });
-          // axios
-          //   .get(
-          //     `https://server-quplus.herokuapp.com/api/user-payment/`,
-          //     {
-          //       headers: {Authorization: `Bearer ${response.data.AcessToken}`},
-          //     },
-          //   )
-          //   .then(function (response) {
-          //     console.log('user-payment', response.data);
-         
-          //   })
-          //   .catch(function (error) {
-          //     console.log('error user-payment', error);
-          //   });
-       })
-       .catch(function (error) {
-         console.log('error signin', error.response.data);
-       });
-    
-   
+            },
+          )
+          .then(function (response) {
+            console.log('response.data.amountLimit', response.data.amountLimit);
+            setLimitperday(response.data.amountLimit);
+          })
+          .catch(function (error) {
+            console.log('error limit', error);
+          });
+       
+     
+
+
+      })
+      .catch(function (error) {
+        console.log('error signin', error.response.data);
+      });
   };
 
   return (
@@ -151,7 +141,7 @@ const SettingScreen = ({navigation}) => {
             name="arrow-back-ios"
             size={25}
             color="#f3f0ea"
-            onPress={() => console.log('back')}
+            onPress={() =>navigation.navigate('Home')}
             backgroundColor="transparent"
             style={{
               position: 'absolute',
@@ -183,7 +173,7 @@ const SettingScreen = ({navigation}) => {
               phone: initialData.phone,
               email: initialData.email,
               pictureProfile: initialData.pictureProfile,
-              Ftoken:Ftoken,
+              Ftoken: Ftoken,
             })
           }>
           <View style={styles.item}>
@@ -198,12 +188,11 @@ const SettingScreen = ({navigation}) => {
           </View>
         </TouchableOpacity>
 
-
-
         {/* Security */}
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('Security', {pin: initialData.pin})
+            // navigation.navigate('Security', {pin: initialData.pin})
+            navigation.navigate("CheckPinSecurity")
           }>
           <View style={styles.item}>
             <MeterialIcons name="lock-outline" size={50} color="#000000" />
@@ -219,7 +208,7 @@ const SettingScreen = ({navigation}) => {
 
         {/* Current address */}
         <TouchableOpacity
-          onPress={() =>{
+          onPress={() => {
             navigation.navigate('Currentaddress', {
               houseNo: initialData.houseNo,
               village: initialData.village,
@@ -229,10 +218,8 @@ const SettingScreen = ({navigation}) => {
               district: initialData.district,
               province: initialData.province,
               postalCode: initialData.postalCode,
-              
-            })
-          }
-          }>
+            });
+          }}>
           <View style={styles.item}>
             <MeterialIcons name="explore" size={50} color="#000000" />
             <View style={styles.textBetweenbutton}>
@@ -250,7 +237,7 @@ const SettingScreen = ({navigation}) => {
           onPress={() =>
             navigation.navigate('LimitPerDay', {
               limitperday: limitperday,
-              Ftoken:Ftoken,
+              Ftoken: Ftoken,
             })
           }>
           <View style={styles.item}>

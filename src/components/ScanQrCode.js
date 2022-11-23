@@ -68,37 +68,37 @@ const ScanQrCode = () => {
     }
     }).then(response => {
       console.log('response.data.AcessToken',response.data.AcessToken)
-     axios
-            .get(
-              `https://server-quplus.herokuapp.com/api/user-payment/`,
-              {
-                headers: {Authorization: `Bearer ${response.data.AcessToken}`},
-              },
-            )
-            .then(function (response) {
-              console.log('user-payment', response.data);
+    //  axios
+    //         .get(
+    //           // `https://server-quplus.herokuapp.com/api/user-payment/`,
+    //           {
+    //             headers: {Authorization: `Bearer ${response.data.AcessToken}`},
+    //           },
+    //         )
+    //         .then(function (response) {
+    //           console.log('user-payment', response.data);
          
-            })
-            .catch(function (error) {
-              console.log('error user-payment', error.response.data);
-            });
-      // axios
-      //  .get(
-      //   `https://server-quplus.herokuapp.com/api/user-payment/`,
-      //   { 
-      //     fee : 0,
-      //   }, 
-      //   { 
-      //     headers: {Authorization: `Bearer ${response.data.AcessToken}`}, 
-      //   },
-      // )
-      // .then(res => {
-      //   console.log('then', res.data);
-      //   setQrvalue(res.data.QRPayload);
-      // })
-      // .catch(err => {
-      //   console.log('castch user-payment', err.response.data);
-      // });
+    //         })
+    //         .catch(function (error) {
+    //           console.log('error user-payment', error.response.data);
+    //         });
+      axios
+       .post(
+        `https://server-quplus.herokuapp.com/api/user-payment/qr`,
+        { 
+          fee : 0,
+        }, 
+        { 
+          headers: {Authorization: `Bearer ${response.data.AcessToken}`}, 
+        },
+      )
+      .then(res => {
+        console.log('then', res.data);
+        setQrvalue(res.data.QRPayload);
+      })
+      .catch(err => {
+        console.log('castch user-payment', err.response.data);
+      });
     
     })
   };

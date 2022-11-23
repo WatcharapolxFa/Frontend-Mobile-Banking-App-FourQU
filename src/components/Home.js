@@ -16,9 +16,8 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { thunk_fetch_transaction } from '../redux/actions/transactionAction';
-// import { fetch_user_info, fetch_user_pay_info, setRefreshToken } from '../redux/actions/accountAction';
 import axios from 'axios';
+import { setUserBal } from '../redux/actions/accountAction';
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -70,6 +69,7 @@ const Home = ({ navigation }) => {
   const account = useSelector((store) => store.account);
 
   const [transaction, setTransaction] = useState([])
+  const [Balance, setBalance] = useState([])
 
   let initdate = 0;
 
@@ -86,22 +86,15 @@ const Home = ({ navigation }) => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
     dispatch(updateNoti());
-    fetchTransaction();
+    // fetchTransaction();
+    fetchUserPayBal();
 
-    // dispatch(thunk_fetch_transaction())
-    // dispatch(thunk_fetch_account())
-    // console.log('fetch transaction')
-    // console.log(account.refreshToken)
   }, []);
 
   let time_stamp = Date()
 
   React.useEffect(() => {
-    // fetchTransaction();
-    // dispatch(thunk_fetch_transaction("2022-11"))
-    // dispatch(setRefreshToken("123456789451asdfacz"))
-    // dispatch(fetch_user_info())
-    // dispatch(fetch_user_pay_info())
+    fetchTransaction();
     // createNoti()
     console.log('fetch')
   }, [refreshing]);
@@ -112,7 +105,7 @@ const Home = ({ navigation }) => {
       userAccountNumber: "0216853053",
       date: "2022-11",
     }).then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       setTransaction(res.data.map(tran => ({
         otherAccountNumber: tran.otherAccountNumber,
         nameOther: tran.nameOther,
@@ -124,6 +117,40 @@ const Home = ({ navigation }) => {
         press: false,
       })))
     });
+  };
+
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo';
+
+  const fetchUserPayBal = async () => {
+    await axios
+      .post('https://server-quplus.herokuapp.com/api/auth/signin',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(response => {
+        // console.log(response.data.AcessToken)
+        axios.get('https://server-quplus.herokuapp.com/api/user-payment/balanced/',
+          {
+            headers: {
+              Authorization: `Bearer ${response.data.AcessToken}`,
+            }
+          }
+        )
+          .then(function (res) {
+            const user = res.data
+            // setBalance(user)
+            dispatch(setUserBal(user.balanced))
+            console.log('Balanced:', account.userBal)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      });
   };
 
   // Create Notification
@@ -235,7 +262,7 @@ const Home = ({ navigation }) => {
                 <View className='flex-col top-8'>
                   <Text style={{ fontFamily: 'NotoSans-Bold' }} className='text-green-main text-center'>Available Bal.</Text>
                   {/* Added Balance component here. */}
-                  <Text style={{ fontFamily: 'NotoSans-Bold' }} className='text-green-main text-xl mt-1 mb-3 text-center'>{bal_visible ? '1,000,000.00' : 'x,xxx,xxx.xx'}</Text>
+                  <Text style={{ fontFamily: 'NotoSans-Bold' }} className='text-green-main text-xl mt-1 mb-3 text-center'>{bal_visible ? account.userBal : 'x,xxx,xxx.xx'}</Text>
                   <View className='flex-row justify-end'>
                     <View className='items-center justify-center'
                       style={{
@@ -245,7 +272,10 @@ const Home = ({ navigation }) => {
                         backgroundColor: '#C7D5B1',
                         transform: [{ scaleX: 1 }]
                       }}>
-                      <Pressable onPress={() => toggleBalVisibility()}>
+                      <Pressable onPress={() => {
+                        fetchUserPayBal();
+                        toggleBalVisibility()
+                      }}>
                         <Image style={{ tintColor: '#387766' }} source={bal_visible ? require('../assets/icon/eye.png') : require('../assets/icon/hidden.png')} className='w-6 h-6'></Image>
                       </Pressable>
                     </View>
@@ -336,7 +366,7 @@ const Home = ({ navigation }) => {
         {/* go to Transfer Screen */}
         <Pressable onPress={() => {
           dispatch(resetVisState())
-          navigation.navigate('Transfer')
+          navigation.navigate('Transfer',{Balance})
         }}>
           <View className='items-center bottom-14 basis-1/3 drop-shadow-2xl'>
             <View className='items-center justify-center w-20 h-20 rounded-full bg-green-font'>

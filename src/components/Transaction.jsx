@@ -10,7 +10,8 @@ import ReqState from './ReqState';
 
 const Tab = createNativeStackNavigator();
 
-const Transaction = ({navigation}) => {
+const Transaction = ({navigation, route}) => {
+  // const account = useSelector((store) => store.account);
   const [active, setActive] = React.useState(true);
   const [name, setName] = React.useState('test1 Test1');
   const token =
@@ -115,14 +116,14 @@ const Transaction = ({navigation}) => {
               </Text>
             </View>
             <View className="w-1/2 items-end">
-              <Text className="font-noto text-sm text-white">100.49</Text>
-              <Text className="font-noto text-sm text-white">100.49</Text>
-              <View className="flex-row items-center">
+              <Text className="font-noto text-sm text-white">{route.params.Balance}</Text>
+              <Text className="font-noto text-sm text-white">{route.params.Balance}</Text>
+              {/* <View className="flex-row items-center">
                 <ArrowPathIcon color="#F6D8A9" size={13} />
                 <Text className="ml-1 font-noto text-xs text-yellowonn">
                   Updated at 2.32 PM
                 </Text>
-              </View>
+              </View> */}
             </View>
           </View>
           {/* Money Data */}
