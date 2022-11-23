@@ -7,11 +7,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 
-
-
-
-
-
 import Intro from './src/components/Intro';
 import Home from './src/components/Home';
 import Term from './src/components/Term';
@@ -60,7 +55,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={'Home'}
+          initialRouteName={'Intro'}
           screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Intro" component={Intro} />
           <Stack.Screen name="Login" component={Login} />
