@@ -97,7 +97,7 @@ const Sucessful = ({navigation, route}) => {
       </ViewShot>
       <View className="mt-4 ml-6 ">
         <Text className="font-noto text-white text-sm">
-          Available Balance: 1234.00 Baht
+          Available Balance: 2000.00 Baht
         </Text>
       </View>
       <View className="bg-[#155745] bottom-0 z-10 absolute h-24 flex justify-center items-center w-screen">

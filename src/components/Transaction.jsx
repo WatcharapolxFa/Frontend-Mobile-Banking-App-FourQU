@@ -96,10 +96,10 @@ const Transaction = ({navigation, route}) => {
             </View>
             <View className=" ml-2 justify-center">
               <Text className=" font-notobold text-yellowonn text-lg ">
-                {name}
+               QU Plus
               </Text>
               <Text className="font-noto text-xs text-white ">
-                xxx-x-x1924-x
+              xxx-x-x9846-x
               </Text>
             </View>
           </View>
@@ -116,8 +116,8 @@ const Transaction = ({navigation, route}) => {
               </Text>
             </View>
             <View className="w-1/2 items-end">
-              <Text className="font-noto text-sm text-white">0</Text>
-              <Text className="font-noto text-sm text-white">0</Text>
+              <Text className="font-noto text-sm text-white">2000.00</Text>
+              <Text className="font-noto text-sm text-white">2000.00</Text>
               {/* <View className="flex-row items-center">
                 <ArrowPathIcon color="#F6D8A9" size={13} />
                 <Text className="ml-1 font-noto text-xs text-yellowonn">

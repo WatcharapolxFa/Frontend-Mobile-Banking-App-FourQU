@@ -168,8 +168,8 @@ let acountNo = ""
 
   // fetchTransaction from backend
   const fetchTransaction = async() => {
-    console.log(token)
-    axios
+    // console.log(token)
+    await axios
       .post(
         'https://server-quplus.herokuapp.com/api/auth/signin',
         {},
@@ -180,7 +180,7 @@ let acountNo = ""
         },
       )
       .then(response => {
-        console.log(response.data.AcessToken)
+        // console.log(response.data.AcessToken)
         axios
           .get(
             'https://server-quplus.herokuapp.com/api/user-payment/info/',
@@ -195,14 +195,15 @@ let acountNo = ""
           .then(res => {
             console.log(res.data);
             acountNo = res.data.userPayment.accountNumber
+            console.log("acountNo : "+acountNo)
             
           });
       }).catch(err => {
-        console.log(err)
+        console.log("ERR "+err)
       }).then(
 
     await axios.post('https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/payment-transaction/month',{
-      userAccountNumber:acountNo,
+      userAccountNumber:"0432198462",
       date:selectedMonth,
     }).then(res => {
       console.log(res.data);

@@ -47,9 +47,9 @@ const Transfer = ({navigation, route}) => {
   }, [])
 
   // let nameOther =""
-  const balance = 5000.888;
-  const name = 'test1 Test1';
-  const accountNO = '0216853053';
+  const balance = 5000.00;
+  const name = 'Qu Plus';
+  const accountNO = '0432198462';
 
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJjZDY5MGU4LTMyOWQtNDc1Ny1hNDZhLTQxYjc4NDk0ZTFjNyIsImZpcnN0TmFtZSI6IlBhcm0iLCJtaWRkbGVOYW1lIjoiS3ViIiwibGFzdE5hbWUiOiJraWtpIiwidGltZV9zdGFtcCI6IjIwMjItMTEtMjNUMDM6NTM6MDMuMDg0WiIsImlhdCI6MTY2OTE3NTU4MywiZXhwIjoxNjY5NzgwMzgzfQ.E6eNsLdRGb4ypvud2SuoDRTlMd8vKzPELw_28vomGFo';
@@ -202,12 +202,12 @@ const Transfer = ({navigation, route}) => {
               {/* Bank logo + Name */}
 
               {/* update */}
-              <View className="flex-row justify-end mx-6 items-center mb-2 ">
+              {/* <View className="flex-row justify-end mx-6 items-center mb-2 ">
                 <ArrowPathIcon color="white" size={13} />
                 <Text className="ml-1 font-noto text-xs text-white">
                   Updated at 10 .30 PM
                 </Text>
-              </View>
+              </View> */}
               {/* update */}
             </View>
             {/* Green Area */}

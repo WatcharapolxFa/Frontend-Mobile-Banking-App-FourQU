@@ -46,6 +46,15 @@ const Home = ({ navigation }) => {
     return time;
   };
 
+  const formatRTime = d => {
+    d = new Date(d);
+    let text = d.toLocaleTimeString();
+    let time = '';
+    time += text.substring(0, 5) + ' ' + text.substring(text.length - 2);
+    console.log(time)
+    return time;
+  }
+
   const setAm = (amount, type) => {
     result = amount.toFixed(2).toString();
     return type === 'transfer' || type === 'withdraw'
@@ -70,7 +79,7 @@ const Home = ({ navigation }) => {
 
   const [transaction, setTransaction] = useState([])
   const [Balance, setBalance] = useState([])
-
+  const [accountXID,setaccountXID] = useState('')
   let initdate = 0;
 
   const toggleVisibility = () => {
@@ -102,7 +111,7 @@ const Home = ({ navigation }) => {
   const fetchTransaction = async () => {
 
     await axios.post('https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/payment-transaction/month', {
-      userAccountNumber: "0216853053",
+      userAccountNumber: "0432198462",
       date: "2022-11",
     }).then(res => {
       // console.log(res.data);
@@ -146,6 +155,20 @@ const Home = ({ navigation }) => {
             // setBalance(user)
             dispatch(setUserBal(user.balanced))
             console.log('Balanced:', account.userBal)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+        axios.get('https://server-quplus.herokuapp.com/api/auth/information',
+          {
+            headers: {
+              Authorization: `Bearer ${response.data.AcessToken}`,
+            }
+          }
+        )
+          .then(function (res) {
+            // setaccountXID(res.data.data.accountNumber)
+            console.log('accountNumber:',res.data)
           })
           .catch(function (error) {
             console.log(error)
@@ -228,11 +251,11 @@ const Home = ({ navigation }) => {
 
               <View>
                 {/* Change Username here */}
-                <Text style={{ fontFamily: 'NotoSans-Bold' }} className='pt-5 text-xl text-egg'>Username</Text>
+                <Text style={{ fontFamily: 'NotoSans-Bold' }} className='pt-5 text-xl text-egg'>Qu Plus</Text>
                 <View className='flex-row items-center'>
                   {/* Show/Hide ID */}
-                  <Text style={{ fontFamily: 'NotoSans-Regular' }} className='text-md text-white'>{id_visible ? '123-2-71924' : 'xxx-x-x1924-x'}</Text>
-                  <Pressable onPress={() => toggleVisibility()}>
+                  <Text style={{ fontFamily: 'NotoSans-Regular' }} className='text-md text-white'>{accountXID ? '043-2-19846-2' : 'xxx-x-x9846-x'}</Text>
+                  <Pressable onPress={() => toggleVisibility()}>                                                            
                     <Image style={{ tintColor: '#FFFFFF' }} source={id_visible ? require('../assets/icon/eye.png') : require('../assets/icon/hidden.png')} className='w-3 h-3 ml-2'></Image>
                   </Pressable>
                 </View>
@@ -290,7 +313,7 @@ const Home = ({ navigation }) => {
             <Pressable onPress={() => refreshPage()}>
               <Image style={{ tintColor: '#F6D8A9' }} source={require('../assets/icon/reload.png')} className='w-4 h-4 mr-2'></Image>
             </Pressable>
-            <Text style={{ fontFamily: 'NotoSans-Regular' }} className='text-egg text-xs text-center'>Updated at {formatTime(time_stamp)}</Text>
+            <Text style={{ fontFamily: 'NotoSans-Regular' }} className='text-egg text-xs text-center'>Updated at {formatRTime(time_stamp)}</Text>
           </View>
 
         </View>
@@ -357,7 +380,7 @@ const Home = ({ navigation }) => {
         <View className='basis-1/3 items-center'>
           <Pressable onPress={() => {
             dispatch(resetVisState())
-            navigation.navigate('HomeShop')
+            // navigation.navigate('HomeShop')
           }}>
             <Image style={{ tintColor: '#F1EEE6' }} source={require('../assets/icon/cart.png')} className='w-10 h-10'></Image>
           </Pressable>
@@ -366,7 +389,7 @@ const Home = ({ navigation }) => {
         {/* go to Transfer Screen */}
         <Pressable onPress={() => {
           dispatch(resetVisState())
-          navigation.navigate('Transfer',{Balance})
+          navigation.navigate('Transfer')
         }}>
           <View className='items-center bottom-14 basis-1/3 drop-shadow-2xl'>
             <View className='items-center justify-center w-20 h-20 rounded-full bg-green-font'>

@@ -62,13 +62,13 @@ const Bill = props => {
               <View className="flex items-center justify-center bg-green-kem rounded-full w-16 h-16">
                 <Image source={Logo} className="w-12 h-12" />
               </View>
-              <View className="flex flex-col gap-y-1 bg-red-500">
+              <View className="flex flex-col gap-y-1">
                 <Text className="text-sm font-notobold text-black">
-                  test1 Test1
+                Qu Plus
                 </Text>
                 <Text className="text-xs font-noto text-black">FourQU</Text>
                 <Text className="text-xs font-noto text-black">
-                  xxx-x-x1924-x
+                xxx-x-x9846-x
                 </Text>
               </View>
             </View>
