@@ -4,6 +4,10 @@ import MeterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 const Currentaddress = ({navigation, route}) => {
+  // console.log(
+  //   route.params
+  // );
+
   return (
     <View style={{flex: 1, backgroundColor: '#387766'}} className="bg-base">
       <View

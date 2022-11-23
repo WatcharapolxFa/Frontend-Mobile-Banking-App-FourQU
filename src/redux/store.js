@@ -7,7 +7,7 @@ import thunk from "redux-thunk";
 const rootReducer = combineReducers({
     visible: VisibleReducer,
     pin: pinReducers,
-    // transaction: transactionReducer, 
+    transaction: transactionReducer, 
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

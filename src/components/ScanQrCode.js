@@ -67,18 +67,39 @@ const ScanQrCode = () => {
         Authorization: `Bearer ${reftoken}`
     }
     }).then(response => {
-      axios.post(`${baseUrl}/user-payment/`, {}, {
-        headers: {
-          Authorization: `Bearer ${response.data.token}`
-      }
-      })
-      .then(res => {
-        console.log('then', res.data);
-        setQrvalue(res.data.QRPayload);
-      })
-      .catch(err => {
-        console.log('catch', err.res.data);
-      });
+      console.log('response.data.AcessToken',response.data.AcessToken)
+     axios
+            .get(
+              `https://server-quplus.herokuapp.com/api/user-payment/`,
+              {
+                headers: {Authorization: `Bearer ${response.data.AcessToken}`},
+              },
+            )
+            .then(function (response) {
+              console.log('user-payment', response.data);
+         
+            })
+            .catch(function (error) {
+              console.log('error user-payment', error);
+            });
+      // axios
+      //  .get(
+      //   `https://server-quplus.herokuapp.com/api/user-payment/`,
+      //   { 
+      //     fee : 0,
+      //   }, 
+      //   { 
+      //     headers: {Authorization: `Bearer ${response.data.AcessToken}`}, 
+      //   },
+      // )
+      // .then(res => {
+      //   console.log('then', res.data);
+      //   setQrvalue(res.data.QRPayload);
+      // })
+      // .catch(err => {
+      //   console.log('castch user-payment', err.response.data);
+      // });
+    
     })
   };
 

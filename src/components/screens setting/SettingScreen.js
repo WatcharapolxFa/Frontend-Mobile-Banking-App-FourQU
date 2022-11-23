@@ -12,24 +12,23 @@ import axios from 'axios';
 import MeterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SettingScreen = ({navigation}) => {
-  // let initialData = {
-  //   firstName: '',
-  //   middleName: '',
-  //   lastName: '',
-  //   phone: '',
-  //   email: '',
-  //   pictureProfile: '',
-  //   postalCode:'',
-  //   province:'',
-  //   district:'',
-  //   subDistrict:'',
-  //   houseNo: '',
-  //   village: '',
-  //   lane: '',
-  //   road: '',
-  //   limitperday: '',
-    
-  // };
+ const [initialData,setInitialData] = useState({
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    pictureProfile: '',
+    postalCode:'',
+    province:'',
+    district:'',
+    subDistrict:'',
+    houseNo: '',
+    village: '',
+    lane: '',
+    road: '',
+  });
+  const [limitperday,setLimitperday] = useState(200000)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -40,53 +39,89 @@ const SettingScreen = ({navigation}) => {
     // Call only when screen open or when back on screen
   }, [navigation]);
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2Yjg3NzQyLTBhNGQtNGM5OS1hOTRmLTJjYjBhYmU1ZjkxNiIsImZpcnN0TmFtZSI6IlBQUCIsIm1pZGRsZU5hbWUiOiJkYXMiLCJsYXN0TmFtZSI6IlRUVCIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDEwOjE3OjQ4LjIwNloiLCJpYXQiOjE2NjkxMTIyNjgsImV4cCI6MTY2OTcxNzA2OH0.lOOGf0N0QYLMuh6v4blvBIcrxlcPJGaiOZ8tFI6zbJY';
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo'
   const [Ftoken,setFToken] = useState('')
   const axiosGetData = async () => {
+    console.log('axiosGetData');
      axios
        .post('https://server-quplus.herokuapp.com/api/auth/signin',{}, {
          headers: { Authorization: `Bearer ${token}`, },
        })
        .then(function (response) {
-        setFToken(response.data.token);
+        // console.log('Ftoken',response.data.AcessToken);
+        setFToken(response.data.AcessToken);
           axios
-               .get('https://server-quplus.herokuapp.com/api/auth/information', {
-                 headers: { Authorization: `Bearer ${response.data.token}`, },
-               })
-               .then(function (response) {
-                 initialData = {
-                   firstName: response.data.firstName,
-                   middleName: response.data.data.middleName,
-                   lastName: response.data.data.lastName,
-                   phone: response.data.data.phone,
-                   email: response.data.data.email,
-                   pictureProfile: response.data.data.pictureProfile,
-                   postalCode: response.data.data.address.postalCodeS,
-                   province: response.data.data.address.province,
-                   district: response.data.data.address.district,
-                   subDistrict: response.data.data.address.subDistrict,
-                   houseNo: response.data.data.address.houseNo,
-                   village: response.data.data.address.village,
-                   lane: response.data.data.address.lane,
-                   road: response.data.data.address.road,
-                 };
-          
-                 console.log('initialData', initialData);
-                 
-               })
-               .catch(function (error) {
-                 console.log('error info', error);
-               });
+            .get('https://server-quplus.herokuapp.com/api/auth/information', 
+            {
+              headers: {Authorization: `Bearer ${response.data.AcessToken}`},
+            }
+            )
+            .then(function (response) {
+              setInitialData({
+                firstName: response.data.firstName,
+                middleName: response.data.data.middleName,
+                lastName: response.data.data.lastName,
+                phone: response.data.data.phone,
+                email: response.data.data.email,
+                pictureProfile: response.data.data.pictureProfile,
+                postalCode: response.data.data.address.postalCodeS,
+                province: response.data.data.address.province,
+                district: response.data.data.address.district,
+                subDistrict: response.data.data.address.subDistrict,
+                houseNo: response.data.data.address.houseNo,
+                village: response.data.data.address.village,
+                lane: response.data.data.address.lane,
+                road: response.data.data.address.road,
+              });
+              //  initialData = {
+              //    firstName: response.data.firstName,
+              //    middleName: response.data.data.middleName,
+              //    lastName: response.data.data.lastName,
+              //    phone: response.data.data.phone,
+              //    email: response.data.data.email,
+              //    pictureProfile: response.data.data.pictureProfile,
+              //    postalCode: response.data.data.address.postalCodeS,
+              //    province: response.data.data.address.province,
+              //    district: response.data.data.address.district,
+              //    subDistrict: response.data.data.address.subDistrict,
+              //    houseNo: response.data.data.address.houseNo,
+              //    village: response.data.data.address.village,
+              //    lane: response.data.data.address.lane,
+              //    road: response.data.data.address.road,
+              //  };
+         
+            })
+            .catch(function (error) {
+              console.log('error info', error.response.data);
+            });
+          axios
+            .get(
+              'https://server-quplus.herokuapp.com/api/user-payment/limit/day',
+              {
+                headers: {Authorization: `Bearer ${response.data.AcessToken}`},
+              },
+            )
+            .then(function (response) {
+              // console.log('response.data.amountLimit',response.data.amountLimit);
+              setLimitperday(response.data.amountLimit);
+            })
+            .catch(function (error) {
+              console.log('error limit', error);
+            });
           // axios
-          //     .get('https://server-quplus.herokuapp.com/user-payment/limit/day/', {
-          //         headers: { Authorization: `Bearer ${response.data.token}`, },
-          //       })
-          //     .then(function (response) {
-          //         console.log('response', response);
-          //     })
-          //     .catch(function (error) {
-          //       console.log('error limit', error);
-          //     });
+          //   .get(
+          //     `https://server-quplus.herokuapp.com/api/user-payment/`,
+          //     {
+          //       headers: {Authorization: `Bearer ${response.data.AcessToken}`},
+          //     },
+          //   )
+          //   .then(function (response) {
+          //     console.log('user-payment', response.data);
+         
+          //   })
+          //   .catch(function (error) {
+          //     console.log('error user-payment', error);
+          //   });
        })
        .catch(function (error) {
          console.log('error signin', error.response.data);
@@ -163,10 +198,12 @@ const SettingScreen = ({navigation}) => {
           </View>
         </TouchableOpacity>
 
+
+
         {/* Security */}
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('CheckPinSecurity')
+            navigation.navigate('Security', {pin: initialData.pin})
           }>
           <View style={styles.item}>
             <MeterialIcons name="lock-outline" size={50} color="#000000" />
@@ -212,7 +249,7 @@ const SettingScreen = ({navigation}) => {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('LimitPerDay', {
-              limitperday: initialData.limitperday,
+              limitperday: limitperday,
               Ftoken:Ftoken,
             })
           }>

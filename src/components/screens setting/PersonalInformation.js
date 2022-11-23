@@ -16,7 +16,7 @@ import {PermissionsAndroid, Platform} from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 
 const PersonalInformation = ({navigation, route}) => {
-  console.log(route.params.Ftoken)
+  console.log(route.params.pictureProfile);
   const [image, setImage] = useState(
     route.params.pictureProfile? route.params.pictureProfile : 'https://img.myloview.com/posters/default-avatar-profile-icon-social-media-user-vector-image-400-242023490.jpg'
   );
@@ -29,26 +29,24 @@ const PersonalInformation = ({navigation, route}) => {
     console.log(dataFormImg.name);
     console.log(dataFormImg.type);
         const data = new FormData();
-        data.append('my_photo', {
-          uri:  dataFormImg.uri,
+        data.append('image', {
+          uri: dataFormImg.uri,
           name: dataFormImg.name,
           type: dataFormImg.type,
         });
 
    
     axios
-      .path ('https://server-quplus.herokuapp.com/api/auth/editPicProfile',
-      { 
-        image:data 
-      }, 
+      .put('https://server-quplus.herokuapp.com/api/auth/editPicProfile',
+      data,
       { 
         headers: { Authorization: `Bearer ${route.params.Ftoken}` } 
       })
       .then(function (response) {
-        console.log(response);
+        console.log('response',response);
       })
       .catch(function (error) {
-        console.log(error);
+        console.error(error.response.data);
       });
   
 

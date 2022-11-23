@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
 // import type {Node} from 'react';
 
@@ -6,85 +5,44 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleBal, toggleID, readNoti, updateNoti, resetVisState } from '../redux/actions/visibleAction';
 
 import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   Text,
-  useColorScheme,
   View,
   Pressable,
-  StyleSheet,
-  SectionList,
   Image,
-  Alert,
-  Dimensions,
   RefreshControl
 } from 'react-native';
 
-// import axios from 'axios';
-
-let time_stamps = '16/10/2022 21:08:20'
-
-const date_data = ['16 Oct', '14 Oct']
-
-let DATA = [
-  {
-    date: date_data[0],
-    data: [
-      {
-        id: '1',
-        Status: 'Payment',
-        time_stamp: '11.11 AM',
-        amount: '500',
-      },
-      {
-        id: '2',
-        Status: 'Payment',
-        time_stamp: '10.12 AM',
-        amount: '300'
-      },
-      {
-        id: '3',
-        Status: 'Payment',
-        time_stamp: '09.20 AM',
-        amount: '100'
-      }
-    ],
-  },
-  {
-    date: date_data[1],
-    data: [
-      {
-        id: '4',
-        Status: 'Payment',
-        time_stamp: '11.11 AM',
-        amount: '500'
-      },
-      {
-        id: '5',
-        Status: 'Payment',
-        time_stamp: '10.12 AM',
-        amount: '300'
-      },
-      {
-        id: '6',
-        Status: 'Payment',
-        time_stamp: '08.27 AM',
-        amount: '500'
-      },
-    ]
-  }];
+import { thunk_fetch_transaction } from '../redux/actions/transactionAction';
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
 const HomeShop = ({ navigation }) => {
-  let profile_pic = '../assets/profile/Aqutan.jpg'
-  // const [isRead, setIsRead] = useState(false)
+  const formatDate = d => {
+    d = new Date(d);
+    let text = d.toDateString();
+    let date = '';
+    date +=
+      text.substring(8, 10) +
+      ' ' +
+      text.substring(4, 7) +
+      ' ' +
+      text.substring(text.length - 2, text.length);
+    return date;
+  };
 
-  // const [visible, setVisibility] = useState(false);
-  // const [balVisible, setBalVisibility] = useState(false);
+  const formatTime = d => {
+    d = new Date(d);
+    let text = d.toLocaleTimeString();
+    let time = '';
+    time += text.substring(0, 4) + ' ' + text.substring(text.length - 2);
+    return time;
+  };
+
+  let profile_pic = '../assets/profile/Aqutan.jpg'
+
   const [refreshing, setRefreshing] = React.useState(false);
 
   const dispatch = useDispatch();
@@ -92,9 +50,11 @@ const HomeShop = ({ navigation }) => {
   const id_visible = useSelector((store) => store.visible.idVisible);
   const bal_visible = useSelector((store) => store.visible.balVisible);
   const isRead = useSelector((store) => store.visible.isRead);
+  const transaction = useSelector((store) => store.transaction.shopData);
+
+  let initdate = 0;
 
   const toggleVisibility = () => {
-    // setVisibility(!visible);
     dispatch(toggleID());
   }
 
@@ -110,6 +70,7 @@ const HomeShop = ({ navigation }) => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
     dispatch(updateNoti());
+    dispatch(thunk_fetch_transaction())
   }, []);
 
   let time_stamp = Date().split(" ")[4]
@@ -135,11 +96,11 @@ const HomeShop = ({ navigation }) => {
               <View>
                 {/* Change Username here */}
                 <Text style={{ fontFamily: 'NotoSans-Bold' }} className='pt-5 text-xl text-egg'>Username</Text>
-                <View className='flex-row'>
+                <View className='flex-row items-center'>
                   {/* Show/Hide ID */}
                   <Text style={{ fontFamily: 'NotoSans-Regular' }} className='text-md text-white'>{id_visible ? '123-2-71924' : 'xxx-x-x1924-x'}</Text>
                   <Pressable onPress={() => toggleVisibility()}>
-                    <Image style={{ tintColor: '#FFFFFF' }} source={id_visible ? require('../assets/icon/eye.png') : require('../assets/icon/hidden.png')} className='w-3 h-3 ml-2 mt-2'></Image>
+                    <Image style={{ tintColor: '#FFFFFF' }} source={id_visible ? require('../assets/icon/eye.png') : require('../assets/icon/hidden.png')} className='w-3 h-3 ml-2'></Image>
                   </Pressable>
                 </View>
               </View>
@@ -200,47 +161,55 @@ const HomeShop = ({ navigation }) => {
       <View style={{ flex: 5.8 }}>
         <Text style={{ fontFamily: 'NotoSans-Bold' }} className='pl-4 pt-3 text-2xl text-green-font'>Recent Transaction</Text>
 
-        <SectionList
-          sections={[...DATA]}
-          renderItem={({ item }) => (
-            <View className='inset-x-4 w-11/12 rounded-lg my-1 pr-1 bg-green-font'>
-              <Text style={{ fontFamily: 'NotoSans-Bold' }} className='text-white pl-1 pt-1 text-base'>
-                {item.Status}
-              </Text>
-              <Text style={{ fontFamily: 'NotoSans-Bold' }} className='absolute right-0 pt-3 pr-2 text-white text-base'>
-                {item.amount} Bath.
-              </Text>
-              <Text style={{ fontFamily: 'NotoSans-Regular' }} className='text-white pl-1 pb-1 text-xs'>
-                {item.time_stamp}
-              </Text>
-            </View>
-          )}
-          renderSectionHeader={({ section }) => (
-            <Text style={{ fontFamily: 'NotoSans-Bold' }} className='right-4 text-right mt-1 text-lg text-green-font'>
-              {section.date}
-            </Text>
-          )}
-          ListFooterComponent={
-            // go to Transaction Screen
-            <View className='flex-row justify-end my-2 right-4'>
-              <View className='w-20 h-6 rounded-lg bg-light-green'>
-                <Pressable onPress={() => {
-                  dispatch(resetVisState())
-                  navigation.navigate('Transaction')
-                }}>
-                  <Text style={{ fontFamily: 'NotoSans-Bold' }} className='text-sm text-center underline underline-offset-auto '>See More</Text>
-                </Pressable>
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={refreshPage}
+          />
+        }>
+          {transaction.slice(0, 6).map((tran, index) => (
+            <View key={index}>
+              {/* Date */}
+              {(() => {
+                if (tran.date != initdate) {
+                  initdate = tran.date;
+                  return (
+                    <View className="px-5 pb-2 pt-1">
+                      <Text style={{ fontFamily: 'NotoSans-Bold' }} className='right-4 text-right mt-1 text-lg text-green-font'>
+                        {formatDate(tran.date)}
+                      </Text>
+                    </View>
+                  );
+                }
+              })()}
+              {/* Date */}
+
+              {/* Transaction */}
+              <View key={index} className='inset-x-4 w-11/12 rounded-lg my-1 pr-1 bg-green-font'>
+                <Text style={{ fontFamily: 'NotoSans-Bold' }} className='text-white pl-1 pt-1 text-base'>
+                  {tran.type.charAt(0).toUpperCase() + tran.type.slice(1)}
+                </Text>
+                <Text style={{ fontFamily: 'NotoSans-Bold' }} className='absolute right-0 pt-3 pr-2 text-white text-base'>
+                  {tran.amount} Bath.
+                </Text>
+                <Text style={{ fontFamily: 'NotoSans-Regular' }} className='text-white pl-1 pb-1 text-xs'>
+                  {formatTime(tran.date)}
+                </Text>
               </View>
+              {/* Transaction */}
             </View>
-          }
-          keyExtractor={item => item.id}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={refreshPage}
-            />
-          }
-        />
+          ))}
+          <View className='flex-row justify-end my-2 right-4'>
+            <View className='w-20 h-6 rounded-lg bg-light-green'>
+              <Pressable onPress={() => {
+                dispatch(resetVisState())
+                navigation.navigate('Transaction')
+              }}>
+                <Text style={{ fontFamily: 'NotoSans-Bold' }} className='text-sm text-center underline underline-offset-auto '>See More</Text>
+              </Pressable>
+            </View>
+          </View>
+        </ScrollView>
       </View>
 
       <View style={{ flex: 0.7 }} className='flex-row items-center justify-center left-1% w-96% rounded-t-xl bg-green-main'>
