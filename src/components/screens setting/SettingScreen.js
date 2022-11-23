@@ -40,8 +40,7 @@ const SettingScreen = ({navigation}) => {
   const [limitperday, setLimitperday] = useState(200000);
 
   useEffect(() => {
-     console.log('1111');
-     console.log('readRefresh', readRefresh());
+ 
     const unsubscribe = navigation.addListener('focus', () => {
       axiosGetData();
       return unsubscribe;
@@ -50,9 +49,7 @@ const SettingScreen = ({navigation}) => {
     // Call only when screen open or when back on screen
   }, [navigation]);
 
-  console.log('readRefresh', readRefresh());
-  //const token = readRefresh();
-  //const token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA2YTZmNDA5LTQyZDAtNDQ4MC1hMDg2LThiZmJiNTI5Y2IyNCIsImZpcnN0TmFtZSI6InRlc3QxIiwibWlkZGxlTmFtZSI6InQxIiwibGFzdE5hbWUiOiJUZXN0MSIsInRpbWVfc3RhbXAiOiIyMDIyLTExLTIyVDE5OjIwOjE1LjE4MloiLCJpYXQiOjE2NjkxNDQ4MTUsImV4cCI6MTY2OTc0OTYxNX0.oWlCdQ1eltE7-RR6Saa8Z-30SEwa3kNY6nZDH7mjKPo';
+ 
   const token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJjZDY5MGU4LTMyOWQtNDc1Ny1hNDZhLTQxYjc4NDk0ZTFjNyIsImZpcnN0TmFtZSI6IlBhcm0iLCJtaWRkbGVOYW1lIjoiS3ViIiwibGFzdE5hbWUiOiJraWtpIiwidGltZV9zdGFtcCI6IjIwMjItMTEtMjNUMDM6NTM6MDMuMDg0WiIsImlhdCI6MTY2OTE3NTU4MywiZXhwIjoxNjY5NzgwMzgzfQ.E6eNsLdRGb4ypvud2SuoDRTlMd8vKzPELw_28vomGFo';
   const [Ftoken, setFToken] = useState('');
   const axiosGetData = async () => {
@@ -107,7 +104,7 @@ const SettingScreen = ({navigation}) => {
             //  };
           })
           .catch(function (error) {
-            console.log('error info', error.response.data);
+            console.log('error info', error);
           });
         await axios
           .get(

@@ -169,38 +169,38 @@ let acountNo = ""
   // fetchTransaction from backend
   const fetchTransaction = async() => {
     // console.log(token)
-    await axios
-      .post(
-        'https://server-quplus.herokuapp.com/api/auth/signin',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
-      .then(response => {
-        // console.log(response.data.AcessToken)
-        axios
-          .get(
-            'https://server-quplus.herokuapp.com/api/user-payment/info/',
-            {
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${response.data.AcessToken}`,
-              },
-            },
-          )
-          .then(res => {
-            console.log(res.data);
-            acountNo = res.data.userPayment.accountNumber
-            console.log("acountNo : "+acountNo)
+    // await axios
+    //   .post(
+    //     'https://server-quplus.herokuapp.com/api/auth/signin',
+    //     {},
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     },
+    //   )
+    //   .then(response => {
+    //     // console.log(response.data.AcessToken)
+    //     axios
+    //       .get(
+    //         'https://server-quplus.herokuapp.com/api/user-payment/info/',
+    //         {
+    //         },
+    //         {
+    //           headers: {
+    //             Authorization: `Bearer ${response.data.AcessToken}`,
+    //           },
+    //         },
+    //       )
+    //       .then(res => {
+    //         console.log(res.data);
+    //         acountNo = res.data.userPayment.accountNumber
+    //         console.log("acountNo : "+acountNo)
             
-          });
-      }).catch(err => {
-        console.log("ERR "+err)
-      }).then(
+    //       });
+    //   }).catch(err => {
+    //     console.log("ERR "+err)
+    //   }).then(
 
     await axios.post('https://6739-2001-44c8-4082-bcdc-5131-9b10-6f9-ba99.ap.ngrok.io/payment-transaction/month',{
       userAccountNumber:"0432198462",
@@ -218,7 +218,7 @@ let acountNo = ""
         press: false,
       })))
     })
-    )
+    // )
 
     // setTransaction(
     //   data.map(tran => ({
