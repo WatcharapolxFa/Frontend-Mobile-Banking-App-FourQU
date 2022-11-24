@@ -9,7 +9,7 @@ import {
     Alert,
     StyleSheet,
   } from 'react-native';
-  
+  import AsyncStorage from '@react-native-async-storage/async-storage';
   import React from 'react';
   import {NavigationContainer} from '@react-navigation/native';
   import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -17,6 +17,8 @@ import {
   import OTP_list from '../../components/pinComponent/OTP_list.js';
   import {useState, useEffect} from 'react';
   import {TouchableHighlight} from 'react-native';
+
+  import { useSelector, useDispatch } from 'react-redux';
   
   import logo from '../../assets/icon/logo.png';
   import back from '../../assets/icon/backGreen.png';
@@ -24,6 +26,7 @@ import {
   
   const VerifyOTP = ({navigation, route}) => {
     const [pin, setPin] = useState('');
+    const dispatch = useDispatch()
     const onPress = value => {
       if (/^([0-9]){0,5}$/.test(pin) && /^([0-9])$/.test(value)) {
         setPin(val => val + value);
@@ -46,9 +49,11 @@ import {
           })
           .then(res => {
             console.log('then', res.data);
-            saveRefresh(res.data.Refreshtoken);
+            // saveRefresh(res.data.Refreshtoken);
+            dispatch(setRefreshToken(res.data.Refreshtoken))
   
             console.log('vaid PIN!!');
+            setPin(val => val.slice(0, -6));
             navigation.navigate('NewPin');
           })
           .catch(err => {
@@ -71,7 +76,7 @@ import {
     const readRefresh = async () => {
       try {
         return await AsyncStorage.getItem('@storage_refresh_token');
-      } catch (error) {vaid
+      } catch (error) {
         console.log("error read refresh_token")
       }
     };

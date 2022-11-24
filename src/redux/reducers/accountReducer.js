@@ -9,6 +9,8 @@ const initialState = {
     shopName: "",
     shopAccountNumber: "",
     shopBal: "",
+
+    refToken: "",
 }
 
 
@@ -25,6 +27,10 @@ export const accountReducer = (state = initialState, action) => {
         case SET_USER_BAL:
             return Object.assign({}, state, {
                 userBal: action.payload
+            })
+        case SET_REFRESH_TOKEN:
+            return Object.assign({}, state, {
+                refToken: action.payload
             })
         default: return state
     }

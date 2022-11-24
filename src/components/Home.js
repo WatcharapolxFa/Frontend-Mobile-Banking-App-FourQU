@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleBal, toggleID, readNoti, updateNoti, resetVisState } from '../redux/actions/visibleAction';
-
 import {
   ScrollView,
   Text,
@@ -128,8 +127,15 @@ const Home = ({ navigation }) => {
     });
   };
 
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJjZDY5MGU4LTMyOWQtNDc1Ny1hNDZhLTQxYjc4NDk0ZTFjNyIsImZpcnN0TmFtZSI6IlBhcm0iLCJtaWRkbGVOYW1lIjoiS3ViIiwibGFzdE5hbWUiOiJraWtpIiwidGltZV9zdGFtcCI6IjIwMjItMTEtMjNUMDM6NTM6MDMuMDg0WiIsImlhdCI6MTY2OTE3NTU4MywiZXhwIjoxNjY5NzgwMzgzfQ.E6eNsLdRGb4ypvud2SuoDRTlMd8vKzPELw_28vomGFo';
+  const readRefresh = async () => {
+    try {
+      return await AsyncStorage.getItem('@storage_refresh_token');
+    } catch (error) {
+      console.log("error read refresh_token")
+    }
+  };
+  // const token = readRefresh();
+  const token = useSelector((store) => store.account.refToken)
 
   const fetchUserPayBal = async () => {
     await axios
